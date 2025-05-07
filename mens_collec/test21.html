@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Suit Designer</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        #customizer-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            transition: opacity 0.3s ease;
+        }
+
+        #customizer-container.fading {
+            opacity: 0.5;
+        }
+
+        .canvas-container {
+            flex: 1;
+            min-width: 400px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            padding: 20px;
+        }
+
+        .options-container {
+            flex: 1;
+            min-width: 400px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            padding: 20px;
+        }
+
+        .option-section {
+            margin-bottom: 30px;
+        }
+
+        h3 {
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .fabric-grid, .style-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .fabric-swatch {
+            width: 80px;
+            height: 80px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .fabric-swatch:hover {
+            transform: scale(1.05);
+        }
+
+        .fabric-swatch.active {
+            border: 3px solid #3498db;
+        }
+
+        .style-option {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .style-option:hover {
+            background-color: #e5e5e5;
+        }
+
+        .style-option.active {
+            background-color: #3498db;
+            color: #fff;
+        }
+
+        .view-buttons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .view-button {
+            padding: 8px 15px;
+            background: #f5f5f5;
+            border: none;
+            margin: 0 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .view-button.active {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .summary-container {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .price-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #333;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .price-label {
+            font-size: 1.2em;
+        }
+
+        .price-amount {
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-secondary {
+            background-color: #95a5a6;
+        }
+
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 20px;
+            top: 10px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        #appointment-form {
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        #save-confirmation {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #2ecc71;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Custom Suit Designer</h1>
+            <p>Design your perfect suit by selecting fabric, style, and details below</p>
+        </header>
+
+        <div id="customizer-container">
+            <div class="canvas-container">
+                <div class="view-buttons">
+                    <button class="view-button active" data-view="front">Front View</button>
+                    <button class="view-button" data-view="side">Side View</button>
+                    <button class="view-button" data-view="back">Back View</button>
+                </div>
+                <canvas id="suit-canvas" width="400" height="500"></canvas>
+            </div>
+
+            <div class="options-container">
+                <div class="option-section">
+                    <h3>Fabric Selection</h3>
+                    <div class="fabric-grid">
+                        <div class="fabric-swatch active" data-fabric="wool" data-color="navy" style="background-image: url('images/fabrics/wool-navy.jpg')"></div>
+                        <div class="fabric-swatch" data-fabric="wool" data-color="charcoal" style="background-image: url('images/fabrics/wool-charcoal.jpg')"></div>
+                        <div class="fabric-swatch" data-fabric="wool" data-color="gray" style="background-image: url('images/fabrics/wool-navy.jpg')"></div>
+                        <div class="fabric-swatch" data-fabric="cashmere" data-color="navy" style="background-image: url('images/fabrics/wool-charcoal.jpg')"></div>
+                        <div class="fabric-swatch" data-fabric="cashmere" data-color="black" style="background-image: url('images/fabrics/cashmere-black.jpg')"></div>
+                    </div>
+                </div>
+
+                <div class="option-section">
+                    <h3>Suit Style</h3>
+                    <div class="style-options">
+                        <div class="style-option active" data-category="type" data-value="regular">Regular Suit</div>
+                        <div class="style-option" data-category="type" data-value="tuxedo">Tuxedo</div>
+                    </div>
+                </div>
+
+                <div class="option-section">
+                    <h3>Lapel Style</h3>
+                    <div class="style-options">
+                        <div class="style-option active" data-category="lapel" data-value="notch">Notch Lapel</div>
+                        <div class="style-option" data-category="lapel" data-value="peak">Peak Lapel</div>
+                        <div class="style-option" data-category="lapel" data-value="shawl">Shawl Lapel</div>
+                    </div>
+                </div>
+
+                <div class="summary-container">
+                    <h3>Your Selection</h3>
+                    <p>Fabric: <span id="summary-fabric">Navy Wool</span></p>
+                    <p>Style: <span id="summary-style">Regular suit with Notch lapel</span></p>
+                </div>
+
+                <div class="price-container">
+                    <span class="price-label">Total Price:</span>
+                    <span class="price-amount">$<span id="price-display">1,200</span></span>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="save-design" class="btn btn-secondary">Save Design</button>
+                    <button id="schedule-appointment" class="btn">Schedule Fitting</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Appointment Modal -->
+    <div id="appointment-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Schedule Your Fitting Appointment</h2>
+            <p>Complete the form below to book a private fitting session.</p>
+
+            <form id="appointment-form">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="preferred-date">Preferred Date</label>
+                    <input type="date" id="preferred-date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="preferred-time">Preferred Time</label>
+                    <input type="time" id="preferred-time" required>
+                </div>
+
+                <button type="submit" class="btn">Book Appointment</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="save-confirmation">Design saved successfully!</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const SuitCustomizer = {
+                // Canvas setup
+                canvas: null,
+                basePrice: 1200,
+
+                // Current configuration
+                currentConfig: {
+                    fabric: 'wool',
+                    color: 'navy',
+                    type: 'regular',
+                    lapel: 'notch',
+                    view: 'front'
+                },
+
+                // Initialize the customizer
+                init: function() {
+                    const self = this;
+
+                    // Setup canvas
+                    this.canvas = new fabric.Canvas('suit-canvas');
+
+                    // Initial render
+                    this.renderSuit();
+
+                    // Setup event listeners
+
+                    // Fabric selection
+                    document.querySelectorAll('.fabric-swatch').forEach(swatch => {
+                        swatch.addEventListener('click', function() {
+                            document.querySelectorAll('.fabric-swatch').forEach(s => s.classList.remove('active'));
+                            this.classList.add('active');
+
+                            self.currentConfig.fabric = this.dataset.fabric;
+                            self.currentConfig.color = this.dataset.color;
+                            self.updateVisualization();
+                        });
+                    });
+
+                    // Style options
+                    document.querySelectorAll('.style-option').forEach(option => {
+                        option.addEventListener('click', function() {
+                            const category = this.dataset.category;
+                            const value = this.dataset.value;
+
+                            // Remove active class from all options in this category
+                            document.querySelectorAll(`.style-option[data-category="${category}"]`)
+                                .forEach(o => o.classList.remove('active'));
+
+                            this.classList.add('active');
+
+                            self.currentConfig[category] = value;
+                            self.updateVisualization();
+                        });
+                    });
+
+                    // View selection
+                    document.querySelectorAll('.view-button').forEach(button => {
+                        button.addEventListener('click', function() {
+                            document.querySelectorAll('.view-button').forEach(b => b.classList.remove('active'));
+                            this.classList.add('active');
+
+                            self.currentConfig.view = this.dataset.view;
+                            self.updateVisualization();
+                        });
+                    });
+
+                    // Modal handlers
+                    document.getElementById('schedule-appointment').addEventListener('click', function() {
+                        document.getElementById('appointment-modal').style.display = 'block';
+                    });
+
+                    document.querySelectorAll('.close-modal').forEach(el => {
+                        el.addEventListener('click', function() {
+                            document.getElementById('appointment-modal').style.display = 'none';
+                        });
+                    });
+
+                    window.addEventListener('click', function(event) {
+                        if (event.target === document.getElementById('appointment-modal')) {
+                            document.getElementById('appointment-modal').style.display = 'none';
+                        }
+                    });
+
+                    // Form submission
+                    document.getElementById('appointment-form').addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        self.handleFormSubmission();
+                    });
+
+                    // Save design
+                    document.getElementById('save-design').addEventListener('click', function() {
+                        self.saveDesign();
+                    });
+                },
+
+                // Update visualization with transition effect
+                updateVisualization: function() {
+                    const self = this;
+                    const container = document.getElementById('customizer-container');
+                    container.classList.add('fading');
+
+                    setTimeout(() => {
+                        self.renderSuit();
+                        self.updateSummary();
+                        self.updatePrice();
+                        container.classList.remove('fading');
+                    }, 300);
+                },
+
+                // Primary rendering function with proper texture handling
+                renderSuit: function() {
+                    const self = this;
+                    this.canvas.clear();
+
+                    // Load base suit image with proper error handling
+                    this.loadImage(`images/suits/${this.currentConfig.type}/${this.currentConfig.view}.png`)
+                        .then(baseImg => {
+                            // Calculate scale to fit canvas
+                            const scale = Math.min(
+                                self.canvas.width / baseImg.width,
+                                self.canvas.height / baseImg.height
+                            );
+
+                            baseImg.scale(scale);
+                            baseImg.selectable = false;
+                            self.canvas.add(baseImg);
+                            self.canvas.centerObject(baseImg);
+
+                            // Create a clone of the base image for masking
+                            const baseMask = fabric.util.object.clone(baseImg);
+
+                            // Load fabric texture
+                            return self.loadImage(`images/fabrics/${self.currentConfig.fabric}-${self.currentConfig.color}.jpg`)
+                                .then(textureImg => {
+                                    // Create a pattern from the texture
+                                    const pattern = new fabric.Pattern({
+                                        source: textureImg.getElement(),
+                                        repeat: 'repeat'
+                                    });
+
+                                    // Apply pattern to the mask
+                                    baseMask.fill = pattern;
+                                    baseMask.opacity = 1;
+
+                                    // Add the pattern-filled suit
+                                    self.canvas.add(baseMask);
+
+                                    // Only add lapel detail in front view
+                                    if (self.currentConfig.view === 'front') {
+                                        return self.loadImage(`images/suits/${self.currentConfig.type}/lapel-${self.currentConfig.lapel}.png`);
+                                    }
+
+                                    return Promise.resolve(null);
+                                })
+                                .then(lapelImg => {
+                                    if (lapelImg) {
+                                        lapelImg.scale(scale);
+                                        lapelImg.selectable = false;
+                                        self.canvas.add(lapelImg);
+                                        self.canvas.centerObject(lapelImg);
+                                    }
+
+                                    self.canvas.renderAll();
+                                });
+                        })
+                        .catch(error => {
+                            console.error('Error rendering suit:', error);
+                            // If image loading fails, show error message on canvas
+                            const text = new fabric.Text('Error loading image', {
+                                left: self.canvas.width / 2,
+                                top: self.canvas.height / 2,
+                                originX: 'center',
+                                originY: 'center',
+                                fill: 'red'
+                            });
+                            self.canvas.add(text);
+                            self.canvas.renderAll();
+                        });
+                },
+
+                // Promise-based image loader for better error handling
+                loadImage: function(url) {
+                    return new Promise((resolve, reject) => {
+                        fabric.Image.fromURL(url,
+                            function(img) {
+                                if (img.width === 0 || img.height === 0) {
+                                    reject(new Error(`Failed to load image: ${url}`));
+                                } else {
+                                    resolve(img);
+                                }
+                            },
+                            { crossOrigin: 'anonymous' }
+                        );
+                    });
+                },
+
+                // Update summary text
+                updateSummary: function() {
+                    const colorDisplay = this.capitalizeFirst(this.currentConfig.color);
+                    const fabricDisplay = this.capitalizeFirst(this.currentConfig.fabric);
+                    const typeDisplay = this.capitalizeFirst(this.currentConfig.type);
+                    const lapelDisplay = this.capitalizeFirst(this.currentConfig.lapel);
+
+                    document.getElementById('summary-fabric').textContent = `${colorDisplay} ${fabricDisplay}`;
+                    document.getElementById('summary-style').textContent = `${typeDisplay} suit with ${lapelDisplay} lapel`;
+                },
+
+                // Helper to capitalize first letter
+                capitalizeFirst: function(string) {
+                    return string.charAt(0).toUpperCase() + string.slice(1);
+                },
+
+                // Update price display
+                updatePrice: function() {
+                    let price = this.basePrice;
+
+                    // Premium for tuxedo
+                    if (this.currentConfig.type === 'tuxedo') {
+                        price += 800;
+                    }
+
+                    // Premium for cashmere
+                    if (this.currentConfig.fabric === 'cashmere') {
+                        price += 1200;
+                    }
+
+                    // Format with commas for thousands
+                    document.getElementById('price-display').textContent = price.toLocaleString();
+                },
+
+                // Handle form submission
+                handleFormSubmission: function() {
+                    const formData = {
+                        name: document.getElementById('name').value,
+                        email: document.getElementById('email').value,
+                        phone: document.getElementById('phone').value,
+                        date: document.getElementById('preferred-date').value,
+                        time: document.getElementById('preferred-time').value,
+                        design: this.currentConfig
+                    };
+
+                    console.log('Appointment booking:', formData);
+
+                    // Replace form with success message
+                    const modalContent = document.querySelector('#appointment-modal .modal-content');
+                    modalContent.innerHTML = `
+                        <span class="close-modal">&times;</span>
+                        <h2>Thank You, ${formData.name}</h2>
+                        <p>Your appointment has been scheduled for ${formData.date} at ${formData.time}.</p>
+                        <p>We will contact you shortly at ${formData.email} to confirm your private fitting session.</p>
+                        <button class="btn btn-primary close-success">Close</button>
+                    `;
+
+                    // Add event listeners to the new buttons
+                    document.querySelectorAll('.close-success, .close-modal').forEach(el => {
+                        el.addEventListener('click', function() {
+                            document.getElementById('appointment-modal').style.display = 'none';
+                        });
+                    });
+                },
+
+                // Save design
+                saveDesign: function() {
+                    localStorage.setItem('savedSuitDesign', JSON.stringify(this.currentConfig));
+
+                    // Show confirmation
+                    const confirmation = document.getElementById('save-confirmation');
+                    confirmation.style.display = 'block';
+                    setTimeout(() => {
+                        confirmation.style.display = 'none';
+                    }, 2000);
+                },
+
+                // Load saved design if exists
+                loadSavedDesign: function() {
+                    const savedDesign = localStorage.getItem('savedSuitDesign');
+
+                    if (savedDesign) {
+                        try {
+                            const savedConfig = JSON.parse(savedDesign);
+                            this.currentConfig = savedConfig;
+
+                            // Update UI to match saved config
+                            document.querySelectorAll('.fabric-swatch').forEach(swatch => {
+                                swatch.classList.remove('active');
+                            });
+                            document.querySelector(`.fabric-swatch[data-fabric="${savedConfig.fabric}"][data-color="${savedConfig.color}"]`)?.classList.add('active');
+
+                            document.querySelectorAll('.style-option').forEach(option => {
+                                option.classList.remove('active');
+                            });
+                            document.querySelector(`.style-option[data-category="type"][data-value="${savedConfig.type}"]`)?.classList.add('active');
+                            document.querySelector(`.style-option[data-category="lapel"][data-value="${savedConfig.lapel}"]`)?.classList.add('active');
+
+                            document.querySelectorAll('.view-button').forEach(button => {
+                                button.classList.remove('active');
+                            });
+                            document.querySelector(`.view-button[data-view="${savedConfig.view}"]`)?.classList.add('active');
+
+                            this.renderSuit();
+                            this.updateSummary();
+                            this.updatePrice();
+                        } catch (e) {
+                            console.error('Error loading saved design:', e);
+                        }
+                    }
+                }
+            };
+
+            // Initialize the customizer
+            SuitCustomizer.init();
+
+            // Try to load saved design
+            SuitCustomizer.loadSavedDesign();
+        });
+    </script>
+</body>
+</html>

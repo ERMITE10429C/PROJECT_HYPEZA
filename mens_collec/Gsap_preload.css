@@ -1,0 +1,343 @@
+@font-face {
+    src: url("https://fonts.cdnfonts.com/css/pp-neue-montreal") format("woff2");
+    font-family: "PP Neue Montreal", sans-serif;
+    font-weight: 400;
+}
+
+
+.Gsap_PreLoad {
+    font-family: "PP Neue Montreal", sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow: hidden;
+    background-color: #000;
+    height: 100vh; /* Keep this to make it full height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    color: white;
+    position: relative; /* Keep this as relative */
+    z-index: 10000;
+    /* Remove any other properties that might make it fixed or absolute to the viewport */
+}
+
+
+/* Background noise effect */
+/* Background noise effect */
+.Gsap_PreLoad::before {
+    content: "";
+    position: absolute; /* Keep as absolute */
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: transparent
+    url("http://assets.iceable.com/img/noise-transparent.png") repeat 0 0;
+    background-size: 300px 300px;
+    -webkit-animation: noise-animation 0.3s steps(5) infinite;
+    animation: noise-animation 0.3s steps(5) infinite;
+    opacity: 0.8;
+    will-change: transform;
+    z-index: 100;
+    pointer-events: none;
+}
+
+
+@-webkit-keyframes noise-animation {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    10% {
+        transform: translate(-2%, -3%);
+    }
+
+    20% {
+        transform: translate(-4%, 2%);
+    }
+
+    30% {
+        transform: translate(2%, -4%);
+    }
+
+    40% {
+        transform: translate(-2%, 5%);
+    }
+
+    50% {
+        transform: translate(-4%, 2%);
+    }
+
+    60% {
+        transform: translate(3%, 0);
+    }
+
+    70% {
+        transform: translate(0, 3%);
+    }
+
+    80% {
+        transform: translate(-3%, 0);
+    }
+
+    90% {
+        transform: translate(2%, 2%);
+    }
+
+    100% {
+        transform: translate(1%, 0);
+    }
+}
+
+@keyframes noise-animation {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    10% {
+        transform: translate(-2%, -3%);
+    }
+
+    20% {
+        transform: translate(-4%, 2%);
+    }
+
+    30% {
+        transform: translate(2%, -4%);
+    }
+
+    40% {
+        transform: translate(-2%, 5%);
+    }
+
+    50% {
+        transform: translate(-4%, 2%);
+    }
+
+    60% {
+        transform: translate(3%, 0);
+    }
+
+    70% {
+        transform: translate(0, 3%);
+    }
+
+    80% {
+        transform: translate(-3%, 0);
+    }
+
+    90% {
+        transform: translate(2%, 2%);
+    }
+
+    100% {
+        transform: translate(1%, 0);
+    }
+}
+
+/* Header Navigation */
+
+/* Preloader */
+.preloader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.preloader-content {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-container {
+    position: relative;
+    width: 400px;
+    height: 500px;
+    overflow: hidden;
+}
+
+.image-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    visibility: hidden;
+}
+
+/* Final image special handling */
+#image-100 {
+    z-index: 10;
+}
+
+.image-wrapper img {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+
+.preloader-percentage {
+    position: absolute;
+    bottom: 5%;
+    left: 2rem;
+    font-size: 7rem;
+    color: white;
+}
+
+/* Text Lines Container - Preloader */
+.text-container {
+    position: absolute;
+    top: 50%;
+    right: 30px;
+    transform: translateY(-50%);
+    text-align: right;
+    z-index: 10001;
+    max-width: 450px;
+}
+
+.text-line {
+    padding: 0.3em 0;
+    opacity: 0;
+    color: #4f4f4f;
+    font-family: "PP Neue Montreal", sans-serif;
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+
+/* Text Lines Container - Final */
+.text-container-final {
+    position: absolute;
+    top: 50%;
+    right: 30px;
+    transform: translateY(-50%);
+    text-align: right;
+    z-index: 10001;
+    max-width: 450px;
+}
+
+.text-line-final {
+    padding: 0.3em 0;
+    opacity: 0;
+    color: #4f4f4f;
+    font-family: "PP Neue Montreal", sans-serif;
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+
+/* Hero Text (Big Title) Styles */
+.big-title {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    z-index: 10001;
+    opacity: 0;
+    text-align: left;
+    color: #af9133;
+    font-size: 8rem;
+    line-height: 0.9;
+}
+
+/* Update your shimmer effect in Gsap_preload.css */
+.big-title .title-line span {
+    display: block;
+    transform: translateY(100%);
+    opacity: 0;
+    /* Keep the base color visible while still having the shimmer gradient effect */
+    color: #af9133;
+    background: linear-gradient(
+        90deg,
+        #af9133 0%,
+        #e3c47a 20%,
+        #af9133 40%,
+        #C89B3C 60%,
+        #e3c47a 80%,
+        #af9133 100%
+    );
+    background-size: 200% auto;
+    /* Apply the animation directly without needing a .visible class */
+    animation: shimmer-title 4s linear infinite;
+    background-clip: text;
+    -webkit-background-clip: text;
+    /* Make the background partially visible through the text */
+    -webkit-text-fill-color: rgba(175, 145, 51, 0.5);
+}
+
+@keyframes shimmer-title {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* Shimmer Effect */
+.shimmer1 {
+    position: relative;
+    display: inline-block;
+    color: transparent;
+    background: linear-gradient(
+            90deg,
+            var(--gold) 0%,
+            #e3c47a 20%,
+            var(--gold) 40%,
+            #a37b2d 60%,
+            var(--gold) 80%,
+            var(--gold) 100%
+    );
+    background-size: 200% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    animation: shimmer1 3s linear infinite;
+}
+
+.shimmer1-slow {
+    position: relative;
+    display: inline-block;
+    color: transparent;
+    background: linear-gradient(
+            90deg,
+            var(--gold) 0%,
+            #e3c47a 20%,
+            var(--gold) 40%,
+            #a37b2d 60%,
+            var(--gold) 80%,
+            var(--gold) 100%
+    );
+    background-size: 200% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    animation: shimmer1 5s linear infinite;
+}
+
+@keyframes shimmer1 {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* Restart Button Styles */

@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <title>Heypza - Luxury Fashion</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Heypza luxury fashion and accessories">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prata&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-gold: #C89B3C;
+      --color-gold-light: #FFD764;
+      --color-gold-dark: #A67E28;
+      --color-brown: rgb(64, 40, 27);
+      --color-white: #FFFFFF;
+      --color-off-white: #FFFFF3;
+      --color-dark: #0E0E0E;
+      --color-text: #333333;
+      --transition-fast: 0.2s ease;
+      --transition-medium: 0.3s ease;
+      --transition-slow: 0.5s ease;
+      --border-radius-sm: 5px;
+      --border-radius-lg: 25px;
+      --header-height: 70px;
+      --shadow-light: 0 2px 10px rgba(0, 0, 0, 0.1);
+      --shadow-medium: 0px 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      font-family: "Prata", serif;
+      font-weight: 400;
+      position: relative;
+      overflow-x: hidden;
+      color: var(--color-text);
+      scroll-behavior: smooth;
+    }
+
+    img, video {
+      max-width: 100%;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      font-family: inherit;
+      border: none;
+    }
+
+    /* ---------- Header ---------- */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 20px;
+      position: fixed;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      width: 100%;
+      z-index: 100;
+      box-shadow: var(--shadow-light);
+      transition: all var(--transition-medium);
+      height: var(--header-height);
+    }
+
+    .header .logo {
+      width: 130px;
+      height: auto;
+      padding-top: 7px;
+      transition: transform var(--transition-medium);
+    }
+
+    .header .logo:hover {
+      transform: scale(1.05);
+    }
+
+    .middle-section {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding-right: 30px;
+    }
+
+    .nav-link {
+      color: var(--color-gold);
+      font-size: 16px;
+      font-weight: bold;
+      padding: 8px 32px;
+      border-radius: var(--border-radius-sm);
+      transition: all var(--transition-medium);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: var(--color-gold);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform var(--transition-medium);
+    }
+
+    .nav-link:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    .nav-link:hover {
+      background-color: rgba(200, 155, 60, 0.1);
+    }
+
+    .nav-divider {
+      color: var(--color-gold);
+      font-weight: bold;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: var(--border-radius-lg);
+      font-weight: 500;
+      font-size: 16px;
+      text-align: center;
+      transition: all var(--transition-medium);
+    }
+
+    .btn-primary {
+      background-color: var(--color-gold);
+      color: var(--color-white);
+      box-shadow: var(--shadow-medium);
+      border: 1px solid var(--color-gold);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--color-gold-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    /* ---------- Hero Section ---------- */
+    .hero-container {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .brand-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      pointer-events: none;
+    }
+
+    .hero-text {
+      color: var(--color-gold);
+      font-size: min(200px, 20vw);
+      text-align: center;
+      font-weight: bold;
+      transition: all var(--transition-slow);
+      letter-spacing: 2px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar-brand {
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 10px 20px;
+      z-index: 10;
+      opacity: 0;
+      transform: translateY(-50px);
+      transition: all var(--transition-slow);
+    }
+
+    .navbar-text {
+      padding-top: 12px;
+      padding-left: 15px;
+      color: var(--color-gold);
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .scrolled .hero-text {
+      font-size: 1.5rem;
+      transform: translateY(-57vh);
+    }
+
+    .scrolled .navbar-brand {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ---------- Slideshow ---------- */
+    .slideshow {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0;
+      transition: opacity var(--transition-slow);
+      z-index: -1;
+    }
+
+    .slide.active {
+      opacity: 1;
+      z-index: 0;
+    }
+
+    .slideshow-nav {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 20px;
+      transform: translateY(-50%);
+      z-index: 5;
+    }
+
+    .nav-button {
+      background-color: transparent;
+      color: var(--color-gold);
+      font-size: 21px;
+      font-weight: bold;
+      transition: all var(--transition-fast);
+      opacity: 0.7;
+      display: flex;
+      align-items: center;
+      padding: 10px;
+    }
+
+    .nav-button:hover {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    .nav-button u {
+      text-decoration: none;
+      position: relative;
+    }
+
+    .nav-button u::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background-color: currentColor;
+    }
+
+    .dot-navigator {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      z-index: 5;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      background-color: rgba(200, 155, 60, 0.5);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all var(--transition-medium);
+      border: 2px solid transparent;
+    }
+
+    .dot.active {
+      background-color: var(--color-gold);
+      transform: scale(1.2);
+    }
+
+    .dot:hover {
+      background-color: var(--color-gold-light);
+      transform: scale(1.1);
+    }
+
+    .progress-timer {
+      position: absolute;
+      bottom: 30px;
+      right: 30px;
+      transform: scale(0.8);
+      z-index: 5;
+    }
+
+    .ring-svg .ring-background {
+      stroke: rgba(200, 155, 60, 0.4);
+      stroke-width: 4;
+    }
+
+    .ring-svg .ring-progress {
+      stroke: var(--color-gold);
+      stroke-dasharray: 88;
+      stroke-dashoffset: 88;
+      stroke-width: 4;
+      animation: spinRing 6s linear infinite;
+      transform: rotate(-90deg);
+      transform-origin: center;
+    }
+
+    @keyframes spinRing {
+      0% {
+        stroke-dashoffset: 88;
+      }
+      100% {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    /* ---------- Section Headers ---------- */
+    .section-header {
+      padding: 60px 0 30px;
+      text-align: center;
+      background-color: var(--color-off-white);
+    }
+
+    .section-title {
+      font-size: 40px;
+      font-weight: 400;
+      color: var(--color-dark);
+      position: relative;
+      display: inline-block;
+      padding-bottom: 15px;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 30%;
+      width: 40%;
+      height: 2px;
+      background-color: var(--color-gold);
+    }
+
+    /* ---------- Product Grid ---------- */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
+      padding: 20px 40px 60px;
+      background-color: var(--color-off-white);
+    }
+
+    .product-item {
+      text-align: center;
+      overflow: hidden;
+      border-radius: 8px;
+      background-color: var(--color-white);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: transform var(--transition-fast), box-shadow var(--transition-medium);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .product-item:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-image {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      transition: transform var(--transition-medium);
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: var(--color-off-white);
+      position: relative;
+    }
+
+    .product-image img {
+      width: 80%;
+      height: auto;
+      transition: transform var(--transition-medium);
+    }
+
+    .product-item:hover .product-image img {
+      transform: scale(1.1);
+    }
+
+    .product-info {
+      padding: 15px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .product-title {
+      font-size: 18px;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--color-dark);
+    }
+
+    /* ---------- Dark Collection Section ---------- */
+    .dark-collection {
+      position: relative;
+      background-color: var(--color-brown);
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .video-background {
+      height: 60vh;
+      width: 100%;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0.8;
+      transition: transform var(--transition-slow), opacity var(--transition-slow);
+    }
+
+    .dark-collection-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 30px;
+      padding: 40px;
+      background-color: rgba(64, 40, 27, 0.9);
+      position: relative;
+      z-index: 5;
+    }
+
+    .dark-product-item {
+      text-align: center;
+      overflow: hidden;
+      border-radius: 8px;
+      background-color: rgba(255, 255, 255, 0.05);
+      transition: transform var(--transition-fast), background-color var(--transition-medium);
+      padding-bottom: 15px;
+    }
+
+    .dark-product-item:hover {
+      transform: translateY(-10px);
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .dark-product-image {
+      width: 100%;
+      aspect-ratio: 1;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .dark-product-image img {
+      width: 80%;
+      height: auto;
+      transition: transform var(--transition-medium);
+    }
+
+    .dark-product-item:hover .dark-product-image img {
+      transform: scale(1.1);
+    }
+
+    .dark-product-title {
+      color: var(--color-white);
+      font-size: 16px;
+      margin-top: 10px;
+      padding: 0 10px;
+    }
+
+    /* ---------- Media Queries ---------- */
+    @media (max-width: 1024px) {
+      .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        padding: 20px;
+      }
+
+      .dark-collection-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        padding: 5px 10px;
+      }
+
+      .middle-section {
+        gap: 10px;
+        padding-right: 10px;
+      }
+
+      .nav-link {
+        padding: 8px 15px;
+        font-size: 14px;
+      }
+
+      .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      }
+
+      .dark-collection-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .section-title {
+        font-size: 32px;
+      }
+
+      .hero-text {
+        font-size: min(150px, 20vw);
+      }
+    }
+
+    @media (max-width: 576px) {
+      .header .logo {
+        width: 100px;
+      }
+
+      .btn {
+        padding: 8px 15px;
+        font-size: 14px;
+      }
+
+      .nav-link {
+        padding: 6px 10px;
+        font-size: 13px;
+      }
+
+      .product-grid, .dark-collection-grid {
+        grid-template-columns: repeat(1, 1fr);
+      }
+
+      .dot-navigator {
+        bottom: 20px;
+      }
+
+      .progress-timer {
+        bottom: 20px;
+        right: 20px;
+      }
+
+      .section-title {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<!-- Header -->
+<header class="header">
+  <div class="left-section">
+    <a href="index.html">
+      <img src="logos.svg" class="logo" alt="Logo Hypeza">
+    </a>
+  </div>
+  <nav class="middle-section">
+    <a href="#products" class="nav-link">Products</a>
+    <span class="nav-divider">|</span>
+    <a href="#contact" class="nav-link">Contact</a>
+  </nav>
+  <div class="right-section">
+    <a href="login.html" class="btn btn-primary">Connexion</a>
+  </div>
+</header>
+
+<!-- Brand overlay (fixed position elements) -->
+<div class="brand-overlay">
+  <h1 class="hero-text">HYPEZA</h1>
+</div>
+<div class="navbar-brand">
+  <span class="navbar-text">HYPEZA</span>
+</div>
+
+<!-- Hero Slideshow -->
+<section class="hero-container">
+  <div class="slideshow">
+    <img src="Firefly.png" alt="Luxury fashion showcase" class="slide active">
+    <img src="ai-young-male.png" alt="Men's fashion collection" class="slide">
+
+    <div class="slideshow-nav">
+      <button class="nav-button previous" aria-label="Previous slide">&#8592; <u>PREV</u></button>
+      <button class="nav-button next" aria-label="Next slide"><u>NEXT</u> &#8594;</button>
+    </div>
+
+    <div class="dot-navigator" role="tablist">
+      <button class="dot active" aria-label="Go to slide 1" role="tab" aria-selected="true"></button>
+      <button class="dot" aria-label="Go to slide 2" role="tab" aria-selected="false"></button>
+    </div>
+
+    <div class="progress-timer" aria-hidden="true">
+      <svg class="ring-svg" viewBox="0 0 32 32" width="50" height="50">
+        <circle class="ring-background" cx="16" cy="16" r="14" stroke-width="2" fill="none"></circle>
+        <circle class="ring-progress" cx="16" cy="16" r="14" stroke-width="2" fill="none"></circle>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- Product Section -->
+<section id="products" class="section-header">
+  <h2 class="section-title">Explore Our Selection</h2>
+</section>
+
+<div class="product-grid">
+  <!-- Product 1 -->
+  <div class="product-item">
+    <a href="product-detail.html" class="product-image">
+      <img src="handbag-categorie.jpg" alt="Women's Handbags">
+    </a>
+    <div class="product-info">
+      <h3 class="product-title">Women's Handbags</h3>
+    </div>
+  </div>
+
+  <!-- Product 2 -->
+  <div class="product-item">
+    <a href="product-detail.html" class="product-image">
+      <img src="tops.jpg" alt="Tops">
+    </a>
+    <div class="product-info">
+      <h3 class="product-title">Tops</h3>
+    </div>
+  </div>
+
+  <!-- Product 3 -->
+  <div class="product-item">
+    <a href="product-detail.html" class="product-image">
+      <img src="watch.jpg" alt="Men's Watches">
+    </a>
+    <div class="product-info">
+      <h3 class="product-title">Men's Watches</h3>
+    </div>
+  </div>
+
+  <!-- Product 4 -->
+  <div class="product-item">
+    <a href="product-detail.html" class="product-image">
+      <img src="handbag-categorie.jpg" alt="Designer Handbags">
+    </a>
+    <div class="product-info">
+      <h3 class="product-title">Designer Handbags</h3>
+    </div>
+  </div>
+
+  <!-- Product 5 -->
+  <div class="product-item">
+    <a href="product-detail.html" class="product-image">
+      <img src="handbag-categorie.jpg" alt="Luxury Purses">
+    </a>
+    <div class="product-info">
+      <h3 class="product-title">Luxury Purses</h3>
+    </div>
+  </div>
+
+  <!-- Product 6 -->
+  <div class="product-item">
+    <a href="product-detail.html" class="product-image">
+      <img src="handbag-categorie.jpg" alt="Evening Bags">
+    </a>
+    <div class="product-info">
+      <h3 class="product-title">Evening Bags</h3>
+    </div>
+  </div>
+</div>
+
+<!-- Dark Collection Section -->
+<section class="dark-collection">
+  <video autoplay muted loop class="video-background" id="scrollingVideo">
+    <source src="153f934987b0439b859617d71f7266bd.mp4" type="video/mp4">
+  </video>
+
+  <div class="dark-collection-grid">
+    <!-- Dark Collection Item 1 -->
+    <div class="dark-product-item">
+      <a href="product-detail.html" class="dark-product-image">
+        <img src="handbag-categorie.jpg" alt="Luxury Handbags">
+      </a>
+      <h3 class="dark-product-title">Luxury Handbags</h3>
+    </div>
+
+    <!-- Dark Collection Item 2 -->
+    <div class="dark-product-item">
+      <a href="product-detail.html" class="dark-product-image">
+        <img src="tops.jpg" alt="Premium Tops">
+      </a>
+      <h3 class="dark-product-title">Premium Tops</h3>
+    </div>
+
+    <!-- Dark Collection Item 3 -->
+    <div class="dark-product-item">
+      <a href="product-detail.html" class="dark-product-image">
+        <img src="watch.jpg" alt="Luxury Watches">
+      </a>
+      <h3 class="dark-product-title">Luxury Watches</h3>
+    </div>
+
+    <!-- Dark Collection Item 4 -->
+    <div class="dark-product-item">
+      <a href="product-detail.html" class="dark-product-image">
+        <img src="watch.jpg" alt="Designer Timepieces">
+      </a>
+      <h3 class="dark-product-title">Designer Timepieces</h3>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Variables and DOM elements
+  let currentIndex = 0;
+  const slides = document.querySelectorAll('.slide');
+  const dots = document.querySelectorAll('.dot');
+  const ringProgress = document.querySelector('.ring-progress');
+  const videoBackground = document.getElementById('scrollingVideo');
+  let slideInterval;
+
+  // Update active dot indicator
+  function updateDots() {
+    dots.forEach((dot, index) => {
+      dot.classList.toggle('active', index === currentIndex);
+      dot.setAttribute('aria-selected', index === currentIndex);
+    });
+  }
+
+  // Change slide with direction
+  function changeSlide(direction) {
+    slides[currentIndex].classList.remove('active');
+    currentIndex = (currentIndex + direction + slides.length) % slides.length;
+    slides[currentIndex].classList.add('active');
+    updateDots();
+    resetRingAnimation();
+    resetSlideInterval();
+  }
+
+  // Go to specific slide
+  function goToSlide(index) {
+    if (index === currentIndex) return;
+    slides[currentIndex].classList.remove('active');
+    currentIndex = index;
+    slides[currentIndex].classList.add('active');
+    updateDots();
+    resetRingAnimation();
+    resetSlideInterval();
+  }
+
+  // Reset ring animation
+  function resetRingAnimation() {
+    ringProgress.style.animation = 'none';
+    ringProgress.offsetHeight; // Trigger reflow
+    ringProgress.style.animation = 'spinRing 6s linear infinite';
+  }
+
+  // Reset slide interval
+  function resetSlideInterval() {
+    clearInterval(slideInterval);
+    slideInterval = setInterval(() => changeSlide(1), 6000);
+  }
+
+  // Initialize slideshow
+  function initializeSlideshow() {
+    // Set first slide as active
+    slides[0].classList.add('active');
+    dots[0].classList.add('active');
+    dots[0].setAttribute('aria-selected', true);
+
+    // Start automatic rotation
+    slideInterval = setInterval(() => changeSlide(1), 6000);
+
+    // Add event listeners to buttons
+    document.querySelector('.previous').addEventListener('click', () => changeSlide(-1));
+    document.querySelector('.next').addEventListener('click', () => changeSlide(1));
+
+    // Add event listeners to dots
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => goToSlide(index));
+    });
+  }
+
+  // Handle scroll effects
+  function handleScroll() {
+    // Check scroll position
+    const scrollPosition = window.scrollY;
+
+    // Toggle scrolled class on body for header animation
+    document.body.classList.toggle('scrolled', scrollPosition > 50);
+
+    // Video parallax effect in dark collection
+    if (videoBackground) {
+      const videoBounds = videoBackground.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+
+      if (videoBounds.top < windowHeight && videoBounds.bottom > 0) {
+        // Calculate how much of the video is in view
+        const viewPercentage = 1 - Math.max(0, Math.min(1, videoBounds.top / (windowHeight * 0.75)));
+
+        // Apply opacity and scale effects
+        videoBackground.style.opacity = Math.min(1, viewPercentage + 0.2);
+
+        // Parallax effect - move video slightly as we scroll
+        const parallaxOffset = scrollPosition * 0.05;
+        const scale = 1 + Math.min(0.3, viewPercentage * 0.2);
+
+        videoBackground.style.transform = `translateY(-${parallaxOffset}px) scale(${scale})`;
+      }
+    }
+  }
+
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    initializeSlideshow();
+    resetRingAnimation();
+    handleScroll(); // Initial call to set positions
+  });
+
+  // Add scroll event listener
+  window.addEventListener('scroll', handleScroll, { passive: true });
+
+  // Keyboard navigation for accessibility
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') {
+      changeSlide(-1);
+    } else if (e.key === 'ArrowRight') {
+      changeSlide(1);
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Création de compte</title>
+
+    <style>
+        /* Ajoutez ceci dans la section style existante */
+        .right-section {
+            animation: slideIn 0.5s ease forwards;
+            opacity: 0;
+            transform: translateX(50px);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    </style>
+
+    <style>
+
+        .right-section::-webkit-scrollbar {
+            display: none; /* Pour Chrome, Safari et Opera */
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: row-reverse;
+            z-index: 9999;
+        }
+
+        .left-section {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .right-section {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            overflow-y: auto;
+        }
+
+        .creation {
+            font-size: 40px;
+            font-family: "Prata", serif;
+            font-weight: bold;
+            text-align: center;
+            position: relative;
+            color: rgb(200, 155, 60);
+            animation: shimmer 2s infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes shimmer {
+            0% {
+                color: rgb(200, 155, 60);
+                text-shadow: 0 0 5px rgba(200, 155, 60, 0.5);
+            }
+            50% {
+                color: rgb(255, 223, 0);
+                text-shadow: 0 0 15px rgba(255, 223, 0, 0.8);
+            }
+            100% {
+                color: rgb(200, 155, 60);
+                text-shadow: 0 0 5px rgba(200, 155, 60, 0.5);
+            }
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, gold, rgba(255, 223, 0, 0.8), transparent);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sparkle-animation 1.5s ease-out infinite;
+            box-shadow: 0 0 10px rgba(255, 223, 0, 0.8);
+        }
+
+        @keyframes sparkle-animation {
+            0% {
+                opacity: 1;
+                transform: scale(1) translate(0, 0);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.8) translate(80px, -80px);
+            }
+        }
+
+        .text-info {
+            display: block;
+            display: flex;
+            justify-content: center;
+            margin-top: 0;
+            font-size: 20px;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .info-field {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .input-field {
+            display: block;
+            padding: 10px 20px;
+            margin-top: 5px;
+            margin-bottom: 0;
+            border-top: none;
+            border-right: none;
+            border-left: none;
+            border-bottom: 1px solid gray;
+            text-align: left;
+            width: 80%;
+            max-width: 400px;
+            background-color: white;
+        }
+
+        .create-button {
+            padding: 20px 70px;
+            background-color: #222222;
+            color: white;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background-color 0.5s;
+            margin-top: 10px;
+        }
+
+        .create-button:hover {
+            background-color: black;
+        }
+
+        .return {
+            margin-left: 20px;
+            transition: margin-left 0.3s ease-in-out;
+            margin-top: 20px;
+        }
+
+        .return:hover {
+            margin-left: 10px;
+        }
+
+        .return_link {
+            text-decoration: none;
+        }
+
+        .return_text {
+            font-size: 15px;
+            color: rgb(80, 80, 80);
+            text-decoration: none;
+            font-family: "Prata", serif;
+        }
+
+        .terms-container {
+            display: flex;
+            align-items: flex-start;
+            margin-left: 10%;
+            margin-right: 10%;
+            font-size: 14px;
+            color: rgb(80, 80, 80);
+            font-family: "Prata", serif;
+            margin-bottom: 20px;
+        }
+
+        .terms-text {
+            margin-left: 10px;
+        }
+
+        .login {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .login-text {
+            font-size: 16px;
+            color: rgb(80, 80, 80);
+        }
+
+        .login-link {
+            margin-left: 4px;
+            color: rgb(200, 155, 60);
+            text-decoration: none;
+        }
+
+        .name-row {
+            display: flex;
+            justify-content: center;
+            width: 80%;
+            max-width: 400px;
+            margin: 0 auto;
+            gap: 15px;
+        }
+
+        .half-width {
+            width: 50%;
+        }
+    </style>
+</head>
+<body>
+<form method="POST" action="registre.php">
+    <div class="overlay">
+        <div class="left-section">
+            <img src="WhatsApp%20Image%202025-04-11%20at%2022.35.24_c8f55211.jpg" alt="Image" class="image">
+        </div>
+        <div class="right-section">
+            <div class="return">
+                <a href="connexion2.html" class="return_link">
+                    <p class="return_text">&#8592; Return </p>
+                </a>
+            </div>
+            <div class="creation">
+                <h1>Create Your Account</h1>
+            </div>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const textElement = document.querySelector('.creation h1');
+
+                    function createSparkle() {
+                        const sparkle = document.createElement('div');
+                        sparkle.classList.add('sparkle');
+                        sparkle.style.left = `${Math.random() * textElement.offsetWidth}px`;
+                        sparkle.style.top = `${Math.random() * textElement.offsetHeight}px`;
+                        textElement.appendChild(sparkle);
+
+                        setTimeout(() => {
+                            sparkle.remove();
+                        }, 1000);
+                    }
+
+                    setInterval(createSparkle, 300);
+                });
+            </script>
+
+            <div class="div-info">
+                <p class="text-info">Create your account to access our exclusive services</p>
+            </div>
+
+            <div class="name-row">
+                <div class="info-field half-width">
+                    <input class="input-field" placeholder="First Name*" name="firstname">
+                </div>
+                <div class="info-field half-width">
+                    <input class="input-field" placeholder="Last Name*" name="lastname">
+                </div>
+            </div>
+
+            <div class="info-field">
+                <input class="input-field" placeholder="Email*" name="email" type="email">
+            </div>
+
+            <div class="info-field">
+                <input class="input-field" placeholder="Phone Number*" name="phone" type="tel">
+            </div>
+
+            <div class="info-field">
+                <input class="input-field" placeholder="Password*" name="password" type="password">
+            </div>
+
+            <div class="info-field">
+                <input class="input-field" placeholder="Password Confirmation*" name="confirm-password" type="password">
+            </div>
+
+            <div class="terms-container">
+                <div class="terms-box">
+                    <input type="checkbox" class="checkbox" required>
+                </div>
+                <div class="terms-text">
+                    <p>I accept the terms and conditions of use and the privacy policy. I understand that my personal data will be processed in accordance with the privacy policy.</p>
+                </div>
+            </div>
+
+            <div class="terms-container">
+                <div class="terms-box">
+                    <input type="checkbox" class="checkbox">
+                </div>
+                <div class="terms-text">
+                    <p>Je souhaite recevoir des informations sur les nouveaux produits, offres spéciales et événements exclusifs.</p>
+                </div>
+            </div>
+
+            <div class="creation" style="margin-top: 10px;">
+                <button class="create-button">Create an account</button>
+            </div>
+
+            <div class="login">
+                <p class="login-text">Already have an account?
+                    <a href="connexion2.html" class="login-link">Log in here.</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sélectionner le lien Se connecter
+            const loginLink = document.querySelector('.login-link');
+
+            if (loginLink) {
+                loginLink.addEventListener('click', function(e) {
+                    e.preventDefault(); // Empêche la navigation immédiate
+
+                    const href = this.getAttribute('href');
+                    const rightSection = document.querySelector('.right-section');
+
+                    // Animation de sortie avec flou et translation
+                    rightSection.style.transition = 'opacity 0.6s ease-in-out, transform 0.6s ease-in-out, filter 0.6s ease-in-out';
+                    rightSection.style.opacity = '0';
+                    rightSection.style.transform = 'translateX(50px) rotate(5deg) ';
+                    rightSection.style.filter = 'blur(8px)';
+
+                    // Rediriger après l'animation
+                    setTimeout(function() {
+                        window.location.href = href;
+                    }, 500);
+                });
+            }
+        });
+    </script>
+</form>
+
+</body>
+</html>

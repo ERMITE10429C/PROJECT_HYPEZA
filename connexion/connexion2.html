@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            z-index: 9999;
+        }
+
+        .left-section {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .right-section {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+        }
+
+        .connexion {
+            font-size: 40px;
+            font-family: "Prata", serif;
+            font-weight: bold;
+            text-align: center;
+            position: relative;
+            color: rgb(200, 155, 60);
+            animation: shimmer 2s infinite;
+            margin-bottom:20px;
+        }
+        @keyframes shimmer {
+            0% {
+                color: rgb(200, 155, 60);
+                text-shadow: 0 0 5px rgba(200, 155, 60, 0.5);
+            }
+            50% {
+                color: rgb(255, 223, 0);
+                text-shadow: 0 0 15px rgba(255, 223, 0, 0.8);
+            }
+            100% {
+                color: rgb(200, 155, 60);
+                text-shadow: 0 0 5px rgba(200, 155, 60, 0.5);
+            }
+        }
+        .sparkle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, gold, rgba(255, 223, 0, 0.8), transparent);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sparkle-animation 1.5s ease-out infinite;
+            box-shadow: 0 0 10px rgba(255, 223, 0, 0.8);
+        }
+
+        @keyframes sparkle-animation {
+            0% {
+                opacity: 1;
+                transform: scale(1) translate(0, 0);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.8) translate(80px, -80px);
+            }
+        }
+
+
+
+        .text-adress {
+            display: block;
+            display: flex;
+            justify-content: center;
+            margin-top: 0;
+            font-size: 30px;
+
+        }
+
+
+        .infos-e-mail,
+        .infos-password {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        .e-mail_input,
+        .password_input {
+            display: block;
+            padding: 10px 20px;
+            margin-top: 10px;
+            margin-bottom: 0;
+            border-top: none;
+            border-right: none;
+            border-left: none;
+            border-bottom: 1px solid gray;
+            text-align: left;
+            width: 80%;
+            max-width: 400px;
+            background-color:white;
+
+        }
+
+        .connexion-button {
+            padding: 20px 70px;
+            background-color: #222222;
+            color: white;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background-color 0.5s;
+        }
+
+        .connexion-button:hover {
+            background-color: black;
+        }
+
+        .return {
+            margin-left: 20px;
+            transition: margin-left 0.3s ease-in-out;
+        }
+        .return:hover {
+            margin-left: 10px;
+        }
+        .return_link {
+            text-decoration: none;
+        }
+        .return_text {
+            font-size: 15px;
+            color: rgb(80, 80, 80);
+            text-decoration: none;
+            font-family: "Prata", serif;
+        }
+        .forget{
+            margin-left:476px;
+            margin-top:4px;
+            font-size:14px;
+        }
+        .forget-link{
+            text-decoration: none;
+            color: rgb(80,80,80);
+        }
+        .remember-container {
+            display: flex;
+            align-items: center;
+            margin-left:160px;
+            margin-top:-15px;
+            font-size:14px;
+            color: rgb(80,80,80);
+            font-family: "Prata", serif;
+            margin-bottom:30px;
+        }
+        .create{
+            margin-top:20px;
+            display: flex;
+            justify-content: center;
+        }
+        .tipps{
+            font-size:16px;
+            color:rgb(80,80,80);
+        }
+        .new_account{
+            color:rgb (200,155,60);
+        }
+        .new_account{
+            margin-left:4px;
+        }
+    </style>
+</head>
+<body>
+<div class="overlay">
+    <div class="left-section">
+        <img src="image_fx%20(5).jpg" alt="Image" class="image">
+    </div>
+    <div class="right-section">
+        <div class="return">
+            <a href="tests/Html.html" class="return_link">
+                <p class="return_text">&#8592; Return </p>
+            </a>
+        </div>
+        <div class="connexion">
+            <h1>CONNEXION</h1>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const textElement = document.querySelector('.connexion h1');
+
+                function createSparkle() {
+                    const sparkle = document.createElement('div');
+                    sparkle.classList.add('sparkle');
+                    sparkle.style.left = `${Math.random() * textElement.offsetWidth}px`;
+                    sparkle.style.top = `${Math.random() * textElement.offsetHeight}px`;
+                    textElement.appendChild(sparkle);
+
+                    setTimeout(() => {
+                        sparkle.remove();
+                    }, 1000);
+                }
+
+                setInterval(createSparkle, 300);
+            });
+        </script>
+        <div class="div-adress">
+            <p class="text-adress">LOG IN WITH YOUR E-MAIL ADRESS</p>
+
+        </div>
+
+        <div class="infos-e-mail">
+            <input class="e-mail_input" placeholder="E-mail*" name="mail">
+        </div>
+
+        <div class="infos-password">
+            <input class="password_input" placeholder="Mot de passe*" name="password">
+        </div>
+
+        <div class="forget">
+            <a href="" class="forget-link">
+                <p class="forget-password">Forgot your password?</p>
+            </a>
+        </div>
+
+        <div class="remember-container" style="display: flex; align-items: center;">
+            <div class="remember-box">
+                <input type="checkbox" class="checkbox">
+            </div>
+            <div class="remember" style="margin-left: 10px;">
+                <p class="remember_text">Remember me</p>
+            </div>
+        </div>
+
+        <div class="connexion">
+            <button class="connexion-button">Connexion</button>
+        </div>
+        <div class="create">
+            <p class="tipps">Don't have an account?
+                <a href="" class="new_account" style="color: rgb(200,155,60);"> Create a new account.</a>
+            </p>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Animation</title>
+    <style>
+        /* General reset */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Hero Section Styling */
+        .hero {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-text {
+            font-size: 4rem;
+            font-weight: bold;
+            transition: all 0.5s ease;
+        }
+
+        /* Navigation Bar Styling */
+        .navbar {
+            width: 300px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 10px 20px;
+            z-index: 10;
+            display: flex;
+            justify-content: start;
+            align-items: center;
+        }
+
+        .navbar-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            opacity: 0;
+            transform: translateY(-50px);
+            transition: all 0.5s ease;
+        }
+
+        /* Scrolling Content Styling */
+        .content {
+            height: 200vh;
+            padding: 20px;
+            background: #f4f4f4;
+        }
+
+        /* State when scrolled */
+        .scrolled .hero-text {
+            font-size: 1.5rem;
+            transform: translateY(-50vh);
+        }
+
+        .scrolled .navbar-text {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<div class="navbar">
+    <span class="navbar-text">Navigation Text</span>
+</div>
+
+<!-- Hero Section -->
+<div class="hero">
+    <span class="hero-text">Hero Text</span>
+</div>
+
+<!-- Scrolling Content -->
+<div class="content">
+</div>
+
+<script>
+    // JavaScript for handling scroll-based class toggling
+    const heroText = document.querySelector('.hero-text');
+    const navbarText = document.querySelector('.navbar-text');
+    const body = document.body;
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            body.classList.add('scrolled');
+        } else {
+            body.classList.remove('scrolled');
+        }
+    });
+</script>
+
+</body>
+</html>

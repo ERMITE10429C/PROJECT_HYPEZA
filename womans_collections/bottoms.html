@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HYPEZA - Luxury Bottoms</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Prata&family=Cormorant+Garamond:wght@300;400;500&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <!-- Header --><header>
+
+    <div class="header">
+
+
+
+
+      <div class="middle-section">
+
+        <p class="product">
+          <a href="#product" class="product-link">Products</a>
+        </p>
+
+        <p style="color: RGB(200, 155, 60);">|</p>
+
+        <p class="contact">
+          <a href="#contact" class="contact-link">Contact</a>
+        </p>
+
+      </div>
+
+      <div class="right-section">
+
+        <a href="">
+
+          <img src="../svgs/favorite.svg" class="user" alt="favorite">
+        </a>
+        <p style="color: RGB(200, 155, 60);">|</p>
+
+        <a href="">
+          <img src="../svgs/panier.svg" class="panier" alt="Panier">
+        </a>
+
+        <p style="color: RGB(200, 155, 60);">|</p>
+
+        <a href="../connexion2.html/">
+          <img src="../svgs/profil_user.svg" class="user" alt="Profil">
+        </a>
+
+
+      </div>
+
+
+
+    </div>
+
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" style="background-image: url('https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');">
+    <div class="hero-content">
+      <h1 class="animate-on-scroll" data-animation="slide-up">Luxury Bottoms</h1>
+      <p class="animate-on-scroll" data-animation="slide-up">Explore our exquisite collection of premium bottoms. From tailored trousers to elegant skirts, our pieces are crafted with exceptional attention to detail and quality.</p>
+      <a href="#products" class="btn shimmer animate-on-scroll" data-animation="fade-in">Shop Collection</a>
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <section class="products-section" id="products">
+    <div class="section-title">
+      <h2>Our Collection</h2>
+    </div>
+    
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="pants">Pants</button>
+      <button class="filter-btn" data-filter="skirts">Skirts</button>
+      <button class="filter-btn" data-filter="jeans">Jeans</button>
+      <button class="filter-btn" data-filter="shorts">Shorts</button>
+    </div>
+    
+    <div class="products-grid">
+      <!-- Product 1 -->
+      <div class="product-card animate-on-scroll" data-animation="fade-in" data-category="pants" data-id="1" data-title="Tailored Wide-Leg Trousers" data-price="$395" data-image="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" data-description="Elegant wide-leg trousers crafted from premium wool blend. Features a high waist, front pleats, and a fluid silhouette.">
+        <img src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Tailored Wide-Leg Trousers" class="product-image">
+        <div class="product-overlay">
+          <div class="product-actions">
+            <button class="product-btn quick-view-btn">Quick View</button>
+            <button class="product-btn cart-btn">Add to Cart</button>
+          </div>
+        </div>
+        <div class="product-info">
+          <h3 class="product-title">Tailored Wide-Leg Trousers</h3>
+          <p class="product-price">$395</p>
+        </div>
+      </div>
+      
+      <!-- Product 2 -->
+      <div class="product-card animate-on-scroll" data-animation="fade-in" data-category="skirts" data-id="2" data-title="Pleated Midi Skirt" data-price="$325" data-image="https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" data-description="A timeless pleated midi skirt with an elegant drape. Features an A-line silhouette and hidden side zipper.">
+        <img src="https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Pleated Midi Skirt" class="product-image">
+        <div class="product-overlay">
+          <div class="product-actions">
+            <button class="product-btn quick-view-btn">Quick View</button>
+            <button class="product-btn cart-btn">Add to Cart</button>
+          </div>
+        </div>
+        <div class="product-info">
+          <h3 class="product-title">Pleated Midi Skirt</h3>
+          <p class="product-price">$325</p>
+        </div>
+      </div>
+      
+      <!-- Product 3 -->
+      <div class="product-card animate-on-scroll" data-animation="fade-in" data-category="jeans" data-id="3" data-title="Premium Straight-Leg Jeans" data-price="$275" data-image="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" data-description="Impeccably crafted straight-leg jeans made from premium Japanese denim. Features a high rise and classic five-pocket design.">
+        <img src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Premium Straight-Leg Jeans" class="product-image">
+        <div class="product-overlay">
+          <div class="product-actions">
+            <button class="product-btn quick-view-btn">Quick View</button>
+            <button class="product-btn cart-btn">Add to Cart</button>
+          </div>
+        </div>
+        <div class="product-info">
+          <h3 class="product-title">Premium Straight-Leg Jeans</h3>
+          <p class="product-price">$275</p>
+        </div>
+      </div>
+      
+      <!-- Product 4 -->
+      <div class="product-card animate-on-scroll" data-animation="fade-in" data-category="shorts" data-id="4" data-title="Tailored Bermuda Shorts" data-price="$245" data-image="https://images.unsplash.com/photo-1591369822096-ffd140ec948f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" data-description="Sophisticated Bermuda shorts with a tailored fit. Made from premium cotton-blend fabric for comfort and durability.">
+        <img src="https://images.unsplash.com/photo-1591369822096-ffd140ec948f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Tailored Bermuda Shorts" class="product-image">
+        <div class="product-overlay">
+          <div class="product-actions">
+            <button class="product-btn quick-view-btn">Quick View</button>
+            <button class="product-btn cart-btn">Add to Cart</button>
+          </div>
+        </div>
+        <div class="product-info">
+          <h3 class="product-title">Tailored Bermuda Shorts</h3>
+          <p class="product-price">$245</p>
+        </div>
+      </div>
+      
+      <!-- Product 5 -->
+      <div class="product-card animate-on-scroll" data-animation="fade-in" data-category="pants" data-id="5" data-title="Slim-Fit Cigarette Pants" data-price="$325" data-image="https://images.unsplash.com/photo-1551854838-212c9ab56b25?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" data-description="Classic cigarette pants with a modern, slim fit. Crafted from stretch fabric for comfort and an impeccable silhouette.">
+        <img src="https://images.unsplash.com/photo-1551854838-212c9ab56b25?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Slim-Fit Cigarette Pants" class="product-image">
+        <div class="product-overlay">
+          <div class="product-actions">
+            <button class="product-btn quick-view-btn">Quick View</button>
+            <button class="product-btn cart-btn">Add to Cart</button>
+          </div>
+        </div>
+        <div class="product-info">
+          <h3 class="product-title">Slim-Fit Cigarette Pants</h3>
+          <p class="product-price">$325</p>
+        </div>
+      </div>
+      
+      <!-- Product 6 -->
+      <div class="product-card animate-on-scroll" data-animation="fade-in" data-category="skirts" data-id="6" data-title="Wrap Satin Skirt" data-price="$295" data-image="https://images.unsplash.com/photo-1582142306909-195724d0a735?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" data-description="An elegant wrap skirt in luxurious satin fabric. Features an asymmetric hemline and a flattering drape.">
+        <img src="https://images.unsplash.com/photo-1582142306909-195724d0a735?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Wrap Satin Skirt" class="product-image">
+        <div class="product-overlay">
+          <div class="product-actions">
+            <button class="product-btn quick-view-btn">Quick View</button>
+            <button class="product-btn cart-btn">Add to Cart</button>
+          </div>
+        </div>
+        <div class="product-info">
+          <h3 class="product-title">Wrap Satin Skirt</h3>
+          <p class="product-price">$295</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-top">
+        <div class="footer-logo">
+          <h3 class="shimmer1">HYPEZA</h3>
+          <p class="tagline">Redéfinir le luxe avec style et qualité</p>
+        </div>
+
+        <div class="footer-navigation">
+          <div class="footer-col">
+            <h3>Collections</h3>
+            <ul>
+              <li><a href="#">Femme</a></li>
+              <li><a href="#">Homme</a></li>
+              <li><a href="#">Accessoires</a></li>
+              <li><a href="#">Nouveautés</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h3>À propos</h3>
+            <ul>
+              <li><a href="#">Notre histoire</a></li>
+              <li><a href="#">Engagements</a></li>
+              <li><a href="#">Durabilité</a></li>
+              <li><a href="#">Presse</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h3>Service client</h3>
+            <ul>
+              <li><a href="#">Contactez-nous</a></li>
+              <li><a href="#">Livraison & Retours</a></li>
+              <li><a href="#">FAQ</a></li>
+              <li><a href="#">Guide des tailles</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h3>Restez informé</h3>
+            <p>Inscrivez-vous pour recevoir nos actualités</p>
+            <form class="newsletter-form">
+              <input type="email" placeholder="Votre email">
+              <button type="submit">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-middle">
+        <div class="social-links">
+          <a href="#" aria-label="Instagram">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" fill="currentColor"/>
+            </svg>
+          </a>
+          <a href="#" aria-label="Facebook">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385h-3.047v-3.47h3.047v-2.642c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953h-1.514c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385c5.737-.9 10.125-5.864 10.125-11.854z" fill="currentColor"/>
+            </svg>
+          </a>
+          <a href="#" aria-label="Twitter">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" fill="currentColor"/>
+            </svg>
+          </a>
+          <a href="#" aria-label="Pinterest">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026L12.017 0z" fill="currentColor"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-info">
+          <p>&copy; 2024 HYPEZA. Tous droits réservés.</p>
+        </div>
+        <div class="footer-links">
+          <a href="#">Mentions légales</a>
+          <a href="#">Politique de confidentialité</a>
+          <a href="#">Conditions générales</a>
+          <a href="#">Plan du site</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+
+  <!-- Shopping Cart -->
+  <div class="cart">
+    <div class="cart-header">
+      <h3>Your Shopping Bag</h3>
+      <button class="cart-close">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="cart-items">
+      <!-- Cart items will be added here dynamically -->
+    </div>
+    <div class="cart-total">
+      <span>Total:</span>
+      <span class="total-amount">$0.00</span>
+    </div>
+    <a href="../checkout_1.php" >
+      <button class="checkout-btn shimmer">Checkout</button>
+    </a>
+  </div>
+
+  <!-- Product Modal -->
+  <div class="modal">
+    <button class="modal-close">
+      <i class="fas fa-times"></i>
+    </button>
+    <div class="modal-content">
+
+      <div class="product-detail">
+
+
+        <div class="product-detail-images">
+
+          <img src="" alt="Product Image" class="product-main-image">
+
+          <div class="product-thumbnails">
+
+          </div>
+
+        </div>
+
+
+        <div class="product-detail-info">
+          <h2 class="product-detail-title"></h2>
+          <p class="product-detail-price"></p>
+          <div class="product-detail-description"></div>
+          <div class="product-options">
+            <h4>Color</h4>
+
+            <div class="product-colors">
+              <div class="color-option" style="background-color: #000000;" data-color="Black"></div>
+              <div class="color-option active" style="background-color: #C89B3C;" data-color="Gold"></div>
+              <div class="color-option" style="background-color: #FFFFFF;" data-color="White"></div>
+              <div class="color-option" style="background-color: #8B0000;" data-color="Red"></div>
+              <div class="color-option" style="background-color: #1E3A5F;" data-color="Blue"></div>
+            </div>
+
+            <br>
+
+            <h4>Size</h4>
+
+            <div class="product-sizes">
+              <div class="size-option">XS</div>
+              <div class="size-option active">S</div>
+              <div class="size-option">M</div>
+              <div class="size-option">L</div>
+              <div class="size-option">XL</div>
+            </div>
+
+          </div>
+          <button class="add-to-cart shimmer">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- JavaScript -->
+  <script>
+    // Improved cart close functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const cart = document.querySelector('.cart');
+      const cartCloseBtn = document.querySelector('.cart-close');
+      const cartOpenElements = document.querySelectorAll('.panier');
+
+      // Keep track of whether the cart was just opened
+      let cartJustOpened = false;
+
+      // Function to open cart
+      function openCart() {
+        cart.classList.add('open');
+        // Set a flag that we just opened the cart
+        cartJustOpened = true;
+        // Reset the flag after a short delay
+        setTimeout(() => {
+          cartJustOpened = false;
+        }, 100);
+      }
+
+      // Function to close cart
+      function closeCart() {
+        cart.classList.remove('open');
+      }
+
+      // Add click listener to cart open buttons
+      cartOpenElements.forEach(element => {
+        element.addEventListener('click', function(e) {
+          e.stopPropagation();
+          openCart();
+        });
+      });
+
+      // Close cart when clicking the close button
+      if (cartCloseBtn) {
+        cartCloseBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          closeCart();
+        });
+      }
+
+      // Close cart when clicking outside
+      document.addEventListener('click', function(event) {
+        // Only process if the cart is open and we didn't just open it
+        if (!cart.classList.contains('open') || cartJustOpened) {
+          return;
+        }
+
+        // Check if click is inside the cart
+        const isClickInsideCart = cart.contains(event.target);
+
+        // Check if click is on cart-related elements
+        const isClickOnCartElement = event.target.closest('.panier') ||
+                event.target.closest('.cart-icon') ||
+                event.target.classList.contains('panier') ||
+                event.target.classList.contains('cart-icon');
+
+        // Close only if clicked outside cart and not on cart-related elements
+        if (!isClickInsideCart && !isClickOnCartElement) {
+          closeCart();
+        }
+      });
+    });
+  </script>
+
+  <script src="script.js"></script>
+
+  <script src="../cartManager.js"></script>
+
+
+</body>
+</html>

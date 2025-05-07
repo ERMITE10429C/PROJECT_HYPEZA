@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>Heypza</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prata&family=Roboto&family=Satisfy&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: "Prata", serif;
+            font-weight: 400;
+        }
+
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            position: absolute;
+            background-color: transparent;
+            width: 100%;
+            z-index: 10;
+            margin-bottom: 50px;
+            padding: 5px 30px;
+        }
+
+        .header .logo {
+            width: 130px;
+            height: auto;
+            padding-top: 7px;
+        }
+
+
+        .middle-section {
+            display: flex;
+            gap: 20px;
+            padding-right:30px;
+            margin-top:0;
+        }
+
+        .middle-section a {
+            text-decoration: none;
+            color: RGB(200, 155, 60);
+            font-size: 16px;
+            font-weight: bold;
+            padding: 5px 32px;
+            transition: color 0.3s, background-color 0.3s;
+        }
+
+        .middle-section a:hover {
+            background: RGB(200, 155, 60);
+            color: white;
+            border-color: RGB(255, 215, 100);
+            border-radius: 5px; /* Coins arrondis */
+        }
+
+        .login {
+            background-color: RGB(200, 155, 60); /* Bouton en couleur dorée */
+            color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+            border: 1px solid RGB(200, 155, 60);
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .login:hover {
+            background-color: transparent;
+            color: RGB(200, 155, 60);
+            transform: scale(1.1);
+        }
+
+
+        .background-categorie{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: scale-down;
+            object-position: clamp(0% 0%, 100% 100%, 0% 0%);
+            z-index: -1;
+        }
+
+
+
+
+
+        .previous{
+            margin-left: 15px;
+        }
+
+        }
+        .next{
+            margin-right: 15px;
+        }
+
+        .background {
+            position: relative;
+            width: 100%;
+            height: 116vh;
+            overflow: hidden;
+        }
+
+        .background-categorie {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            z-index: -1;
+        }
+
+        .background-categorie.active {
+            opacity: 1;
+            z-index: 0;
+        }
+
+        button.previous, button.next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(200, 155, 60, 0.8);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button.previous {
+            left: 10px;
+            border: none;
+            background-color: transparent;
+            color: RGB(200, 155, 60);
+            font-size: 21px;
+            font-weight: bold;
+            transition: all 0.1s ease;
+            font-family: "Prata", serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        button.next {
+            right: 10px;
+            border: none;
+            background-color: transparent;
+            color: RGB(200, 155, 60);
+            font-size: 21px;
+            font-weight: bold;
+            transition: all 0.1s ease;
+            font-family: "Prata", serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        button.previous:hover, button.next:hover {
+            opacity:0.5;
+        }
+
+        .header-categorie{
+            height:200px;
+            display:flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .selection{
+            font-size:40px;
+            font-weight:400;
+            color: #0e0e0e;
+        }
+
+        .item-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            row-gap: 30px;
+            padding: 20px;
+            background-color: #fffff3;
+        }
+
+        .item {
+            text-align: center;
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .item:hover {
+            transform: scale(1.05); /* Zoom au survol */
+
+        }
+
+        .picture-item img {
+            width:80%; /* Image responsive */
+            height: auto;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .name-categorie {
+            font-size: 14px;
+            margin: 10px 0;
+            color: #333;
+        }
+        .name-categorie a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+    </style>
+</head>
+<body>
+<!-- header -->
+<div class="header">
+    <div class="left-section">
+        <img src="logos.svg" class="logo" alt="Logo Hypeza">
+    </div>
+    <div class="middle-section">
+        <p class="product">
+            <a href="#product" class="product-link">Products</a>
+        </p>
+        <p style="
+       color: RGB(200, 155, 60);">|</p>
+        <p class="contact">
+            <a href="#contact" class="contact-link">Contact</a>
+        </p>
+    </div>
+    <div class="right-section">
+        <button class="login">Connexion</button>
+    </div>
+</div>
+
+<!-- Contenu principal -->
+<div class="overlay">
+    <div class="background">
+        <img src="fashion-portrait-beautiful-stylish-skinny-brunette-woman-with-dressed-white-coat-beige-hat-holding-sunglasses-autumn-winter-trendy-fashion-style.jpg" alt="Image 1" class="background-categorie active"> <!-- Première image -->
+        <img src="1740517456419.jpg" alt="Image 2" class="background-categorie">
+        <button class="previous" onclick="changeBackground(-1)">&#8592; <u>PREV</u></button>
+        <button class="next" onclick="changeBackground(1)"> <u>NEXT</u> &#8594;</button>
+    </div>
+</div>
+
+<!-- Selection title -->
+<div class="header-categorie">
+    <p class="selection">Explore Our Selection </p>
+</div>
+
+<!-- Selection Items -->
+<div class="overlay-selection">
+    <div class="item-container">
+        <div class="item">
+            <div class="picture-item">
+                <a href="html2.html">
+                    <img src="handbag-categorie.jpg" class="picture-item-edit">
+                </a>
+            </div>
+            <div class="name-categorie">
+                <a href="html2.html">
+                    <p class="name-categorie-edit">Women&apos;s Handbags</p>
+                </a>
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="picture-item">
+                <a href="html2.html">
+                    <img src="tops.jpg" class="picture-item-edit">
+                </a>
+            </div>
+            <div class="name-categorie">
+                <a href="html2.html">
+                    <p class="name-categorie-edit">Tops</p>
+                </a>
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="picture-item">
+                <a href="html2.html">
+                    <img src="handbag-categorie.jpg" class="picture-item-edit">
+                </a>
+            </div>
+            <div class="name-categorie">
+                <a href="html2.html">
+                    <p class="name-categorie-edit">Women&apos;s Handbags</p>
+                </a>
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="picture-item">
+                <a href="html2.html">
+                    <img src="handbag-categorie.jpg" class="picture-item-edit">
+                </a>
+            </div>
+            <div class="name-categorie">
+                <a href="html2.html">
+                    <p class="name-categorie-edit">Women&apos;s Handbags</p>
+                </a>
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="picture-item">
+                <a href="html2.html">
+                    <img src="handbag-categorie.jpg" class="picture-item-edit">
+                </a>
+            </div>
+            <div class="name-categorie">
+                <a href="html2.html">
+                    <p class="name-categorie-edit">Women&apos;s Handbags</p>
+                </a>
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="picture-item">
+                <a href="html2.html">
+                    <img src="handbag-categorie.jpg" class="picture-item-edit">
+                </a>
+            </div>
+            <div class="name-categorie">
+                <a href="html2.html">
+                    <p class="name-categorie-edit">Women&apos;s Handbags</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<script>
+    let currentIndex = 0;
+    const images = document.querySelectorAll('.background-categorie');
+
+    function changeBackground(direction) {
+        // Cache l'image actuelle avec transition
+        images[currentIndex].classList.remove('active');
+        // Met à jour l'index
+        currentIndex = (currentIndex + direction + images.length) % images.length;
+        // Affiche la nouvelle image avec transition
+        requestAnimationFrame(() => {
+            images[currentIndex].classList.add('active');
+        });
+    }
+
+    function autoSwitchSlides() {
+        setInterval(() => {
+            changeBackground(1);
+        }, 4000);
+    }
+
+    autoSwitchSlides();
+</script>
+</body>
+</html>

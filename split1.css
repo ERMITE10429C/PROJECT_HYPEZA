@@ -1,0 +1,36 @@
+
+.title1{color: #ffffff; font-size:70px; line-height:98px; font-family: 'Libre Baskerville', serif; padding-top:60px; padding-bottom:40px; width:90%; background-color:transparent; margin:40px auto; overflow:hidden; box-sizing: border-box; font-kerning: none;}
+.span1{color: #f6bf1e; overflow:hidden;}
+.span2{color:#ffffff; overflow:hidden;}
+/* Styles needed for Splitting.js to work */
+.word {
+    display: inline-block;
+}
+
+.char {
+    display: inline-block;
+}
+
+.blank1{
+    min-height:5vh;
+}
+.spliting_animation {
+    background-color: black ;
+    padding: 40px;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.spcr300{padding-bottom:0;}
+
+@media screen and (max-width: 1025px) {
+    .title{font-size:60px; line-height:74px; padding-left:40px;}
+}
+
+@media screen and (max-width: 640px) {
+    .title{font-size:44px; line-height:61px;}
+}
+
+@media screen and (max-width: 540px) {
+    .title{font-size:34px; line-height:51px; padding-left:0px;}
+}

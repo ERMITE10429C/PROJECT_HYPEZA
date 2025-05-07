@@ -1,0 +1,45 @@
+<!
+DOCTYPE html, >
+
+<
+html, >
+
+<
+head, >
+
+<  title>UrMarket</
+title, >
+
+<  link rel="stylesheet"  href="header.css"  >
+    <link rel="stylesheet" href="general.css">
+    <
+style, >
+    /* Voici le CSS intégré pour gérer le fond plein écran et la disposition */
+* {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body, html {
+        height: 100%;
+        font-family: Arial, sans-serif;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 30px;
+        background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent */
+        color: white;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 10;
+      }
+
+      .header .logo {
+        width: 100px;
+        height: auto;
+      }

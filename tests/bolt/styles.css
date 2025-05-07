@@ -1,0 +1,333 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  font-family: "Prata", serif;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+/* Header Styles */
+
+
+.header .logo {
+  width: 130px;
+  height: auto;
+  padding-top: 7px;
+}
+
+.middle-section {
+  display: flex;
+  gap: 20px;
+  padding-right: 30px;
+  margin-top: 0;
+  align-items: center;
+}
+
+.middle-section a {
+  text-decoration: none;
+  color: RGB(200, 155, 60);
+  font-size: 16px;
+  font-weight: bold;
+  padding: 5px 32px;
+  transition: color 0.3s, background-color 0.3s;
+}
+
+.middle-section a:hover {
+  background: RGB(200, 155, 60);
+  color: white;
+  border-radius: 5px;
+}
+
+.separator {
+  color: RGB(200, 155, 60);
+}
+
+.login {
+  background-color: RGB(200, 155, 60);
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  border: 1px solid RGB(200, 155, 60);
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.login:hover {
+  background-color: transparent;
+  color: RGB(200, 155, 60);
+  transform: scale(1.1);
+}
+
+/* Background and Navigation */
+.background {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+
+
+.background-categorie.active {
+  opacity: 1;
+  z-index: 0;
+}
+
+/* Navigation Buttons */
+button.previous,
+button.next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background-color: transparent;
+  color: RGB(200, 155, 60);
+  font-size: 21px;
+  font-weight: bold;
+  transition: all 0.1s ease;
+  font-family: "Prata", serif;
+  cursor: pointer;
+  z-index: 1;
+}
+
+button.previous {
+  left: 10px;
+}
+
+button.next {
+  right: 10px;
+}
+
+button.previous:hover,
+button.next:hover {
+  opacity: 0.5;
+}
+
+/* Categories Section */
+.header-categorie {
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.selection {
+  font-size: 40px;
+  font-weight: 400;
+  color: #0e0e0e;
+}
+
+.item-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  padding: 20px;
+  background-color: #fffff3;
+}
+
+.item {
+  text-align: center;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.item:hover {
+  transform: scale(1.05);
+}
+
+.picture-item img {
+  width: 80%;
+  height: auto;
+  border-bottom: 1px solid #ddd;
+}
+
+.name-categorie-edit {
+  font-size: 14px;
+  margin: 10px 0;
+  color: #333;
+}
+
+.name-categorie a {
+  text-decoration: none;
+  color: white;
+}
+
+/* Overlay 3 Section */
+.overlay3 {
+  background-color: rgb(64, 40, 27);
+  padding: 20px 0;
+}
+
+.scrolling-video {
+  height: 100vh;
+  width: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+.item-container2 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  padding: 20px;
+  background-color: rgba(64, 40, 27, 0.7);
+}
+
+/* Overlay 2 and Hero Section */
+.overlay2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.hero {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-text {
+  color: #f5ae47;
+  font-size: 200px;
+  text-align: center;
+  font-weight: bold;
+  transition: all 0.5s ease;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 10px 20px;
+  z-index: 10;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.navbar-text {
+  padding-top: 12px;
+  padding-left: 15px;
+  color: #c89b3c;
+  font-size: 1.5rem;
+  font-weight: bold;
+  opacity: 0;
+  transform: translateY(-50px);
+  transition: all 0.5s ease;
+}
+
+/* Scrolled State */
+.scrolled .hero-text {
+  font-size: 1.5rem;
+  transform: translateY(-57vh);
+}
+
+.scrolled .navbar-text {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Dot Navigator and Ring Timer */
+.dot-navigator {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 1;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  background-color: rgba(200, 155, 60, 0.8);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.dot.active {
+  background-color: RGB(200, 155, 60);
+}
+
+.dot:hover {
+  background-color: RGB(255, 215, 100);
+}
+
+.ring-timer {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  transform: scale(0.8);
+  z-index: 1;
+}
+
+.ring-svg .ring-background {
+  stroke: rgba(200, 155, 60, 0.6);
+  stroke-width: 5;
+}
+
+.ring-svg .ring-progress {
+  stroke: RGB(200, 155, 60);
+  stroke-dasharray: 88;
+  stroke-dashoffset: 88;
+  stroke-width: 5;
+  animation: spinRing 6s linear infinite;
+  transform: rotate(-90deg);
+  transform-origin: center;
+}
+
+@keyframes spinRing {
+  0% {
+    stroke-dashoffset: 88;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .item-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .item-container2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .hero-text {
+    font-size: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .item-container,
+  .item-container2 {
+    grid-template-columns: 1fr;
+  }
+  
+  .hero-text {
+    font-size: 80px;
+  }
+  
+  .middle-section {
+    display: none;
+  }
+}
