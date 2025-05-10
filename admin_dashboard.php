@@ -5,9 +5,20 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     exit();
 }
 
-$conn = new mysqli("localhost", "root", "root", "users_db");
-if ($conn->connect_error) {
-    die("Erreur de connexion : " . $conn->connect_error);
+// Update database connection to use Azure MySQL
+$host = "hypezaserversql.mysql.database.azure.com";
+$user = "user";
+$pass = "HPL1710COMPAq";
+$db = "users_db";
+
+// Create connection with SSL options for Azure
+$conn = mysqli_init();
+mysqli_ssl_set($conn, NULL, NULL, NULL, NULL, NULL);
+mysqli_real_connect($conn, $host, $user, $pass, $db, 3306, MYSQLI_CLIENT_SSL);
+
+// Check connection
+if (mysqli_connect_errno()) {
+    die("Erreur de connexion : " . mysqli_connect_error());
 }
 
 $users = $conn->query("SELECT * FROM users");
