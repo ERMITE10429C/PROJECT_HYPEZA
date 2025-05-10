@@ -5,9 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="43a84c4b-a44b-49ce-a4e0-993ef63d6c0a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin_dashboard.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin_dashboard.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/registre.php" beforeDir="false" afterPath="$PROJECT_DIR$/registre.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/debug.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test_db.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/connexion2.html" beforeDir="false" afterPath="$PROJECT_DIR$/connexion2.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,6 +98,9 @@
   &quot;associatedIndex&quot;: 3
 }</component>
   <component name="ProjectId" id="2tx2xxuNqhUDPNRYUqFk9ZPY2oB" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -196,7 +199,7 @@
       <workItem from="1746896953932" duration="18000" />
       <workItem from="1746901190309" duration="25000" />
       <workItem from="1746903639370" duration="20000" />
-      <workItem from="1746903661125" duration="2460000" />
+      <workItem from="1746903661125" duration="3349000" />
     </task>
     <servers />
   </component>
