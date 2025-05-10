@@ -9,11 +9,11 @@
 
 /* Design Tokens and CSS Variables */
 :root {
-    --color-background: #000000;
-    --color-text-primary: #f6bf1e;
-    --color-text-secondary: rgba(255, 171, 0, 0.75);
-    --color-text-muted: rgba(255, 175, 0, 0.5);
-    --color-accent: #e67e22;
+    --color-background: #111;
+    --color-text-primary: #ffffff;
+    --color-text-secondary: rgb(255, 255, 255);
+    --color-text-muted: rgb(175, 145, 51);
+    --color-accent: #af9133;
     --color-grid-overlay: rgba(80, 69, 44, 0.09);
     --color-mountain-dark: #ffffff;
     --color-mountain-light: #ffffff;

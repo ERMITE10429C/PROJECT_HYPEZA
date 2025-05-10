@@ -1,0 +1,93 @@
+[07-May-2025 13:29:55 Europe/Berlin] [2025-05-07 13:29:55] Received order data for processing - {"orderNumber":"HYPZ-593042","email":"mok***"}
+[07-May-2025 13:29:55 Europe/Berlin] [2025-05-07 13:29:55] Attempting to connect to SMTP server at smtp.gmail.com:587
+[07-May-2025 13:29:55 Europe/Berlin] [2025-05-07 13:29:55] SMTP server connection successful
+[07-May-2025 13:29:55 Europe/Berlin] [2025-05-07 13:29:55] Set up recipients - {"to":"mokhlisadam55@gmail.com"}
+[07-May-2025 13:29:55 Europe/Berlin] [2025-05-07 13:29:55] Email content prepared, attempting to send
+[07-May-2025 13:29:55 Europe/Berlin] [2025-05-07 13:29:55] PHPMailer [2]: SERVER -> CLIENT: 220 smtp.gmail.com ESMTP 5b1f17b1804b1-441d43d0b58sm28965915e9.12 - gsmtp
+
+[07-May-2025 13:29:55 Europe/Berlin] [2025-05-07 13:29:55] PHPMailer [1]: CLIENT -> SERVER: EHLO localhost
+
+[07-May-2025 13:29:56 Europe/Berlin] [2025-05-07 13:29:56] PHPMailer [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [105.76.106.42]
+250-SIZE 35882577
+250-8BITMIME
+250-STARTTLS
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+[07-May-2025 13:29:56 Europe/Berlin] [2025-05-07 13:29:56] PHPMailer [1]: CLIENT -> SERVER: STARTTLS
+
+[07-May-2025 13:29:56 Europe/Berlin] [2025-05-07 13:29:56] PHPMailer [2]: SERVER -> CLIENT: 220 2.0.0 Ready to start TLS
+
+[07-May-2025 13:29:56 Europe/Berlin] [2025-05-07 13:29:56] PHPMailer [1]: CLIENT -> SERVER: EHLO localhost
+
+[07-May-2025 13:29:56 Europe/Berlin] [2025-05-07 13:29:56] PHPMailer [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [105.76.106.42]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+[07-May-2025 13:29:56 Europe/Berlin] [2025-05-07 13:29:56] PHPMailer [1]: CLIENT -> SERVER: AUTH LOGIN
+
+[07-May-2025 13:29:56 Europe/Berlin] [2025-05-07 13:29:56] PHPMailer [2]: SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+[07-May-2025 13:29:56 Europe/Berlin] [2025-05-07 13:29:56] PHPMailer [1]: CLIENT -> SERVER: [credentials hidden]
+[07-May-2025 13:29:56 Europe/Berlin] [2025-05-07 13:29:56] PHPMailer [2]: SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+[07-May-2025 13:29:56 Europe/Berlin] [2025-05-07 13:29:56] PHPMailer [1]: CLIENT -> SERVER: [credentials hidden]
+[07-May-2025 13:29:56 Europe/Berlin] [2025-05-07 13:29:56] PHPMailer [2]: SERVER -> CLIENT: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-441d43d0b58sm28965915e9.12 - gsmtp
+
+[07-May-2025 13:29:56 Europe/Berlin] [2025-05-07 13:29:56] PHPMailer [1]: SMTP ERROR: Password command failed: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-441d43d0b58sm28965915e9.12 - gsmtp
+
+[07-May-2025 13:29:56 Europe/Berlin] [2025-05-07 13:29:56] PHPMailer [2]: SMTP Error: Could not authenticate.
+[07-May-2025 13:29:56 Europe/Berlin] [2025-05-07 13:29:56] PHPMailer [1]: CLIENT -> SERVER: QUIT
+
+[07-May-2025 13:29:56 Europe/Berlin] [2025-05-07 13:29:56] PHPMailer [2]: SERVER -> CLIENT: 221 2.0.0 closing connection 5b1f17b1804b1-441d43d0b58sm28965915e9.12 - gsmtp
+
+[07-May-2025 13:29:56 Europe/Berlin] [2025-05-07 13:29:56] PHPMailer [2]: SMTP Error: Could not authenticate.
+[07-May-2025 13:29:56 Europe/Berlin] [2025-05-07 13:29:56] Email sending failed: SMTP Error: Could not authenticate.
+[07-May-2025 13:30:27 Europe/Berlin] [2025-05-07 13:30:27] Received order data for processing - {"orderNumber":"HYPZ-548314","email":"mok***"}
+[07-May-2025 13:30:27 Europe/Berlin] [2025-05-07 13:30:27] Attempting to connect to SMTP server at smtp.gmail.com:465
+[07-May-2025 13:30:27 Europe/Berlin] [2025-05-07 13:30:27] SMTP server connection successful
+[07-May-2025 13:30:27 Europe/Berlin] [2025-05-07 13:30:27] Set up recipients - {"to":"mokhlisadam55@gmail.com"}
+[07-May-2025 13:30:27 Europe/Berlin] [2025-05-07 13:30:27] Email content prepared, attempting to send
+[07-May-2025 13:30:28 Europe/Berlin] [2025-05-07 13:30:28] PHPMailer [2]: SERVER -> CLIENT: 220 smtp.gmail.com ESMTP 5b1f17b1804b1-441d43d6d84sm28206325e9.18 - gsmtp
+
+[07-May-2025 13:30:28 Europe/Berlin] [2025-05-07 13:30:28] PHPMailer [1]: CLIENT -> SERVER: EHLO localhost
+
+[07-May-2025 13:30:28 Europe/Berlin] [2025-05-07 13:30:28] PHPMailer [2]: SERVER -> CLIENT: 250-smtp.gmail.com at your service, [105.76.106.42]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+
+[07-May-2025 13:30:28 Europe/Berlin] [2025-05-07 13:30:28] PHPMailer [1]: CLIENT -> SERVER: AUTH LOGIN
+
+[07-May-2025 13:30:28 Europe/Berlin] [2025-05-07 13:30:28] PHPMailer [2]: SERVER -> CLIENT: 334 VXNlcm5hbWU6
+
+[07-May-2025 13:30:28 Europe/Berlin] [2025-05-07 13:30:28] PHPMailer [1]: CLIENT -> SERVER: [credentials hidden]
+[07-May-2025 13:30:28 Europe/Berlin] [2025-05-07 13:30:28] PHPMailer [2]: SERVER -> CLIENT: 334 UGFzc3dvcmQ6
+
+[07-May-2025 13:30:28 Europe/Berlin] [2025-05-07 13:30:28] PHPMailer [1]: CLIENT -> SERVER: [credentials hidden]
+[07-May-2025 13:30:28 Europe/Berlin] [2025-05-07 13:30:28] PHPMailer [2]: SERVER -> CLIENT: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-441d43d6d84sm28206325e9.18 - gsmtp
+
+[07-May-2025 13:30:28 Europe/Berlin] [2025-05-07 13:30:28] PHPMailer [1]: SMTP ERROR: Password command failed: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-441d43d6d84sm28206325e9.18 - gsmtp
+
+[07-May-2025 13:30:28 Europe/Berlin] [2025-05-07 13:30:28] PHPMailer [2]: SMTP Error: Could not authenticate.
+[07-May-2025 13:30:28 Europe/Berlin] [2025-05-07 13:30:28] PHPMailer [1]: CLIENT -> SERVER: QUIT
+
+[07-May-2025 13:30:28 Europe/Berlin] [2025-05-07 13:30:28] PHPMailer [2]: SERVER -> CLIENT: 221 2.0.0 closing connection 5b1f17b1804b1-441d43d6d84sm28206325e9.18 - gsmtp
+
+[07-May-2025 13:30:28 Europe/Berlin] [2025-05-07 13:30:28] PHPMailer [2]: SMTP Error: Could not authenticate.
+[07-May-2025 13:30:28 Europe/Berlin] [2025-05-07 13:30:28] Email sending failed: SMTP Error: Could not authenticate.

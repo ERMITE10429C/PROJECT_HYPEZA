@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 
-$conn = new mysqli("localhost", "root", "Aminezh-263@", "users_db");
+$conn = new mysqli("localhost", "root", "root", "users_db");
 if ($conn->connect_error) {
     echo json_encode(["error" => "Erreur de connexion"]);
     exit();

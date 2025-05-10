@@ -93,6 +93,88 @@ a {
   animation: none !important;
   opacity: 1 !important;
 }
+
+
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.5s ease-out;
+}
+
+.loader-container {
+  text-align: center;
+}
+
+.loader-logo {
+  font-family: 'Prata', serif;
+  font-size: 3rem;
+  color: #c89b3c;
+  margin-bottom: 2rem;
+  letter-spacing: 5px;
+}
+
+.loader-bar {
+  width: 200px;
+  height: 3px;
+  background-color: rgba(200, 155, 60, 0.3);
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.loader-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background-color: rgb(200, 155, 60);
+  transition: width 0.1s linear;
+}
+
+.loader-text {
+  font-family: 'Cormorant Garamond', serif;
+  color: #c89b3c;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+}
+
+@keyframes shimmerLoader {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
+}
+
+.loader-logo {
+  background: linear-gradient(
+          90deg,
+          rgba(200, 155, 60, 0.8) 0%,
+          rgba(255, 215, 100, 1) 50%,
+          rgba(200, 155, 60, 0.8) 100%
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: shimmerLoader 2s linear infinite;
+}
+
+
+
+
 /* Header
    ========================================================================== */
 
@@ -697,6 +779,7 @@ footer {
 }
 
 .product-detail-images {
+  overflow: hidden;
   position: relative;
 }
 
@@ -706,12 +789,40 @@ footer {
   object-fit: cover;
 }
 
+.main-image-container {
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+  margin-bottom: var(--space-sm);
+  border-radius: var(--radius-md);
+}
+
+.product-detail-images {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-image-container {
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  position: relative;
+  z-index: 1;
+}
+
 .product-thumbnails {
   display: flex;
   gap: var(--space-xs);
   margin-top: var(--space-sm);
+  padding: var(--space-xs);
+  background-color: var(--dark-gray);
+  position: relative;
+  z-index: 3;
+  border-radius: var(--radius-sm);
+  justify-content: center;
 }
-
 .product-thumbnail {
   width: 70px;
   height: 70px;

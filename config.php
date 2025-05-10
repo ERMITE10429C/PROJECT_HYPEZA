@@ -2,7 +2,7 @@
 $host = 'localhost';
 $dbname = 'users_db';
 $username = 'root';
-$password = 'Aminezh-263@';
+$password = 'root';
 
 // Vérification de la connexion
 try {

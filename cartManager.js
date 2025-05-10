@@ -40,6 +40,32 @@ function removeCartItem(index) {
   }
 }
 /**
+ * Fix image paths for local images
+ * @param {string} path - The image path to fix
+ * @returns {string} - The corrected image path
+ */
+function fixImagePath(path) {
+  // If already an absolute URL (https://, http://), leave it alone
+  if (path && path.match(/^(https?:)?\/\//)) {
+    return path;
+  }
+
+  // For local files, ensure they have the correct path
+  if (path && !path.includes('mens_collec/images/')) {
+    // If path includes just 'images/', add the collection prefix
+    if (path.includes('images/')) {
+      return 'mens_collec/' + path;
+    }
+    // If path is just a filename, add the full path
+    else if (!path.includes('/')) {
+      return 'mens_collec/images/' + path;
+    }
+  }
+
+  return path;
+}
+
+/**
  * Load cart items and display in summary
  */
 function loadCartItems() {
@@ -58,16 +84,20 @@ function loadCartItems() {
     if (cartItems.length === 0) {
       summaryItemsContainer.innerHTML = '<p>Your cart is empty</p>';
 
-        // Reset all price displays to zero when cart is empty
-        document.getElementById('subtotal-amount').textContent = '$0.00';
-        document.getElementById('shipping-amount').textContent = '$0.00';
-        document.getElementById('total-amount').textContent = '$0.00';
+      // Reset all price displays to zero when cart is empty
+      document.getElementById('subtotal-amount').textContent = '$0.00';
+      document.getElementById('shipping-amount').textContent = '$0.00';
+      document.getElementById('total-amount').textContent = '$0.00';
 
     } else {
       cartItems.forEach((item, index) => {
         // Create HTML for each item
         const itemElement = document.createElement('div');
         itemElement.className = 'summary-item';
+
+        // Fix the image path
+        const fixedImagePath = fixImagePath(item.image);
+        console.log('Image path fixed:', item.image, '->', fixedImagePath);
 
         // Convert price string to number (remove $ and commas)
         const price = parseFloat(item.price.replace(/[$,]/g, ''));
@@ -89,7 +119,7 @@ function loadCartItems() {
         });
 
         itemElement.innerHTML = `
-          <img src="${item.image}" alt="${item.title}" class="summary-item-image">
+          <img src="${fixedImagePath}" alt="${item.title}" class="summary-item-image" onerror="console.error('Failed to load image:', this.src); this.src='./placeholder.png';">
           <div class="summary-item-details">
             <h4 class="summary-item-title">${item.title}</h4>
             <div class="summary-item-options">
@@ -180,7 +210,6 @@ function loadCartItems() {
 
   // Update cart icon/count if we're on main page
   updateCartDisplay();
-
 }
 /**
  * Update cart item quantity

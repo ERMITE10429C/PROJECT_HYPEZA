@@ -7,7 +7,7 @@ if (!isset($_SESSION['user_id']) || !isset($_POST['address_id'])) {
 
 $host = "localhost";
 $user = "root";
-$pass = "Aminezh-263@";
+$pass = "root";
 $db = "users_db";
 
 $conn = new mysqli($host, $user, $pass, $db);

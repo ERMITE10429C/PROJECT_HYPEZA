@@ -10,7 +10,15 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-
+<div class="loading-overlay">
+  <div class="loader-container">
+    <div class="loader-logo">HYPEZA</div>
+    <div class="loader-bar">
+      <div class="loader-progress"></div>
+    </div>
+    <div class="loader-text">Please wait...</div>
+  </div>
+</div>
 <!-- Header -->
 <header>
   <div class="header">
@@ -33,7 +41,7 @@
         <img src="../svgs/panier.svg" class="panier" alt="Panier">
       </a>
       <p style="color: RGB(200, 155, 60);">|</p>
-      <a href="../connexion2.html/">
+      <a href="../espace_client.php/">
         <img src="../svgs/profil_user.svg" class="user" alt="Profil">
       </a>
     </div>
@@ -226,7 +234,7 @@
     <div class="footer-top">
       <div class="footer-logo">
         <!-- Add your logo here -->
-        <img src="../svgs/logo.svg" alt="HYPEZA Logo">
+        <h3 class="shimmer1">HYPEZA</h3>
         <div class="tagline">Luxury Men's Fashion. Timeless. Elegant. Modern.</div>
       </div>
       <div class="footer-navigation">
@@ -305,7 +313,7 @@
     <span>Total:</span>
     <span class="total-amount">$0.00</span>
   </div>
-  <a href="../checkout_1.php" class="cart-checkout" >
+  <a href="../checkout_1.php" >
     <button class="checkout-btn shimmer">Checkout</button>
   </a>
 </div>
@@ -442,5 +450,6 @@
 
 <script src="../cartManager.js"></script>
 
+<script src="/script.js/"></script>
 </body>
 </html>

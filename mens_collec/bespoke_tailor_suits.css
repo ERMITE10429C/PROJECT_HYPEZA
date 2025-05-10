@@ -29,8 +29,83 @@
 .bespoke-image-container {
   flex: 1;
   min-width: 300px;
+  max-width: 50%;
   position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: all 0.4s ease;
+  border: 1px solid rgba(200, 155, 60, 0.1);
+  height: auto; /* Allow height to adjust based on content */
 }
+
+.bespoke-image-container img {
+  display: block;
+  width: 100%;
+  height: auto; /* Allow image to maintain its aspect ratio */
+  transition: transform 0.6s ease, filter 0.6s ease;
+}
+
+/* Luxury hover effects */
+.bespoke-image-container:hover {
+  box-shadow: 0 15px 40px rgba(200, 155, 60, 0.15);
+  transform: translateY(-5px);
+}
+
+.bespoke-image-container:hover img {
+  transform: scale(1.04);
+  filter: brightness(1.05);
+}
+
+/* Golden border on hover */
+.bespoke-image-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 0 solid rgba(200, 155, 60, 0);
+  pointer-events: none;
+  transition: border 0.3s ease;
+  z-index: 1;
+}
+
+.bespoke-image-container:hover::after {
+  border: 3px solid rgba(200, 155, 60, 0.5);
+}
+
+/* Simple shine effect */
+.bespoke-image-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  z-index: 2;
+  display: block;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+          to right,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 0.3) 100%
+  );
+  transform: skewX(-25deg);
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+
+.bespoke-image-container:hover::before {
+  animation: shine 1s;
+}
+
+@keyframes shine {
+  100% {
+    left: 125%;
+    opacity: 1;
+  }
+}
+
+
 
 .bespoke-main-image {
   width: 100%;

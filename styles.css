@@ -27,7 +27,17 @@ body, html {
   --min-size: 200px;
 }
 
+::selection {
+  background-color: #1a1a1a; /* Very dark background */
+  color: #d4af37; /* Gold text */
+  text-shadow: none;
+}
 
+::-moz-selection {
+  background-color: #1a1a1a;
+  color: #d4af37;
+  text-shadow: none;
+}
 
 .header {
   display: flex;
@@ -143,37 +153,6 @@ body, html {
   color: white;
   border-color: RGB(255, 215, 100);
   border-radius: 5px; /* Coins arrondis */
-}
-.product {
-  position: relative;
-}
-
-
-.dropdown-menu {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* Couleur blanche semi-transparente */
-  backdrop-filter: blur(10px); /* Applique un flou */
-  border-radius:20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-  padding: 10px;
-  margin-top: 7px;
-  width: 150px;
-}
-
-.dropdown-menu a {
-  display: block;
-  padding: 5px 10px;
-  text-decoration: none;
-  color: rgb(200,155,60);
-}
-
-.dropdown-menu a:hover {
-  background-color: rgb(200,155,60);
-  color:white;
 }
 .right-section{
   position: absolute;
@@ -923,13 +902,22 @@ canvas {
   padding: 80px 0;
   position: relative;
   z-index: 5;
-  /* Positionnement plus stable */
   width: 100%;
-  margin-top: -50px;
+  /* Remove negative margin which causes the jumping effect */
+  margin-top: 0;
   overflow: visible;
-  /* Empêche les sauts en mode plein écran */
   display: block;
   clear: both;
+  /* Add transition to smooth any movement */
+  transition: transform 0.8s ease, opacity 0.8s ease;
+}
+
+/* Fix the positioning relative to the horizontal content */
+.horizantal_css + .explore_selection {
+  position: relative;
+  /* Use positive margin instead of negative */
+  /* Ensure it doesn't move unexpectedly */
+  transform: translateY(0);
 }
 
 .explore {
@@ -937,15 +925,61 @@ canvas {
   font-size: 50px;
   color: white;
   position: relative;
-  /* Aucune animation sur l'élément principal */
+  /* Ensure no animation on the text itself */
   animation: none;
-  /* Stabilise le texte */
   display: block;
   width: 100%;
   margin: 0 auto;
 }
 
-/* Animation de flèche séparée */
+/* Shimmer Effect */
+.shimmer1 {
+  position: relative;
+  display: inline-block;
+  background: linear-gradient(
+          90deg,
+          var(--gold) 0%,
+          #e3c47a 20%,
+          var(--gold) 40%,
+          #a37b2d 60%,
+          var(--gold) 80%,
+          var(--gold) 100%
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: shimmer1 3s linear infinite;
+}
+
+.shimmer1-slow {
+  position: relative;
+  display: inline-block;
+  color: transparent;
+  background: linear-gradient(
+          90deg,
+          var(--gold) 0%,
+          #e3c47a 20%,
+          var(--gold) 40%,
+          #a37b2d 60%,
+          var(--gold) 80%,
+          var(--gold) 100%
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: shimmer1 5s linear infinite;
+}
+
+@keyframes shimmer1 {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Keep the arrow animation separate without affecting layout */
 .explore::after {
   content: "↓";
   display: block;
@@ -953,17 +987,14 @@ canvas {
   margin-top: 20px;
   animation: bounce 1s ease-in-out infinite;
   color: rgb(200, 155, 60);
-  /* Évite que l'animation perturbe la mise en page */
+  /* Make sure this doesn't affect layout */
   position: relative;
   height: 30px;
+  /* Prevent the animation from causing shifts */
+  will-change: transform;
 }
 
-/* Empêcher toute influence sur le défilement horizontal */
-.horizantal_css + .explore_selection {
-  position: relative;
-  margin-top: 40px;
-}
-
+/* Ensure the animation is fluid and doesn't affect layout */
 @keyframes bounce {
   0%, 100% {
     transform: translateY(0);

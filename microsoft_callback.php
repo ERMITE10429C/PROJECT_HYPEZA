@@ -57,7 +57,7 @@ $email = $user['mail'] ?? $user['userPrincipalName'];
 $firstname = $user['givenName'] ?? '';
 $lastname = $user['surname'] ?? '';
 
-$conn = new mysqli("localhost", "root", "Aminezh-263@", "users_db");
+$conn = new mysqli("localhost", "root", "root", "users_db");
 
 $stmt = $conn->prepare("SELECT * FROM users WHERE email=?");
 $stmt->bind_param("s", $email);

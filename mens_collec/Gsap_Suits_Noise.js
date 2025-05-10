@@ -2,59 +2,31 @@
 const projects = [
     {
         id: 1,
-        title: "Silence",
-        year: "2021",
+        title: "Classic Oxford",
+        year: "Spring/Summer",
         image:
-            "https://cdn.cosmos.so/7d47d4e2-0eff-4e2f-9734-9d24a8ba067e?format=jpeg"
+            "./images/suit_1.jpeg"
     },
     {
         id: 2,
-        title: "Resonance",
-        year: "2022",
+        title: "Italian Slim Fit",
+        year: "All Seasons",
         image:
-            "https://cdn.cosmos.so/5eee2d2d-3d4d-4ae5-96d4-cdbae70a2387?format=jpeg"
+            "./images/suit_2.jpeg"
     },
     {
         id: 3,
-        title: "Essence",
-        year: "2022",
+        title: "British Wool",
+        year: "Fall/Winter",
         image:
-            "https://cdn.cosmos.so/def30e8a-34b2-48b1-86e1-07ec5c28f225?format=jpeg"
+            "./images/British Wool.jpeg"
     },
     {
         id: 4,
-        title: "Void",
-        year: "2023",
+        title: "Midnight Tuxedo",
+        year: "Formal Collection",
         image:
-            "https://cdn.cosmos.so/44d7cb23-6759-49e4-9dc1-acf771b3a0d1?format=jpeg"
-    },
-    {
-        id: 5,
-        title: "Presence",
-        year: "2023",
-        image:
-            "https://cdn.cosmos.so/7712fe42-42ca-4fc5-9590-c89f2db99978?format=jpeg"
-    },
-    {
-        id: 6,
-        title: "Flow",
-        year: "2024",
-        image:
-            "https://cdn.cosmos.so/cbee1ec5-01b6-4ffe-9f34-7da7980454cf?format=jpeg"
-    },
-    {
-        id: 7,
-        title: "Clarity",
-        year: "2024",
-        image:
-            "https://cdn.cosmos.so/2e91a9d1-db85-4499-ad37-6222a6fea23b?format=jpeg"
-    },
-    {
-        id: 8,
-        title: "Breath",
-        year: "2024",
-        image:
-            "https://cdn.cosmos.so/ff2ac3d3-fa94-4811-89f6-0d008b27e439?format=jpeg"
+            "./images/Midnight Tuxedo.jpeg"
     },
 
 ];

@@ -13,7 +13,7 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: var(--warm-off-black);
+    background-color: #111; /* Dark gold base color */
     text-transform: uppercase;
     letter-spacing: -0.03em;
     color: var(--warm-off-white);
@@ -98,6 +98,7 @@
 /* Container for centering content in the noise section */
 .noise_animation .container {
     width: 100%;
+    height: 80vh;
     max-width: 1000px;
     display: flex;
     align-items: center;
@@ -136,28 +137,38 @@
     z-index: 10;
     max-height: 80vh;
     overflow-y: auto;
-    padding: 20px;
     scrollbar-width: none;
     -ms-overflow-style: none;
     text-align: center;
     padding-top: 30px; /* Add more padding at the top for better fade effect */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Create 2 equal columns */
+    grid-gap: 20px 40px; /* Row gap of 20px, column gap of 40px */
 }
+
 
 .projects-container::-webkit-scrollbar {
     display: none;
 }
 
-/* Project Item Styles */
+/* Adjust individual project items if needed */
 .project-item {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    padding: 0.7rem 0;
-    border-bottom: 1px solid rgba(248, 245, 242, 0.1);
+    text-align: center;
+    margin: 65px;
     cursor: pointer;
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Make sure project items span only 1 column */
+.project-item {
+    grid-column: auto;
+}
+
+/* Add responsive behavior for smaller screens */
+@media (max-width: 768px) {
+    .projects-container {
+        grid-template-columns: 1fr; /* Switch to single column on mobile */
+    }
 }
 
 .project-title,

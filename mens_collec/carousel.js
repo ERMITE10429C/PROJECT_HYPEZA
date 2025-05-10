@@ -36,31 +36,31 @@ document.addEventListener('DOMContentLoaded', function() {
     loadItems() {
       const trendingItems = [
         {
-          image: 'https://images.unsplash.com/photo-1617113930975-f9c7243ae527',
+          image: 'images/designer_suit.jpeg',
           title: 'Signature Tailored Suit',
           description: 'Impeccably crafted from premium Italian wool, our signature suit offers refined elegance with modern details.',
           price: '$1,895'
         },
         {
-          image: 'https://images.unsplash.com/photo-1605812860427-4024433a70fd',
+          image: 'images/trousers.jpeg',
           title: 'Leather Weekend Duffle',
           description: 'Handcrafted from full-grain calfskin leather with brushed gold hardware and ultra-suede interior.',
           price: '$1,250'
         },
         {
-          image: 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2',
+          image: 'images/mens_collec_watch.jpeg',
           title: 'Limited Edition Chronograph',
           description: 'Swiss-made mechanical movement housed in a 42mm case with sapphire crystal and exhibition caseback.',
           price: '$3,750'
         },
         {
-          image: 'https://images.unsplash.com/photo-1609505848912-b7c3b8b4beda',
+          image: 'images/coat_.jpeg',
           title: 'Cashmere Overcoat',
           description: 'Double-faced pure cashmere with horn buttons and a half-canvas construction for perfect drape.',
           price: '$2,495'
         },
         {
-          image: 'https://images.unsplash.com/photo-1549298916-b41d501d3772',
+          image: 'images/shirt_black.jpeg',
           title: 'Italian Leather Oxfords',
           description: 'Goodyear-welted construction ensures these hand-polished calfskin shoes will last for years.',
           price: '$875'

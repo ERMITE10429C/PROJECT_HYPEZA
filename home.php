@@ -9,30 +9,38 @@ if (!isset($_SESSION['user_id'])) {
 ?>
 
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
+
     <title>Heypeza</title>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel='stylesheet' href='https://slater.app/10324/23333.css'>
+
     <link rel="stylesheet" href="styles.css">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
+
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link href="https://fonts.googleapis.com/css2?family=Prata&family=Roboto&family=Satisfy&display=swap"
           rel="stylesheet">
+
     <link href="https://fonts.googleapis.com/css2?family=Prata&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
 
-    <link rel='stylesheet' href='https://slater.app/10324/23333.css'><link rel="stylesheet" href="./style.css">
 
-    <link rel='stylesheet' href='https://slater.app/10324/23333.css'>
     <link rel="stylesheet" href="./style.css">
-    <link rel='stylesheet' href='https://slater.app/10324/23333.css'>
 
     <link rel="stylesheet" href="split1.css">
+
     <link rel="stylesheet" href="horizontal_scroll.css">
 
     <link rel="stylesheet" href="paralax_1.css">
 
-    <link rel="stylesheet" href="stats.css">
+
 </head>
 
 <body>
@@ -48,6 +56,8 @@ if (!isset($_SESSION['user_id'])) {
 </div>
 
 
+
+<!-- Header -->
 <div class="header">
 
 
@@ -56,10 +66,6 @@ if (!isset($_SESSION['user_id'])) {
 
         <div class="product">
             <a href="#product" class="product-link">Products</a>
-            <div class="dropdown-menu">
-                <a href="mens_collec/mens_collec.html">Man's Selection</a>
-                <a href="womans_collections/Women's_Collections.html">Woman's Selection</a>
-            </div>
         </div>
         <script>
             document.addEventListener('DOMContentLoaded', () => {
@@ -121,6 +127,7 @@ if (!isset($_SESSION['user_id'])) {
     </div>
 
 </div>
+
 
 <div class="overlay2">
     <div class="navbar">
@@ -364,7 +371,7 @@ if (!isset($_SESSION['user_id'])) {
 
         <section class="comparisonSection" >
             <div class="comparisonImage beforeImage">
-                <img src="mens_collec_slide.png" alt="before" style="width: 100%; height: 100%; object-fit: cover;">
+                <img src="mens_collec.png" alt="before" style="width: 100%; height: 100%; object-fit: cover;">
             </div>
             <div class="comparisonImage afterImage">
                 <img src="mens_collec_slide2.jpg" alt="after" style="width: 100%; height: 100%; object-fit: cover;">
@@ -506,16 +513,6 @@ if (!isset($_SESSION['user_id'])) {
 
 </div>
 
-<div id="overlay-stats">
-    <div class="stat-box">
-        <p> Utilisateurs inscrits</p>
-        <h2 id="compteur-users">0</h2>
-    </div>
-    <div class="stat-box">
-        <p> Produits achetés</p>
-        <h2 id="compteur-produits">0</h2>
-    </div>
-</div>
 
 <footer class="footer">
     <div class="footer-container">

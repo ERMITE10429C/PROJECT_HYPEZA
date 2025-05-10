@@ -9,7 +9,7 @@ if (!isset($_GET['id'])) {
     die("ID manquant.");
 }
 
-$conn = new mysqli("localhost", "root", "Aminezh-263@", "users_db");
+$conn = new mysqli("localhost", "root", "root", "users_db");
 if ($conn->connect_error) {
     die("Erreur : " . $conn->connect_error);
 }
