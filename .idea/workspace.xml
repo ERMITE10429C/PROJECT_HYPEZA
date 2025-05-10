@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="43a84c4b-a44b-49ce-a4e0-993ef63d6c0a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.htaccess" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeception.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/phpspec.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/phpunit.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/project.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img/module_table_bottom.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img/module_table_top.png" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerConfigs">
+    <option name="configs">
+      <option value="$PROJECT_DIR$/Project_V2.1/composer.json" />
+    </option>
+  </component>
+  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
+    <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
+    <execution />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="C:\xampp\php\php.exe">
+    <include_path>
+      <path value="$PROJECT_DIR$/vendor/guzzlehttp/guzzle" />
+      <path value="$PROJECT_DIR$/vendor/ralouphie/getallheaders" />
+      <path value="$PROJECT_DIR$/vendor/guzzlehttp/promises" />
+      <path value="$PROJECT_DIR$/vendor/guzzlehttp/psr7" />
+      <path value="$PROJECT_DIR$/vendor/composer" />
+      <path value="$PROJECT_DIR$/vendor/psr/cache" />
+      <path value="$PROJECT_DIR$/vendor/psr/http-client" />
+      <path value="$PROJECT_DIR$/vendor/psr/http-factory" />
+      <path value="$PROJECT_DIR$/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/vendor/monolog/monolog" />
+      <path value="$PROJECT_DIR$/vendor/firebase/php-jwt" />
+      <path value="$PROJECT_DIR$/vendor/google/apiclient" />
+      <path value="$PROJECT_DIR$/vendor/google/apiclient-services" />
+      <path value="$PROJECT_DIR$/vendor/google/auth" />
+      <path value="$PROJECT_DIR$/vendor/symfony/deprecation-contracts" />
+      <path value="$PROJECT_DIR$/vendor/phpseclib/phpseclib" />
+      <path value="$PROJECT_DIR$/vendor/paragonie/random_compat" />
+      <path value="$PROJECT_DIR$/vendor/paragonie/constant_time_encoding" />
+      <path value="$PROJECT_DIR$/vendor/phpmailer/phpmailer" />
+      <path value="$PROJECT_DIR$/vendor/phpoption/phpoption" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-ctype" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php80" />
+      <path value="$PROJECT_DIR$/vendor/graham-campbell/result-type" />
+      <path value="$PROJECT_DIR$/vendor/vlucas/phpdotenv" />
+      <path value="$PROJECT_DIR$/Project_V2.1/vendor/symfony/deprecation-contracts" />
+      <path value="$PROJECT_DIR$/Project_V2.1/vendor/graham-campbell/result-type" />
+      <path value="$PROJECT_DIR$/Project_V2.1/vendor/phpmailer/phpmailer" />
+      <path value="$PROJECT_DIR$/Project_V2.1/vendor/phpoption/phpoption" />
+      <path value="$PROJECT_DIR$/Project_V2.1/vendor/symfony/polyfill-ctype" />
+      <path value="$PROJECT_DIR$/Project_V2.1/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/Project_V2.1/vendor/symfony/polyfill-php80" />
+      <path value="$PROJECT_DIR$/Project_V2.1/vendor/vlucas/phpdotenv" />
+      <path value="$PROJECT_DIR$/Project_V2.1/vendor/composer" />
+      <path value="$PROJECT_DIR$/Project_V2.1/vendor/firebase/php-jwt" />
+      <path value="$PROJECT_DIR$/Project_V2.1/vendor/google/apiclient" />
+      <path value="$PROJECT_DIR$/Project_V2.1/vendor/google/apiclient-services" />
+      <path value="$PROJECT_DIR$/Project_V2.1/vendor/google/auth" />
+      <path value="$PROJECT_DIR$/Project_V2.1/vendor/guzzlehttp/guzzle" />
+      <path value="$PROJECT_DIR$/Project_V2.1/vendor/guzzlehttp/promises" />
+      <path value="$PROJECT_DIR$/Project_V2.1/vendor/guzzlehttp/psr7" />
+      <path value="$PROJECT_DIR$/Project_V2.1/vendor/monolog/monolog" />
+      <path value="$PROJECT_DIR$/Project_V2.1/vendor/paragonie/constant_time_encoding" />
+      <path value="$PROJECT_DIR$/Project_V2.1/vendor/paragonie/random_compat" />
+      <path value="$PROJECT_DIR$/Project_V2.1/vendor/phpseclib/phpseclib" />
+      <path value="$PROJECT_DIR$/Project_V2.1/vendor/psr/cache" />
+      <path value="$PROJECT_DIR$/Project_V2.1/vendor/psr/http-client" />
+      <path value="$PROJECT_DIR$/Project_V2.1/vendor/psr/http-factory" />
+      <path value="$PROJECT_DIR$/Project_V2.1/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/Project_V2.1/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/Project_V2.1/vendor/ralouphie/getallheaders" />
+    </include_path>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2tx2xxuNqhUDPNRYUqFk9ZPY2oB" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/xampp/htdocs/Project_V2.1/project_V2.1&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.qodana&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-PS-243.26053.13" />
+        <option value="bundled-php-predefined-a98d8de5180a-1ec7b7818973-com.jetbrains.php.sharedIndexes-PS-243.26053.13" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="43a84c4b-a44b-49ce-a4e0-993ef63d6c0a" name="Changes" comment="" />
+      <created>1741279656657</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1741279656657</updated>
+      <workItem from="1741279659798" duration="576000" />
+      <workItem from="1741305160746" duration="1755000" />
+      <workItem from="1741307423975" duration="758000" />
+      <workItem from="1741439144595" duration="10364000" />
+      <workItem from="1741453277635" duration="5821000" />
+      <workItem from="1741469151445" duration="2068000" />
+      <workItem from="1741471231624" duration="160000" />
+      <workItem from="1744888960384" duration="60000" />
+      <workItem from="1744894719989" duration="43000" />
+      <workItem from="1744990131304" duration="73000" />
+      <workItem from="1745075298034" duration="3259000" />
+      <workItem from="1745092186892" duration="2397000" />
+      <workItem from="1745186788558" duration="1990000" />
+      <workItem from="1745369668630" duration="4307000" />
+      <workItem from="1745414912775" duration="3286000" />
+      <workItem from="1745579241009" duration="1120000" />
+      <workItem from="1745592665665" duration="5280000" />
+      <workItem from="1745707706783" duration="4332000" />
+      <workItem from="1745772200525" duration="59000" />
+      <workItem from="1745786703512" duration="17458000" />
+      <workItem from="1745878288080" duration="14543000" />
+      <workItem from="1745949268542" duration="474000" />
+      <workItem from="1745960449743" duration="350000" />
+      <workItem from="1746019441081" duration="438000" />
+      <workItem from="1746019968919" duration="9205000" />
+      <workItem from="1746107572861" duration="30000" />
+      <workItem from="1746191902316" duration="14044000" />
+      <workItem from="1746291257559" duration="4505000" />
+      <workItem from="1746386725740" duration="520000" />
+      <workItem from="1746388064022" duration="2463000" />
+      <workItem from="1746390960801" duration="421000" />
+      <workItem from="1746391693383" duration="112000" />
+      <workItem from="1746392609383" duration="5531000" />
+      <workItem from="1746481629424" duration="666000" />
+      <workItem from="1746550884159" duration="227000" />
+      <workItem from="1746551916106" duration="4350000" />
+      <workItem from="1746564694487" duration="1785000" />
+      <workItem from="1746615908334" duration="104000" />
+      <workItem from="1746616014352" duration="7034000" />
+      <workItem from="1746650074756" duration="3193000" />
+      <workItem from="1746657612647" duration="1040000" />
+      <workItem from="1746869099418" duration="506000" />
+      <workItem from="1746871960455" duration="30000" />
+      <workItem from="1746881047222" duration="343000" />
+      <workItem from="1746892803181" duration="9000" />
+      <workItem from="1746892825964" duration="18000" />
+      <workItem from="1746892845362" duration="898000" />
+      <workItem from="1746894734468" duration="34000" />
+      <workItem from="1746894785443" duration="28000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

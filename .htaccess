@@ -1,4 +1,0 @@
-DirectoryIndex index.html index.php
-
-RewriteEngine On
-RewriteRule ^$ index.html [L]
