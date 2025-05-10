@@ -2,9 +2,9 @@
 header('Content-Type: application/json');
 session_start();
 
-$host = "localhost";
-$user = "root";
-$pass = "root";
+$host = "hypezaserversql.mysql.database.azure.com";
+$user = "user";
+$pass = "HPL1710COMPAq";
 $db = "users_db";
 
 $conn = new mysqli($host, $user, $pass, $db);
