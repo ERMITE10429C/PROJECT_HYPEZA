@@ -11,33 +11,13 @@ $user = "user";
 $pass = "HPL1710COMPAq";
 $db = "users_db";
 
+// Path to SSL certificate - we know these work based on testing
+$ssl_cert = __DIR__ . '/DigiCertGlobalRootCA.crt.pem';
+
 try {
     // Create connection with SSL
     $conn = mysqli_init();
-
-    // Try multiple certificate locations
-    $ssl_cert_locations = [
-        __DIR__ . '/ssl/DigiCertGlobalRootCA.crt.pem',
-        __DIR__ . '/DigiCertGlobalRootCA.crt.pem',
-        __DIR__ . '/DigiCertGlobalRootCA.crt'
-    ];
-
-    $cert_found = false;
-
-    foreach ($ssl_cert_locations as $cert_path) {
-        if (file_exists($cert_path)) {
-            error_log('Found SSL certificate at: ' . $cert_path);
-            mysqli_ssl_set($conn, NULL, NULL, $cert_path, NULL, NULL);
-            $cert_found = true;
-            break;
-        }
-    }
-
-    // If no certificate found, try with empty SSL settings (may work for some configurations)
-    if (!$cert_found) {
-        error_log('No SSL certificate found, trying with empty SSL settings');
-        mysqli_ssl_set($conn, NULL, NULL, NULL, NULL, NULL);
-    }
+    mysqli_ssl_set($conn, NULL, NULL, $ssl_cert, NULL, NULL);
 
     if (!mysqli_real_connect($conn, $host, $user, $pass, $db, 3306, MYSQLI_CLIENT_SSL)) {
         throw new Exception("Connection failed: " . mysqli_connect_error());
