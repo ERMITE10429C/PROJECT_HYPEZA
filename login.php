@@ -11,21 +11,33 @@ $user = "user";
 $pass = "HPL1710COMPAq";
 $db = "users_db";
 
-// Path to SSL certificate - try both locations
-$ssl_cert_1 = __DIR__ . '/ssl/DigiCertGlobalRootCA.crt.pem';
-$ssl_cert_2 = __DIR__ . '/DigiCertGlobalRootCA.crt.pem';
-
-// Choose the certificate that exists
-$ssl_cert = file_exists($ssl_cert_1) ? $ssl_cert_1 : $ssl_cert_2;
-
 try {
-    // Log which certificate is being used
-    error_log('Using SSL certificate: ' . $ssl_cert);
-    error_log('Certificate exists: ' . (file_exists($ssl_cert) ? 'Yes' : 'No'));
-
     // Create connection with SSL
     $conn = mysqli_init();
-    mysqli_ssl_set($conn, NULL, NULL, $ssl_cert, NULL, NULL);
+
+    // Try multiple certificate locations
+    $ssl_cert_locations = [
+        __DIR__ . '/ssl/DigiCertGlobalRootCA.crt.pem',
+        __DIR__ . '/DigiCertGlobalRootCA.crt.pem',
+        __DIR__ . '/DigiCertGlobalRootCA.crt'
+    ];
+
+    $cert_found = false;
+
+    foreach ($ssl_cert_locations as $cert_path) {
+        if (file_exists($cert_path)) {
+            error_log('Found SSL certificate at: ' . $cert_path);
+            mysqli_ssl_set($conn, NULL, NULL, $cert_path, NULL, NULL);
+            $cert_found = true;
+            break;
+        }
+    }
+
+    // If no certificate found, try with empty SSL settings (may work for some configurations)
+    if (!$cert_found) {
+        error_log('No SSL certificate found, trying with empty SSL settings');
+        mysqli_ssl_set($conn, NULL, NULL, NULL, NULL, NULL);
+    }
 
     if (!mysqli_real_connect($conn, $host, $user, $pass, $db, 3306, MYSQLI_CLIENT_SSL)) {
         throw new Exception("Connection failed: " . mysqli_connect_error());

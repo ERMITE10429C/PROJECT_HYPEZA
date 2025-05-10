@@ -73,11 +73,14 @@ try {
             throw new Exception(mysqli_connect_error());
         }
 
+        // Test a simple query
+        $result = mysqli_query($conn, "SELECT COUNT(*) as count FROM users");
+        $row = mysqli_fetch_assoc($result);
+
         $debug_info['connection_attempts']['empty_ssl'] = [
             'success' => true,
             'message' => 'Connected with empty SSL parameters',
-            'ssl_used' => mysqli_get_ssl_cipher($conn) ? true : false,
-            'ssl_cipher' => mysqli_get_ssl_cipher($conn) ?? 'None'
+            'user_count' => $row['count']
         ];
         mysqli_close($conn);
     } catch (Exception $e) {
@@ -107,8 +110,6 @@ try {
                     'success' => true,
                     'cert_path' => $path,
                     'message' => 'Connected with SSL certificate',
-                    'ssl_used' => mysqli_get_ssl_cipher($conn) ? true : false,
-                    'ssl_cipher' => mysqli_get_ssl_cipher($conn) ?? 'None',
                     'user_count' => $row['count']
                 ];
 
@@ -117,8 +118,6 @@ try {
                     $main_result = [
                         'success' => true,
                         'message' => 'Database connection successful using ' . basename($path),
-                        'ssl_used' => mysqli_get_ssl_cipher($conn) ? true : false,
-                        'ssl_cipher' => mysqli_get_ssl_cipher($conn) ?? 'None',
                         'user_count' => $row['count']
                     ];
                 }
