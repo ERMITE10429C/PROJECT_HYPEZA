@@ -5,7 +5,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     exit();
 }
 
-// Update database connection to use Azure MySQL
+// Azure MySQL connection details
 $host = "hypezaserversql.mysql.database.azure.com";
 $user = "user";
 $pass = "HPL1710COMPAq";
@@ -23,7 +23,6 @@ if (mysqli_connect_errno()) {
 
 $users = $conn->query("SELECT * FROM users");
 $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
-
 ?>
 
 <!DOCTYPE html>
