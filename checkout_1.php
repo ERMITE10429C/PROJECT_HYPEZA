@@ -50,8 +50,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
         // SSL Configuration
         $mail->SMTPOptions = [
             'ssl' => [
-                'verify_peer' => false,
-                'verify_peer_name' => false,
+                'verify_peer' => true,
+                'verify_peer_name' => true,
                 'allow_self_signed' => true
             ]
         ];
@@ -67,7 +67,7 @@ $mail->CharSet = 'UTF-8';
 $mail->Encoding = 'base64'; // Better encoding for international characters
 $mail->XMailer = 'HYPEZA Mailer';
 $mail->isHTML(true);
-$mail->Priority = 1; // Highest priority
+$mail->Priority = 3; // Highest priority
 
 // More specific subject with order number
 $mail->Subject = 'Confirmation de commande #' . $data['orderNumber'] . ' - HYPEZA';
