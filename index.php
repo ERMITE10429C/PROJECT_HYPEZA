@@ -8,6 +8,20 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "HYPEZA",
+            "url": "https://www.hypeza.com",
+            "description": "HYPEZA - Fashion and clothing online store",
+            "author": {
+                "@type": "Organization",
+                "name": "HYPEZA"
+            }
+        }
+    </script>
+
     <link rel='stylesheet' href='https://slater.app/10324/23333.css'>
 
     <link rel="stylesheet" href="styles.css">
@@ -29,6 +43,7 @@
     <link rel="stylesheet" href="horizontal_scroll.css">
 
     <link rel="stylesheet" href="paralax_1.css">
+
 
 
 </head>
