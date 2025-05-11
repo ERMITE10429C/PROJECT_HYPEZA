@@ -1,3 +1,107 @@
+<?php
+// Add this PHP code at the very top of checkout_1.php
+// This part will handle the email sending request when accessed with POST
+// Import PHPMailer classes
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
+
+// Only process if this is a POST request with JSON content type
+if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
+    isset($_SERVER['CONTENT_TYPE']) &&
+    strpos($_SERVER['CONTENT_TYPE'], 'application/json') !== false) {
+    
+
+    // Set content type to JSON for AJAX response
+    header('Content-Type: application/json');
+
+    try {
+        // Load Composer's autoloader
+        require 'vendor/autoload.php';
+
+        // Get and decode JSON data
+        $input = file_get_contents('php://input');
+        $data = json_decode($input, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new Exception("Invalid JSON: " . json_last_error_msg());
+        }
+
+        // Validate required fields
+        $requiredFields = ['email', 'firstName', 'lastName', 'orderNumber', 'address', 'city', 'postalCode', 'country', 'subtotal', 'shipping', 'total'];
+        foreach ($requiredFields as $field) {
+            if (empty($data[$field])) {
+                throw new Exception("Missing required field: $field");
+            }
+        }
+
+        // Create a new PHPMailer instance
+        $mail = new PHPMailer(true);
+
+        // Configure SMTP
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.titan.email';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'team@hypza.tech';
+        $mail->Password   = 'azerty@123';
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        $mail->Port       = 465;
+
+        // SSL Configuration
+        $mail->SMTPOptions = [
+            'ssl' => [
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
+            ]
+        ];
+
+        // Set sender and recipient
+        $mail->setFrom('team@hypza.tech', 'HYPEZA');
+        $mail->addReplyTo('service-client@hypza.tech', 'Service Client HYPEZA');
+        $mail->addAddress($data['email'], $data['firstName'] . ' ' . $data['lastName']);
+
+        // Email content
+        $mail->CharSet = 'UTF-8';
+        $mail->isHTML(true);
+        $mail->Subject = 'Confirmation de commande #' . $data['orderNumber'] . ' - HYPEZA';
+
+        // Email body (shortened for brevity)
+        $mail->Body = "
+        <!DOCTYPE html>
+        <html>
+        <body>
+            <h1>Confirmation de commande</h1>
+            <p>Merci pour votre commande, {$data['firstName']}!</p>
+            <p>Numéro de commande: <strong>{$data['orderNumber']}</strong></p>
+            <p>Total: <strong>{$data['total']}</strong></p>
+        </body>
+        </html>";
+
+        // Send email
+        if ($mail->send()) {
+            echo json_encode([
+                'success' => true,
+                'message' => 'Email sent successfully',
+                'orderNumber' => $data['orderNumber']
+            ]);
+        } else {
+            throw new Exception("Email could not be sent. Mailer Error: " . $mail->ErrorInfo);
+        }
+    }
+    catch (Exception $e) {
+        echo json_encode([
+            'success' => false,
+            'message' => $e->getMessage()
+        ]);
+    }
+
+    // Important: exit here to prevent HTML content from being sent in JSON response
+    exit;
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1150,37 +1254,36 @@
         }
 
         // Ajoutez cette fonction dans votre script existant
-async function sendConfirmationEmail(orderData) {
-    try {
-        // Get the current page URL and use it to determine the path to send_confirmation.php
-        const currentPageUrl = window.location.href;
-        const currentPath = currentPageUrl.substring(0, currentPageUrl.lastIndexOf('/') + 1);
-        const fullUrl = `${currentPath}send_confirmation.php`;
 
-        console.log("Current page URL:", currentPageUrl);
-        console.log("Attempting to fetch from:", fullUrl);
+        async function sendConfirmationEmail(orderData) {
+            try {
+                // Send request to the same page (checkout_1.php)
+                const response = await fetch(window.location.href, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(orderData),
+                    signal: AbortSignal.timeout(10000)
+                });
 
-        const response = await fetch(fullUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(orderData),
-            signal: AbortSignal.timeout(10000)
-        });
+                if (!response.ok) {
+                    throw new Error(`Server responded with status: ${response.status}`);
+                }
 
-        if (!response.ok) {
-            throw new Error(`Server responded with status: ${response.status}`);
+                const result = await response.json();
+                console.log('Email sending result:', result);
+                return result.success;
+            } catch (error) {
+                console.error('Error sending confirmation email:', error);
+                return false;
+            }
         }
 
-        const result = await response.json();
-        console.log('Email sending result:', result);
-        return result.success;
-    } catch (error) {
-        console.error('Error sending confirmation email:', error);
-        return false;
-    }
-}
+
+
+
+
         // Modifiez la partie du code qui gère la soumission de la commande
         document.getElementById('place-order-btn').addEventListener('click', async function(e) {
             e.preventDefault();
