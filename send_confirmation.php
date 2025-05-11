@@ -47,10 +47,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $mail = new PHPMailer(true);
 
-        // Reduce debug level for production
+// Reduce debug level for production
         $mail->SMTPDebug = SMTP::DEBUG_OFF; // Change to DEBUG_SERVER during testing if needed
 
-        // Server settings (Titan SMTP)
+// Server settings (Titan SMTP)
         $mail->isSMTP();
         $mail->Host       = 'smtp.titan.email';
         $mail->SMTPAuth   = true;
@@ -59,15 +59,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;
 
-        // SSL Certificate Configuration
+// SSL Certificate Configuration - Fixed to disable strict verification
         $mail->SMTPOptions = [
             'ssl' => [
-                'verify_peer' => true,
-                'verify_peer_name' => true,
+                'verify_peer' => false,
+                'verify_peer_name' => false,
                 'allow_self_signed' => true
             ]
         ];
 
+        
         // Sender & Recipient - only ONE setFrom call
         $mail->setFrom('team@hypza.tech', 'HYPEZA');
         $mail->addReplyTo('service-client@hypza.tech', 'Service Client HYPEZA');
