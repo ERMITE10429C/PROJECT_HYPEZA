@@ -44,15 +44,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $mail = new PHPMailer(true);
 
-        // Server settings
-        // $mail->SMTPDebug = SMTP::DEBUG_SERVER; // Uncomment for debugging
+        // Server settings (Titan SMTP)
         $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';
-        $mail->SMTPAuth = true;
-        $mail->Username = 'hypeza.test1@gmail.com';
-        $mail->Password = 'kbfa wlby tjpf oqcq';
+        $mail->Host       = 'smtp.titan.email';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'team@hypza.tech';
+        $mail->Password   = 'APG$dLj9A!w/=qU'; // replace with actual password or app-specific password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port = 587;
+        $mail->Port       = 587;
+        
+        // Sender & Recipient
+        $mail->setFrom('team@hypza.tech', 'HYPEZA');
+
 
         // Configure DKIM signing
         // setupDKIM($mail); // Uncomment after setting up DKIM
