@@ -5,32 +5,44 @@ use PHPMailer\PHPMailer\SMTP;
 
 require 'vendor/autoload.php';
 
+// Set proper content type for JSON response
 header('Content-Type: application/json');
 
-// Azure Database connection with SSL
-$host = "hypezaserversql.mysql.database.azure.com";
-$user = "user";
-$pass = "HPL1710COMPAq";
-$db = "users_db";
+try {
+    // Azure Database connection with SSL
+    $host = "hypezaserversql.mysql.database.azure.com";
+    $user = "user";
+    $pass = "HPL1710COMPAq";
+    $db = "users_db";
 
-// Path to SSL certificate - try both locations
-$ssl_cert_1 = __DIR__ . '/ssl/DigiCertGlobalRootCA.crt.pem';
-$ssl_cert_2 = __DIR__ . '/DigiCertGlobalRootCA.crt.pem';
+    // Path to SSL certificate - try both locations
+    $ssl_cert_1 = __DIR__ . '/ssl/DigiCertGlobalRootCA.crt.pem';
+    $ssl_cert_2 = __DIR__ . '/DigiCertGlobalRootCA.crt.pem';
 
-// Choose the certificate that exists
-$ssl_cert = file_exists($ssl_cert_1) ? $ssl_cert_1 : $ssl_cert_2;
+    // Choose the certificate that exists
+    $ssl_cert = file_exists($ssl_cert_1) ? $ssl_cert_1 : $ssl_cert_2;
 
-// Create connection with SSL
-$mysqli = mysqli_init();
-mysqli_ssl_set($mysqli, NULL, NULL, $ssl_cert, NULL, NULL);
+    // Create connection with SSL
+    $mysqli = mysqli_init();
+    mysqli_ssl_set($mysqli, NULL, NULL, $ssl_cert, NULL, NULL);
 
-if (!mysqli_real_connect($mysqli, $host, $user, $pass, $db, 3306, MYSQLI_CLIENT_SSL)) {
-    die("Connection failed: " . mysqli_connect_error());
-}
+    if (!mysqli_real_connect($mysqli, $host, $user, $pass, $db, 3306, MYSQLI_CLIENT_SSL)) {
+        throw new Exception("Database connection failed: " . mysqli_connect_error());
+    }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
-        $data = json_decode(file_get_contents('php://input'), true);
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Get and decode JSON input
+        $input = file_get_contents('php://input');
+
+        if (empty($input)) {
+            throw new Exception("No input data received");
+        }
+
+        $data = json_decode($input, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new Exception("Invalid JSON: " . json_last_error_msg());
+        }
 
         // Validate required fields
         $requiredFields = ['email', 'firstName', 'lastName', 'orderNumber', 'address', 'city', 'postalCode', 'country', 'subtotal', 'shipping', 'total'];
@@ -47,10 +59,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $mail = new PHPMailer(true);
 
-// Reduce debug level for production
+        // Reduce debug level for production
         $mail->SMTPDebug = SMTP::DEBUG_OFF; // Change to DEBUG_SERVER during testing if needed
 
-// Server settings (Titan SMTP)
+        // Server settings (Titan SMTP)
         $mail->isSMTP();
         $mail->Host       = 'smtp.titan.email';
         $mail->SMTPAuth   = true;
@@ -59,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;
 
-// SSL Certificate Configuration - Fixed to disable strict verification
+        // SSL Certificate Configuration - Fixed to disable strict verification
         $mail->SMTPOptions = [
             'ssl' => [
                 'verify_peer' => false,
@@ -68,13 +80,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]
         ];
 
-        
         // Sender & Recipient - only ONE setFrom call
         $mail->setFrom('team@hypza.tech', 'HYPEZA');
         $mail->addReplyTo('service-client@hypza.tech', 'Service Client HYPEZA');
         $mail->addAddress($data['email'], $data['firstName'] . ' ' . $data['lastName']);
-
-        // No DKIM setup needed - Titan handles it automatically
 
         // Email properties
         $mail->CharSet = 'UTF-8';
@@ -237,6 +246,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Log email details to database
         $stmt = $mysqli->prepare("INSERT INTO email_logs (order_number, email, recipient_name, send_date, status) VALUES (?, ?, ?, NOW(), 'sending')");
+        if (!$stmt) {
+            throw new Exception("Database prepare failed: " . $mysqli->error);
+        }
+
         $recipientName = $data['firstName'] . ' ' . $data['lastName'];
         $stmt->bind_param("sss", $data['orderNumber'], $data['email'], $recipientName);
         $stmt->execute();
@@ -268,21 +281,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             throw new Exception("Email could not be sent. Mailer Error: " . $mail->ErrorInfo);
         }
 
-    } catch (Exception $e) {
-        http_response_code(500);
+    } else {
+        http_response_code(405);
         echo json_encode([
             'success' => false,
-            'message' => $e->getMessage()
+            'message' => 'Method not allowed'
         ]);
     }
-} else {
-    http_response_code(405);
+
+} catch (Exception $e) {
+    // Ensure proper error response in JSON format
+    http_response_code(500);
     echo json_encode([
         'success' => false,
-        'message' => 'Method not allowed'
+        'message' => $e->getMessage()
     ]);
+} finally {
+    // Close the database connection if it exists
+    if (isset($mysqli) && $mysqli) {
+        $mysqli->close();
+    }
 }
-
-// Close the database connection
-$mysqli->close();
-

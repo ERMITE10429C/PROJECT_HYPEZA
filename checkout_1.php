@@ -1160,6 +1160,14 @@
                     body: JSON.stringify(orderData)
                 });
 
+                // Check if response is OK before trying to parse JSON
+                if (!response.ok) {
+                    console.error('Server responded with status:', response.status);
+                    const errorText = await response.text(); // get error content as text
+                    console.error('Response content:', errorText);
+                    return false;
+                }
+
                 const result = await response.json();
                 return result.success;
             } catch (error) {
@@ -1167,7 +1175,6 @@
                 return false;
             }
         }
-
         // Modifiez la partie du code qui gère la soumission de la commande
         document.getElementById('place-order-btn').addEventListener('click', async function(e) {
             e.preventDefault();
