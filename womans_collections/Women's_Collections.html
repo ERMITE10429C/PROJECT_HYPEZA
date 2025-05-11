@@ -12,9 +12,83 @@
 
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Prata&family=Cormorant+Garamond:wght@300;400;500&display=swap">
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+
+
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease-out;
+    }
+
+    .loader-container {
+      text-align: center;
+    }
+
+    .loader-logo {
+      font-family: 'Prata', serif;
+      font-size: 3rem;
+      color: #c89b3c;
+      margin-bottom: 2rem;
+      letter-spacing: 5px;
+    }
+
+    .loader-bar {
+      width: 200px;
+      height: 3px;
+      background-color: rgba(200, 155, 60, 0.3);
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .loader-progress {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 0%;
+      background-color: rgb(200, 155, 60);
+      transition: width 0.1s linear;
+    }
+
+    .loader-text {
+      font-family: 'Cormorant Garamond', serif;
+      color: #c89b3c;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+    }
+
+  </style>
+
+
 </head>
 <body>
+
+<div class="loading-overlay">
+  <div class="loader-container">
+    <div class="loader-logo">HYPEZA</div>
+    <div class="loader-bar">
+      <div class="loader-progress"></div>
+    </div>
+    <div class="loader-text">Please wait...</div>
+  </div>
+</div>
+
+
+
   <!-- Header -->
 <header>
 
@@ -487,6 +561,39 @@
       });
     });
   </script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const loadingOverlay = document.querySelector('.loading-overlay');
+    const loaderProgress = document.querySelector('.loader-progress');
+
+    // Animate progress bar from 0 to 100% over 900ms
+    let startTime = performance.now();
+    let duration = 900; // slightly less than 1s to allow for fade out
+
+    function animateProgress(currentTime) {
+      let elapsed = currentTime - startTime;
+      let progress = Math.min(elapsed / duration * 100, 100);
+
+      loaderProgress.style.width = progress + '%';
+
+      if (progress < 100) {
+        requestAnimationFrame(animateProgress);
+      } else {
+        // Start fade out after progress reaches 100%
+        setTimeout(() => {
+          loadingOverlay.style.opacity = '0';
+          setTimeout(() => {
+            loadingOverlay.style.display = 'none';
+          }, 100);
+        }, 0);
+      }
+    }
+
+    requestAnimationFrame(animateProgress);
+  });
+</script>
+
 
   <script src="script.js"></script>
 
