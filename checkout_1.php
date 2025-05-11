@@ -1152,10 +1152,12 @@
         // Ajoutez cette fonction dans votre script existant
 async function sendConfirmationEmail(orderData) {
     try {
-        // Get the base URL dynamically to construct the full path
-        const baseUrl = window.location.origin;
-        const fullUrl = `${baseUrl}/send_confirmation.php`;
+        // Get the current page URL and use it to determine the path to send_confirmation.php
+        const currentPageUrl = window.location.href;
+        const currentPath = currentPageUrl.substring(0, currentPageUrl.lastIndexOf('/') + 1);
+        const fullUrl = `${currentPath}send_confirmation.php`;
 
+        console.log("Current page URL:", currentPageUrl);
         console.log("Attempting to fetch from:", fullUrl);
 
         const response = await fetch(fullUrl, {
@@ -1179,7 +1181,6 @@ async function sendConfirmationEmail(orderData) {
         return false;
     }
 }
-
         // Modifiez la partie du code qui gère la soumission de la commande
         document.getElementById('place-order-btn').addEventListener('click', async function(e) {
             e.preventDefault();
