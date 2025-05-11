@@ -16,7 +16,7 @@ function setupDKIM(PHPMailer $mail) {
     if (file_exists($privateKeyFile)) {
         $privateKey = file_get_contents($privateKeyFile);
         if ($privateKey) {
-            $mail->DKIM_domain = 'hypeza.com';
+            $mail->DKIM_domain = 'hypza.tech';
             $mail->DKIM_private = $privateKey;
             $mail->DKIM_selector = 'email'; // The selector you configured in your DNS
             $mail->DKIM_passphrase = ''; // If your key is encrypted
@@ -44,26 +44,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $mail = new PHPMailer(true);
 
+        // Enable debugging if needed
+        // $mail->SMTPDebug = SMTP::DEBUG_SERVER; // Uncomment for debugging
+
         // Server settings (Titan SMTP)
         $mail->isSMTP();
         $mail->Host       = 'smtp.titan.email';
         $mail->SMTPAuth   = true;
         $mail->Username   = 'team@hypza.tech';
-        $mail->Password   = 'APG$dLj9A!w/=qU'; // replace with actual password or app-specific password
+        $mail->Password   = 'APG$dLj9A!w/=qU'; // Better to use environment variables for this
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;
-        
-        // Sender & Recipient
-        $mail->setFrom('team@hypza.tech', 'HYPEZA');
 
+        // Sender & Recipient - only ONE setFrom call
+        $mail->setFrom('team@hypza.tech', 'HYPEZA');
+        $mail->addReplyTo('service-client@hypza.tech', 'Service Client HYPEZA');
+        $mail->addAddress($data['email'], $data['firstName'] . ' ' . $data['lastName']);
 
         // Configure DKIM signing
         // setupDKIM($mail); // Uncomment after setting up DKIM
-
-        // Sender & Recipient
-        $mail->setFrom('hypeza.test1@gmail.com', 'HYPEZA');
-        $mail->addReplyTo('service-client@hypeza.com', 'Service Client HYPEZA');
-        $mail->addAddress($data['email'], $data['firstName'] . ' ' . $data['lastName']);
 
         // Email properties
         $mail->CharSet = 'UTF-8';
@@ -76,11 +75,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $mail->Subject = 'Confirmation de commande #' . $data['orderNumber'] . ' - HYPEZA';
 
         // Create a unique message ID
-        $mail->MessageID = '<' . time() . '.' . md5($data['email'] . $data['orderNumber']) . '@hypeza.com>';
+        $mail->MessageID = '<' . time() . '.' . md5($data['email'] . $data['orderNumber']) . '@hypza.tech>';
 
         // Add custom headers to improve deliverability
-        $unsubscribeLink = 'https://hypeza.com/unsubscribe?email=' . urlencode($data['email']) . '&token=' . md5($data['email'] . 'some-secret-key');
-        $mail->addCustomHeader('List-Unsubscribe', '<' . $unsubscribeLink . '>, <mailto:unsubscribe@hypeza.com?subject=unsubscribe>');
+        $unsubscribeLink = 'https://hypza.tech/unsubscribe?email=' . urlencode($data['email']) . '&token=' . md5($data['email'] . 'some-secret-key');
+        $mail->addCustomHeader('List-Unsubscribe', '<' . $unsubscribeLink . '>, <mailto:unsubscribe@hypza.tech?subject=unsubscribe>');
         $mail->addCustomHeader('List-Unsubscribe-Post', 'List-Unsubscribe=One-Click');
         $mail->addCustomHeader('Precedence', 'bulk');
         $mail->addCustomHeader('X-Auto-Response-Suppress', 'OOF, DR, RN, NRN, AutoReply');
@@ -172,7 +171,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                                     <p style='font-size: 14px; line-height: 1.6; color: #666666; margin: 25px 0;'>
                                         Nous vous informerons dès que votre commande sera expédiée. Pour toute question, n'hésitez pas à contacter notre service client à 
-                                        <a href='mailto:service-client@hypeza.com' style='color: {$goldColor}; text-decoration: none;'>service-client@hypeza.com</a>.
+                                        <a href='mailto:service-client@hypza.tech' style='color: {$goldColor}; text-decoration: none;'>service-client@hypza.tech</a>.
                                     </p>
                                 </td>
                             </tr>
@@ -197,7 +196,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                 <p style='margin-top: 20px;'>
                                                     <a href='https://facebook.com/hypeza' style='color: #666; margin: 0 10px;'>Facebook</a>
                                                     <a href='https://instagram.com/hypeza' style='color: #666; margin: 0 10px;'>Instagram</a>
-                                                    <a href='https://hypeza.com' style='color: #666; margin: 0 10px;'>Website</a>
+                                                    <a href='https://hypza.tech' style='color: #666; margin: 0 10px;'>Website</a>
                                                 </p>
                                             </td>
                                         </tr>
@@ -236,7 +235,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             "Sous-total : {$data['subtotal']}\n" .
             "Frais de livraison : {$data['shipping']}\n" .
             "Total : {$data['total']}\n\n" .
-            "Nous vous informerons dès que votre commande sera expédiée. Pour toute question, n'hésitez pas à contacter notre service client à service-client@hypeza.com.\n\n" .
+            "Nous vous informerons dès que votre commande sera expédiée. Pour toute question, n'hésitez pas à contacter notre service client à service-client@hypza.tech.\n\n" .
             "Merci de votre confiance,\n" .
             "L'équipe HYPEZA\n\n" .
             "HYPEZA SAS, 1 Rue Exemple, 75001 Paris, France\n\n" .
@@ -245,8 +244,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $mail->AltBody = $plainText;
 
-        // Send the email
-        $mail->send();
+        // Send the email with better error capture
+        if(!$mail->send()) {
+            throw new Exception($mail->ErrorInfo);
+        }
 
         // Log successful send
         error_log("Email sent successfully to: {$data['email']} with order #: {$data['orderNumber']}");
@@ -257,7 +258,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
 
     } catch (Exception $e) {
-        // Log error
+        // Log error with more details
         error_log("Email sending failed: " . $e->getMessage());
 
         echo json_encode([

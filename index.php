@@ -2,25 +2,50 @@
 <html lang="en">
 <head>
 
-    <title>Heypeza</title>
+    <title>HYPEZA | Premium Fashion & Clothing Store | hypza.tech</title>
 
     <meta charset="UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            "name": "HYPEZA",
-            "url": "https://www.hypeza.com",
-            "description": "HYPEZA - Fashion and clothing online store",
-            "author": {
-                "@type": "Organization",
-                "name": "HYPEZA"
-            }
-        }
-    </script>
+
+    <meta name="description" content="HYPEZA - Premium fashion and clothing store offering exclusive designs and stylish apparel. Find the latest trends at hypza.tech">
+    <meta name="keywords" content="HYPEZA, HYPZA, fashion, clothing, apparel, online store">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ClothingStore",
+  "name": "HYPEZA",
+  "alternateName": "HYPZA",
+  "url": "https://www.hypza.tech",
+  "logo": "https://www.hypza.tech/images/logo.png",
+  "description": "HYPEZA - Fashion and premium clothing online store offering exclusive designs and stylish apparel",
+  "keywords": "HYPEZA, HYPZA, fashion, clothing, premium apparel, online store",
+  "sameAs": [
+    "https://facebook.com/hypeza",
+    "https://instagram.com/hypeza"
+  ],
+  "image": "https://www.hypza.tech/images/store-image.jpg",
+  "telephone": "+33XXXXXXXXX",
+  "email": "team@hypza.tech",
+  "priceRange": "€€",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "1 Rue Exemple",
+    "addressLocality": "Paris",
+    "postalCode": "75001",
+    "addressCountry": "FR"
+  },
+  "openingHours": "Mo-Sa 09:00-20:00",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://www.hypza.tech/search?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
 
     <link rel='stylesheet' href='https://slater.app/10324/23333.css'>
 
