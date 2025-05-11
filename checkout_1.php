@@ -1,5 +1,7 @@
 <?php
-// Import PHPMailer classes at the global scope
+// Add this PHP code at the very top of checkout_1.php
+// This part will handle the email sending request when accessed with POST
+// Import PHPMailer classes
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
@@ -9,31 +11,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
     isset($_SERVER['CONTENT_TYPE']) &&
     strpos($_SERVER['CONTENT_TYPE'], 'application/json') !== false) {
 
+
     // Set content type to JSON for AJAX response
     header('Content-Type: application/json');
 
     try {
-        // Azure Database connection with SSL
-        $host = "hypezaserversql.mysql.database.azure.com";
-        $user = "user";
-        $pass = "HPL1710COMPAq";
-        $db = "users_db";
-
-        // Path to SSL certificate - try both locations
-        $ssl_cert_1 = __DIR__ . '/ssl/DigiCertGlobalRootCA.crt.pem';
-        $ssl_cert_2 = __DIR__ . '/DigiCertGlobalRootCA.crt.pem';
-
-        // Choose the certificate that exists
-        $ssl_cert = file_exists($ssl_cert_1) ? $ssl_cert_1 : $ssl_cert_2;
-
-        // Create connection with SSL
-        $mysqli = mysqli_init();
-        mysqli_ssl_set($mysqli, NULL, NULL, $ssl_cert, NULL, NULL);
-
-        if (!mysqli_real_connect($mysqli, $host, $user, $pass, $db, 3306, MYSQLI_CLIENT_SSL)) {
-            throw new Exception("Database connection failed: " . mysqli_connect_error());
-        }
-
         // Load Composer's autoloader
         require 'vendor/autoload.php';
 
@@ -79,28 +61,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
         $mail->addReplyTo('service-client@hypza.tech', 'Service Client HYPEZA');
         $mail->addAddress($data['email'], $data['firstName'] . ' ' . $data['lastName']);
 
-        // Email content with the same structure as before
-        $mail->CharSet = 'UTF-8';
-        $mail->Encoding = 'base64';
-        $mail->XMailer = 'HYPEZA Mailer';
-        $mail->isHTML(true);
-        $mail->Priority = 1;
-        $mail->Subject = 'Confirmation de commande #' . $data['orderNumber'] . ' - HYPEZA';
-        $mail->MessageID = '<' . time() . '.' . md5($data['email'] . $data['orderNumber']) . '@hypza.tech>';
+        // Email content
+// Email content with the same structure as send_confirmation.php
+$mail->CharSet = 'UTF-8';
+$mail->Encoding = 'base64'; // Better encoding for international characters
+$mail->XMailer = 'HYPEZA Mailer';
+$mail->isHTML(true);
+$mail->Priority = 1; // Highest priority
 
-        // Custom headers remain the same
-        $unsubscribeLink = 'https://hypza.tech/unsubscribe?email=' . urlencode($data['email']) . '&token=' . md5($data['email'] . 'some-secret-key');
-        $mail->addCustomHeader('List-Unsubscribe', '<' . $unsubscribeLink . '>, <mailto:unsubscribe@hypza.tech?subject=unsubscribe>');
-        $mail->addCustomHeader('List-Unsubscribe-Post', 'List-Unsubscribe=One-Click');
-        $mail->addCustomHeader('Precedence', 'bulk');
-        $mail->addCustomHeader('X-Auto-Response-Suppress', 'OOF, DR, RN, NRN, AutoReply');
-        $mail->addCustomHeader('Feedback-ID', $data['orderNumber'] . ':HYPEZA:order:gmail');
-        $mail->addCustomHeader('X-Entity-Ref-ID', $data['orderNumber']);
+// More specific subject with order number
+$mail->Subject = 'Confirmation de commande #' . $data['orderNumber'] . ' - HYPEZA';
 
-        // Email body remains the same
-        $goldColor = '#C89B3C';
-        $emailBody = "
-        <!DOCTYPE html>
+// Create a unique message ID
+$mail->MessageID = '<' . time() . '.' . md5($data['email'] . $data['orderNumber']) . '@hypza.tech>';
+
+// Add custom headers to improve deliverability
+$unsubscribeLink = 'https://hypza.tech/unsubscribe?email=' . urlencode($data['email']) . '&token=' . md5($data['email'] . 'some-secret-key');
+$mail->addCustomHeader('List-Unsubscribe', '<' . $unsubscribeLink . '>, <mailto:unsubscribe@hypza.tech?subject=unsubscribe>');
+$mail->addCustomHeader('List-Unsubscribe-Post', 'List-Unsubscribe=One-Click');
+$mail->addCustomHeader('Precedence', 'bulk');
+$mail->addCustomHeader('X-Auto-Response-Suppress', 'OOF, DR, RN, NRN, AutoReply');
+$mail->addCustomHeader('Feedback-ID', $data['orderNumber'] . ':HYPEZA:order:gmail');
+$mail->addCustomHeader('X-Entity-Ref-ID', $data['orderNumber']);
+
+// Use the same comprehensive HTML structure as send_confirmation.php
+$goldColor = '#C89B3C';
+$emailBody = "
+<!DOCTYPE html>
 <html lang='fr'>
 <head>
     <meta charset='UTF-8'>
@@ -229,60 +216,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
     </table>
 </body>
 </html>
-        ";
+";
 
-        $mail->Body = $emailBody;
-        $mail->AltBody = strip_tags(str_replace(['<br>', '<br/>', '<br />'], "\n", $emailBody));
+$mail->Body = $emailBody;
+$mail->AltBody = strip_tags(str_replace(['<br>', '<br/>', '<br />'], "\n", $emailBody));
 
-        // Log email details to database
-        $stmt = $mysqli->prepare("INSERT INTO email_logs (order_number, email, recipient_name, send_date, status) VALUES (?, ?, ?, NOW(), 'sending')");
-        if (!$stmt) {
-            throw new Exception("Database prepare failed: " . $mysqli->error);
-        }
 
-        $recipientName = $data['firstName'] . ' ' . $data['lastName'];
-        $stmt->bind_param("sss", $data['orderNumber'], $data['email'], $recipientName);
-        $stmt->execute();
-        $logId = $stmt->insert_id;
-        $stmt->close();
+        // Send email
 
-        // Send the email
         if ($mail->send()) {
-            // Update the log to indicate successful delivery
-            $stmt = $mysqli->prepare("UPDATE email_logs SET status = 'sent' WHERE id = ?");
-            $stmt->bind_param("i", $logId);
-            $stmt->execute();
-            $stmt->close();
-
-            // Return success response
             echo json_encode([
                 'success' => true,
                 'message' => 'Email sent successfully',
                 'orderNumber' => $data['orderNumber']
             ]);
         } else {
-            // Update the log to indicate failure
-            $stmt = $mysqli->prepare("UPDATE email_logs SET status = 'failed', error_message = ? WHERE id = ?");
-            $errorMsg = $mail->ErrorInfo;
-            $stmt->bind_param("si", $errorMsg, $logId);
-            $stmt->execute();
-            $stmt->close();
-
             throw new Exception("Email could not be sent. Mailer Error: " . $mail->ErrorInfo);
         }
     }
     catch (Exception $e) {
-        // Ensure proper error response in JSON format
-        http_response_code(500);
         echo json_encode([
             'success' => false,
             'message' => $e->getMessage()
         ]);
-    } finally {
-        // Close the database connection if it exists
-        if (isset($mysqli) && $mysqli) {
-            $mysqli->close();
-        }
     }
 
     // Important: exit here to prevent HTML content from being sent in JSON response
