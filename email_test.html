@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Email Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        button { padding: 10px 15px; margin: 10px 0; }
+        #output { border: 1px solid #ddd; padding: 15px; margin-top: 20px; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <h1>Email Sending Test</h1>
+    <div>
+        <label for="email">Test Email:</label>
+        <input type="email" id="email" value="test@example.com">
+        <button id="testBtn">Run Test</button>
+        <button id="checkBtn">Check Setup Only</button>
+    </div>
+    <div id="output">Results will appear here...</div>
+
+    <script>
+        document.getElementById('testBtn').addEventListener('click', async () => {
+            const email = document.getElementById('email').value;
+            const output = document.getElementById('output');
+            output.innerHTML = 'Testing... please wait';
+
+            try {
+                const response = await fetch(`./test_email.php?email=${encodeURIComponent(email)}`);
+                const result = await response.json();
+                output.innerHTML = JSON.stringify(result, null, 2);
+            } catch (error) {
+                output.innerHTML = `Error: ${error.message}`;
+            }
+        });
+
+        document.getElementById('checkBtn').addEventListener('click', async () => {
+            const output = document.getElementById('output');
+            output.innerHTML = 'Checking setup... please wait';
+
+            try {
+                const response = await fetch('./test_email.php?check_only=1');
+                const result = await response.json();
+                output.innerHTML = JSON.stringify(result, null, 2);
+            } catch (error) {
+                output.innerHTML = `Error: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html>

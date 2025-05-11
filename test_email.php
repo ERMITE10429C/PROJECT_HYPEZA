@@ -84,8 +84,8 @@
         $mail->SMTPAuth   = true;
         $mail->Username   = 'team@hypza.tech';
         $mail->Password   = 'azerty@123'; // Updated password
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port       = 587;
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        $mail->Port       = 465;
         $mail->Timeout    = 30; // 30 second timeout
         log_message("SMTP configuration set");
 

@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="43a84c4b-a44b-49ce-a4e0-993ef63d6c0a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/email_test.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/checkout_1.php" beforeDir="false" afterPath="$PROJECT_DIR$/checkout_1.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/send_confirmation.php" beforeDir="false" afterPath="$PROJECT_DIR$/send_confirmation.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_email.php" beforeDir="false" afterPath="$PROJECT_DIR$/test_email.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,8 +25,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="JavaScript File" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -205,7 +203,7 @@
       <workItem from="1746958295821" duration="159000" />
       <workItem from="1746958466226" duration="5365000" />
       <workItem from="1746965441464" duration="453000" />
-      <workItem from="1746970256490" duration="6275000" />
+      <workItem from="1746970256490" duration="7272000" />
     </task>
     <servers />
   </component>
