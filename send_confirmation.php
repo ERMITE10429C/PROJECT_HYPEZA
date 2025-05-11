@@ -7,22 +7,25 @@ require 'vendor/autoload.php';
 
 header('Content-Type: application/json');
 
-// DKIM configuration - you'll need to add your private key
-function setupDKIM(PHPMailer $mail) {
-    // Path to your DKIM private key
-    $privateKeyFile = '/path/to/your/private.key'; // Update with actual path
+// Azure Database connection with SSL
+$host = "hypezaserversql.mysql.database.azure.com";
+$user = "user";
+$pass = "HPL1710COMPAq";
+$db = "users_db";
 
-    // Only proceed if the key file exists
-    if (file_exists($privateKeyFile)) {
-        $privateKey = file_get_contents($privateKeyFile);
-        if ($privateKey) {
-            $mail->DKIM_domain = 'hypza.tech';
-            $mail->DKIM_private = $privateKey;
-            $mail->DKIM_selector = 'email'; // The selector you configured in your DNS
-            $mail->DKIM_passphrase = ''; // If your key is encrypted
-            $mail->DKIM_identity = $mail->From;
-        }
-    }
+// Path to SSL certificate - try both locations
+$ssl_cert_1 = __DIR__ . '/ssl/DigiCertGlobalRootCA.crt.pem';
+$ssl_cert_2 = __DIR__ . '/DigiCertGlobalRootCA.crt.pem';
+
+// Choose the certificate that exists
+$ssl_cert = file_exists($ssl_cert_1) ? $ssl_cert_1 : $ssl_cert_2;
+
+// Create connection with SSL
+$mysqli = mysqli_init();
+mysqli_ssl_set($mysqli, NULL, NULL, $ssl_cert, NULL, NULL);
+
+if (!mysqli_real_connect($mysqli, $host, $user, $pass, $db, 3306, MYSQLI_CLIENT_SSL)) {
+    die("Connection failed: " . mysqli_connect_error());
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -44,8 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $mail = new PHPMailer(true);
 
-        // Enable debugging if needed
-        // $mail->SMTPDebug = SMTP::DEBUG_SERVER; // Uncomment for debugging
+        // Reduce debug level for production
+        $mail->SMTPDebug = SMTP::DEBUG_OFF; // Change to DEBUG_SERVER during testing if needed
 
         // Server settings (Titan SMTP)
         $mail->isSMTP();
@@ -56,13 +59,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;
 
+        // SSL Certificate Configuration
+        $mail->SMTPOptions = [
+            'ssl' => [
+                'verify_peer' => true,
+                'verify_peer_name' => true,
+                'allow_self_signed' => true
+            ]
+        ];
+
         // Sender & Recipient - only ONE setFrom call
         $mail->setFrom('team@hypza.tech', 'HYPEZA');
         $mail->addReplyTo('service-client@hypza.tech', 'Service Client HYPEZA');
         $mail->addAddress($data['email'], $data['firstName'] . ' ' . $data['lastName']);
 
-        // Configure DKIM signing
-        // setupDKIM($mail); // Uncomment after setting up DKIM
+        // No DKIM setup needed - Titan handles it automatically
 
         // Email properties
         $mail->CharSet = 'UTF-8';
@@ -209,7 +220,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <table width='600' cellpadding='0' cellspacing='0' border='0'>
                             <tr>
                                 <td align='center' style='padding: 20px 0; font-size: 12px; color: #999;'>
-                                    HYPEZA SAS, 1 Rue Exemple, 75001 Paris, France
+                                    HYPEZA, 123 Rue Example, 75000 Paris, France
                                 </td>
                             </tr>
                         </table>
@@ -217,60 +228,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </tr>
             </table>
         </body>
-        </html>";
+        </html>
+        ";
 
         $mail->Body = $emailBody;
+        $mail->AltBody = strip_tags(str_replace(['<br>', '<br/>', '<br />'], "\n", $emailBody));
 
-        // Plain text alternative (important for deliverability)
-        $plainText = "HYPEZA - Confirmation de commande #{$data['orderNumber']}\n\n" .
-            "Bonjour {$data['firstName']} {$data['lastName']},\n\n" .
-            "Nous vous remercions d'avoir choisi HYPEZA. Votre commande a été confirmée et est en cours de traitement.\n\n" .
-            "Numéro de commande : {$data['orderNumber']}\n\n" .
-            "Adresse de livraison :\n" .
-            "{$data['firstName']} {$data['lastName']}\n" .
-            "{$data['address']}\n" .
-            "{$data['city']}, {$data['postalCode']}\n" .
-            "{$data['country']}\n\n" .
-            "Résumé de la commande :\n" .
-            "Sous-total : {$data['subtotal']}\n" .
-            "Frais de livraison : {$data['shipping']}\n" .
-            "Total : {$data['total']}\n\n" .
-            "Nous vous informerons dès que votre commande sera expédiée. Pour toute question, n'hésitez pas à contacter notre service client à service-client@hypza.tech.\n\n" .
-            "Merci de votre confiance,\n" .
-            "L'équipe HYPEZA\n\n" .
-            "HYPEZA SAS, 1 Rue Exemple, 75001 Paris, France\n\n" .
-            "---\n" .
-            "Pour vous désabonner, visitez : {$unsubscribeLink}";
+        // Log email details to database
+        $stmt = $mysqli->prepare("INSERT INTO email_logs (order_number, email, recipient_name, send_date, status) VALUES (?, ?, ?, NOW(), 'sending')");
+        $recipientName = $data['firstName'] . ' ' . $data['lastName'];
+        $stmt->bind_param("sss", $data['orderNumber'], $data['email'], $recipientName);
+        $stmt->execute();
+        $logId = $stmt->insert_id;
+        $stmt->close();
 
-        $mail->AltBody = $plainText;
+        // Send the email
+        if ($mail->send()) {
+            // Update the log to indicate successful delivery
+            $stmt = $mysqli->prepare("UPDATE email_logs SET status = 'sent' WHERE id = ?");
+            $stmt->bind_param("i", $logId);
+            $stmt->execute();
+            $stmt->close();
 
-        // Send the email with better error capture
-        if(!$mail->send()) {
-            throw new Exception($mail->ErrorInfo);
+            // Return success response
+            echo json_encode([
+                'success' => true,
+                'message' => 'Email sent successfully',
+                'orderNumber' => $data['orderNumber']
+            ]);
+        } else {
+            // Update the log to indicate failure
+            $stmt = $mysqli->prepare("UPDATE email_logs SET status = 'failed', error_message = ? WHERE id = ?");
+            $errorMsg = $mail->ErrorInfo;
+            $stmt->bind_param("si", $errorMsg, $logId);
+            $stmt->execute();
+            $stmt->close();
+
+            throw new Exception("Email could not be sent. Mailer Error: " . $mail->ErrorInfo);
         }
 
-        // Log successful send
-        error_log("Email sent successfully to: {$data['email']} with order #: {$data['orderNumber']}");
-
-        echo json_encode([
-            'success' => true,
-            'message' => "Email envoyé avec succès"
-        ]);
-
     } catch (Exception $e) {
-        // Log error with more details
-        error_log("Email sending failed: " . $e->getMessage());
-
+        http_response_code(500);
         echo json_encode([
             'success' => false,
-            'message' => "L'email n'a pas pu être envoyé. Erreur: " . $e->getMessage()
+            'message' => $e->getMessage()
         ]);
     }
 } else {
-    // Handle non-POST requests
     http_response_code(405);
     echo json_encode([
         'success' => false,
-        'message' => "Méthode non autorisée"
+        'message' => 'Method not allowed'
     ]);
 }
+
+// Close the database connection
+$mysqli->close();
+
