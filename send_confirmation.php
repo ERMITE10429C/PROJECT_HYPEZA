@@ -62,14 +62,14 @@ try {
         // Reduce debug level for production
         $mail->SMTPDebug = SMTP::DEBUG_OFF; // Change to DEBUG_SERVER during testing if needed
 
-// Server settings (Titan SMTP)
-$mail->isSMTP();
-$mail->Host       = 'smtp.titan.email';
-$mail->SMTPAuth   = true;
-$mail->Username   = 'team@hypza.tech';
-$mail->Password   = 'azerty@123'; // Updated password
-$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-$mail->Port       = 587;
+        // Server settings (Titan SMTP)
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.titan.email';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'team@hypza.tech';
+        $mail->Password   = 'azerty@123';
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // Changed from STARTTLS to SMTPS (SSL)
+        $mail->Port       = 465; // Changed from 587 to 465
 
         // SSL Certificate Configuration - Fixed to disable strict verification
         $mail->SMTPOptions = [

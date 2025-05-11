@@ -1152,15 +1152,19 @@
         // Ajoutez cette fonction dans votre script existant
 async function sendConfirmationEmail(orderData) {
     try {
-        // Use leading ./ for better Azure compatibility
-        const response = await fetch('./send_confirmation.php', {
+        // Get the base URL dynamically to construct the full path
+        const baseUrl = window.location.origin;
+        const fullUrl = `${baseUrl}/send_confirmation.php`;
+
+        console.log("Attempting to fetch from:", fullUrl);
+
+        const response = await fetch(fullUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(orderData),
-            // Add timeout to prevent hanging requests
-            signal: AbortSignal.timeout(10000) // 10 second timeout
+            signal: AbortSignal.timeout(10000)
         });
 
         if (!response.ok) {
@@ -1172,10 +1176,10 @@ async function sendConfirmationEmail(orderData) {
         return result.success;
     } catch (error) {
         console.error('Error sending confirmation email:', error);
-        // You can add more detailed logging here if needed
         return false;
     }
 }
+
         // Modifiez la partie du code qui gère la soumission de la commande
         document.getElementById('place-order-btn').addEventListener('click', async function(e) {
             e.preventDefault();
