@@ -1150,31 +1150,34 @@
         }
 
         // Ajoutez cette fonction dans votre script existant
-        async function sendConfirmationEmail(orderData) {
-            try {
-                const response = await fetch('send_confirmation.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(orderData)
-                });
+      async function sendConfirmationEmail(orderData) {
+          try {
+              // Use the correct path to send_confirmation.php
+              // If it's in another directory, specify the path accordingly
+              const response = await fetch('./send_confirmation.php', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify(orderData)
+              });
 
-                // Check if response is OK before trying to parse JSON
-                if (!response.ok) {
-                    console.error('Server responded with status:', response.status);
-                    const errorText = await response.text(); // get error content as text
-                    console.error('Response content:', errorText);
-                    return false;
-                }
+              // Improved error handling
+              if (!response.ok) {
+                  console.error('Server responded with status:', response.status);
+                  const errorText = await response.text();
+                  console.error('Response content:', errorText);
+                  return false;
+              }
 
-                const result = await response.json();
-                return result.success;
-            } catch (error) {
-                console.error('Erreur lors de l\'envoi de l\'email:', error);
-                return false;
-            }
-        }
+              const result = await response.json();
+              return result.success;
+          } catch (error) {
+              console.error('Error sending confirmation email:', error);
+              return false;
+          }
+      }
+      
         // Modifiez la partie du code qui gère la soumission de la commande
         document.getElementById('place-order-btn').addEventListener('click', async function(e) {
             e.preventDefault();
