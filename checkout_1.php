@@ -1152,31 +1152,30 @@
         // Ajoutez cette fonction dans votre script existant
 async function sendConfirmationEmail(orderData) {
     try {
-        // Try with an absolute path from the web root
-        const response = await fetch('/send_confirmation.php', {
+        // Use leading ./ for better Azure compatibility
+        const response = await fetch('./send_confirmation.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(orderData)
+            body: JSON.stringify(orderData),
+            // Add timeout to prevent hanging requests
+            signal: AbortSignal.timeout(10000) // 10 second timeout
         });
 
-        // Improved error handling
         if (!response.ok) {
-            console.error('Server responded with status:', response.status);
-            const errorText = await response.text();
-            console.error('Response content:', errorText);
-            return false;
+            throw new Error(`Server responded with status: ${response.status}`);
         }
 
         const result = await response.json();
+        console.log('Email sending result:', result);
         return result.success;
     } catch (error) {
         console.error('Error sending confirmation email:', error);
+        // You can add more detailed logging here if needed
         return false;
     }
 }
-
         // Modifiez la partie du code qui gère la soumission de la commande
         document.getElementById('place-order-btn').addEventListener('click', async function(e) {
             e.preventDefault();
