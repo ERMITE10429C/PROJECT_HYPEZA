@@ -154,6 +154,40 @@ body, html {
   border-color: RGB(255, 215, 100);
   border-radius: 5px; /* Coins arrondis */
 }
+
+.product {
+  position: relative;
+}
+
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Couleur blanche semi-transparente */
+  backdrop-filter: blur(10px); /* Applique un flou */
+  border-radius:20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  padding: 10px;
+  margin-top: 7px;
+  width: 150px;
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 5px 10px;
+  text-decoration: none;
+  color: rgb(200,155,60);
+}
+
+.dropdown-menu a:hover {
+  background-color: rgb(200,155,60);
+  color:white;
+}
+
+
 .right-section{
   position: absolute;
   right: 0;
