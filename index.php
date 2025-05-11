@@ -8,9 +8,10 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
-    <meta name="description" content="HYPEZA - Premium fashion and clothing store offering exclusive designs and stylish apparel. Find the latest trends at hypza.tech">
-    <meta name="keywords" content="HYPEZA, HYPZA, fashion, clothing, apparel, online store">
+    <meta name="description" content="HYPZA offers premium fashion including shoes, clothes, and accessories. Shop now for exclusive designs.">
+    <meta name="keywords" content="hypza, hypezza, luxury streetwear, fashion, clothing, shoes">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://hypza.tech/">
 
 
 <script type="application/ld+json">
@@ -27,7 +28,7 @@
     "https://facebook.com/hypeza",
     "https://instagram.com/hypeza"
   ],
-  "image": "https://www.hypza.tech/images/store-image.jpg",
+  "image": "https://www.hypza.tech/images/",
   "telephone": "+33XXXXXXXXX",
   "email": "team@hypza.tech",
   "priceRange": "€€",

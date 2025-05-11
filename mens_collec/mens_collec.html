@@ -4,6 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HYPEZA - Luxury Men's Fashion</title>
+
+  <meta name="description" content="HYPZA offers premium fashion including shoes, clothes, and accessories. Shop now for exclusive designs.">
+  <meta name="keywords" content="hypza, hypezza, luxury streetwear, fashion, clothing, shoes">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://hypza.tech/mens_collec/mens_collec.html">
+
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Prata&family=Cormorant+Garamond:wght@300;400;500&display=swap">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -628,10 +634,42 @@
       });
     });
   </script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const loadingOverlay = document.querySelector('.loading-overlay');
+    const loaderProgress = document.querySelector('.loader-progress');
 
-  <!-- partial -->
+    // Animate progress bar from 0 to 100% over 900ms
+    let startTime = performance.now();
+    let duration = 900; // slightly less than 1s to allow for fade out
+
+    function animateProgress(currentTime) {
+      let elapsed = currentTime - startTime;
+      let progress = Math.min(elapsed / duration * 100, 100);
+
+      loaderProgress.style.width = progress + '%';
+
+      if (progress < 100) {
+        requestAnimationFrame(animateProgress);
+      } else {
+        // Start fade out after progress reaches 100%
+        setTimeout(() => {
+          loadingOverlay.style.opacity = '0';
+          setTimeout(() => {
+            loadingOverlay.style.display = 'none';
+          }, 100);
+        }, 0);
+      }
+    }
+
+    requestAnimationFrame(animateProgress);
+  });
+</script>
+
+  <!-- prtial -->
   <script src='https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js'></script>
-  <script src='https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/CustomEase.min.js'></script><script  src="./script.js"></script>
+  <script src='https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/CustomEase.min.js'></script>
+
 
 
   <script src="script.js"></script>
@@ -642,7 +680,6 @@
 
   <script src="carousel.js"></script>
 
-  <script src="/script.js/"></script>
 
 </body>
 </html>
