@@ -391,6 +391,7 @@ a {
 
 /* Product Section */
 .products-section {
+
   padding: var(--space-lg) var(--space-lg);
 }
 
@@ -1441,7 +1442,6 @@ footer {
 .trending-section, .products-section, .style-guide-content, .testimonials-list, .limited-edition-banner {
   background-color: var(--dark-gray);
   color: var(--white);
-  border-radius: var(--radius-md);
 }
 
 /* Trending Items Carousel */
@@ -2020,7 +2020,7 @@ footer {
 
 .hero-container {
   position: relative;
-  height: 90vh;
+  height: 100vh;
   width: 100%;
   overflow: hidden;
 }
