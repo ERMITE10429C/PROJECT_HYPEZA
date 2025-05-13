@@ -8,6 +8,79 @@
   <link rel="stylesheet" href="Gsap_preload.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Prata&family=Cormorant+Garamond:wght@300;400;500&display=swap">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+  /* File: styles.css */
+  /* Showcase Section Styles */
+  #signature-showcase {
+    position: relative;
+    overflow: hidden;
+    height: 100vh;
+    background: #000;
+    color: #eee;
+    font-family: 'Prata', serif;
+  }
+
+  #signature-showcase h2 {
+    font-size: 3rem;
+    letter-spacing: 0.05em;
+    margin-bottom: 20px;
+  }
+
+  #signature-showcase p {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .parallax-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+  }
+
+  .parallax-layer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    will-change: transform;
+  }
+
+  .parallax-layer img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  #webgl-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .product-details {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+  }
+
+  /* Responsive adjustments for touch devices */
+  @media (hover: none) and (pointer: coarse) {
+    .parallax-container { display: none; }
+  }
+</style>
+
 </head>
 <body>
 <div class="loading-overlay">
@@ -124,6 +197,7 @@
 
 
 <section class="products-section" id="products">
+
   <div class="section-title">
     <h2>Our Collection</h2>
   </div>
@@ -137,6 +211,7 @@
   </div>
 
   <div class="products-grid">
+
     <!-- Product 1 -->
     <div class="product-card animate-on-scroll" data-animation="fade-in" data-category="formal" data-id="1" data-title="Premium Business Shirt" data-price="$129" data-image="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" data-description="A tailored business shirt made from premium cotton with an elegant cut and refined details. Perfect for professional settings.">
       <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Premium Business Shirt" class="product-image">
@@ -226,8 +301,35 @@
         <p class="product-price">$139</p>
       </div>
     </div>
+
   </div>
+
 </section>
+
+<!-- File: mens_collec/Showcase.html -->
+<section id="signature-showcase">
+  <canvas id="webgl-canvas"></canvas>
+  <div class="parallax-container">
+    <!-- Multiple layers for parallax revealing product angles -->
+    <div class="parallax-layer" data-speed="0.3">
+      <img src="images/coat_black.jpeg" alt="Signature Shirt Angle 1">
+    </div>
+    <div class="parallax-layer" data-speed="0.5">
+      <img src="images/suit_hero.jpeg" alt="Signature Shirt Angle 2">
+    </div>
+    <div class="parallax-layer" data-speed="0.7">
+      <img src="images/suit_hero.jpeg" alt="Signature Shirt Angle 3">
+    </div>
+  </div>
+  <div class="product-details">
+    <h2>HYPEZA Signature Luxury Shirt</h2>
+    <p>Crafted with the utmost precision and innovative design, every detail speaks of refined elegance.</p>
+  </div>
+  <audio id="showcase-sound" src="path/to/subtle_sound.mp3"></audio>
+</section>
+
+
+
 <!-- Footer -->
 <footer class="footer">
   <div class="footer-container">
@@ -438,6 +540,124 @@
     });
   });
 </script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const loadingOverlay = document.querySelector('.loading-overlay');
+    const loaderProgress = document.querySelector('.loader-progress');
+
+    // Animate progress bar from 0 to 100% over 900ms
+    let startTime = performance.now();
+    let duration = 900; // slightly less than 1s to allow for fade out
+
+    function animateProgress(currentTime) {
+      let elapsed = currentTime - startTime;
+      let progress = Math.min(elapsed / duration * 100, 100);
+
+      loaderProgress.style.width = progress + '%';
+
+      if (progress < 100) {
+        requestAnimationFrame(animateProgress);
+      } else {
+        // Start fade out after progress reaches 100%
+        setTimeout(() => {
+          loadingOverlay.style.opacity = '0';
+          setTimeout(() => {
+            loadingOverlay.style.display = 'none';
+          }, 100);
+        }, 0);
+      }
+    }
+
+    requestAnimationFrame(animateProgress);
+  });
+</script>
+
+<script>
+  // File: script.js
+  // Ensure GSAP and Three.js are loaded
+  document.addEventListener("DOMContentLoaded", function () {
+    // Fade in product details
+    gsap.to(".product-details", { duration: 1, opacity: 1, delay: 0.5, ease: "power2.out" });
+
+    // Parallax effect on mouse move for desktops
+    const layers = document.querySelectorAll(".parallax-layer");
+    document.addEventListener("mousemove", (e) => {
+      layers.forEach(layer => {
+        const speed = layer.getAttribute("data-speed");
+        const x = (window.innerWidth - e.pageX*speed)/100;
+        const y = (window.innerHeight - e.pageY*speed)/100;
+        layer.style.transform = `translate(${x}px, ${y}px)`;
+      });
+    });
+
+    // Micro-interactions for touch (gesture based) fallback
+    document.addEventListener("touchmove", (e) => {
+      const touch = e.touches[0];
+      layers.forEach(layer => {
+        const speed = layer.getAttribute("data-speed");
+        const x = (window.innerWidth - touch.pageX*speed)/100;
+        const y = (window.innerHeight - touch.pageY*speed)/100;
+        layer.style.transform = `translate(${x}px, ${y}px)`;
+      });
+    });
+
+    // WebGL transition with Three.js
+    let scene = new THREE.Scene();
+    let camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+    let renderer = new THREE.WebGLRenderer({ canvas: document.getElementById("webgl-canvas"), alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    // Create a textured plane for transition
+    let textureLoader = new THREE.TextureLoader();
+    let texture = textureLoader.load("path/to/shirt-transition.jpg");
+    let geometry = new THREE.PlaneGeometry(2, 2);
+    let material = new THREE.ShaderMaterial({
+      uniforms: {
+        uTexture: { value: texture },
+        uTime: { value: 0 }
+      },
+      vertexShader: `
+        varying vec2 vUv;
+        void main(){
+          vUv = uv;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform sampler2D uTexture;
+        uniform float uTime;
+        varying vec2 vUv;
+        void main(){
+          vec2 uv = vUv + 0.05*sin(uTime + vUv.x*10.0);
+          gl_FragColor = texture2D(uTexture, uv);
+        }
+      `,
+      transparent: true
+    });
+    let plane = new THREE.Mesh(geometry, material);
+    scene.add(plane);
+    camera.position.z = 1;
+
+    // Animation loop for WebGL transitions
+    function animateWebGL(time) {
+      material.uniforms.uTime.value = time * 0.001;
+      renderer.render(scene, camera);
+      requestAnimationFrame(animateWebGL);
+    }
+    requestAnimationFrame(animateWebGL);
+
+    // Subtle sound design trigger
+    const audio = document.getElementById("showcase-sound");
+    let audioPlayed = false;
+    window.addEventListener("scroll", function(){
+      if(!audioPlayed && window.scrollY > window.innerHeight * 0.2) {
+        audio.play();
+        audioPlayed = true;
+      }
+    });
+  });
+</script>
+
 
 <!-- partial -->
 <script src='https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js'></script>
