@@ -27,9 +27,9 @@
     <title>HYPZA – Luxury Fashion & Streetwear | hypza.tech</title>
 
     <meta name="description" content="Discover HYPZA – a luxury fashion and streetwear brand. Explore exclusive clothing, shoes, and accessories at hypza.tech. Where identity meets style.">
-    <meta name="keywords" content="hypza, hypeza, HYPZA clothing, streetwear, luxury fashion, designer apparel, fashion brand">
+    <meta name="keywords" content="hypza, hypeza, HYPZA clothing, streetwear, luxury fashion, designer apparel, fashion brand, luxury streetwear, exclusive clothing, premium apparel, modern fashion, unique style, quality craftsmanship, contemporary design, fashion accessories, HYPEZA, hypeza, hypza, HYPZA, haipza? haypza">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://hypza.tech/">
+    <link rel="canonical" href="https://hypeza.tech/">
 
     <!-- Schema.org JSON-LD for Brand SEO -->
     <script type="application/ld+json">
@@ -38,8 +38,8 @@
             "@type": "Organization",
             "name": "HYPZA",
             "alternateName": "HYPEZA",
-            "url": "https://hypza.tech",
-            "logo": "https://hypza.tech/favicon.ico",
+            "url": "https://hypeza.tech",
+            "logo": "https://hypeza.tech/favicon.ico",
             "description": "HYPZA – premium fashion and streetwear brand for exclusive modern apparel.",
             "sameAs": [
                 "https://facebook.com/hypeza",
