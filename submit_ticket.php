@@ -152,8 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
 <div class="container">
-    <h1>Soumettre un Ticket</h1>
-    <form method="POST" enctype="multipart/form-data">
+    <h1>Soumettre un Ticket</h1><form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" enctype="multipart/form-data" id="ticketForm" name="ticketForm">
         <div class="form-group">
             <label for="title">Titre</label>
             <input type="text" id="title" name="title" placeholder="Entrez le titre du ticket" required>
