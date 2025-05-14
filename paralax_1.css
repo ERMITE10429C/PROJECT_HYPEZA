@@ -2,10 +2,10 @@
 /* Osmo UI: https://slater.app/10324/23333.css */
 
 .div_paralax {
+    margin-top: -100px;
     background-color: var(--color-neutral-900);
     color: var(--color-light);
     font-size: var(--size-font);
-    margin: 0;
     padding: 0;
 }
 
@@ -40,13 +40,14 @@
 }
 
 .parallax {
+
     width: 100%;
     position: relative;
     overflow: hidden;
 }
 
 .parallax__content {
-    min-height: 100vh;
+    min-height: 20vh;
 }
 
 .cover {
