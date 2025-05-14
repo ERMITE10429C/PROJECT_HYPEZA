@@ -47,6 +47,7 @@
             display: flex;
             flex-direction: column;
             background-color: white;
+            overflow-y: auto;
         }
 
         .connexion {
@@ -308,14 +309,14 @@
             </div>
             <script>
                 document.addEventListener('DOMContentLoaded', () => {
-                    const textElement = document.querySelector('.connexion h1');
+                    const rightSection = document.querySelector('.right-section');
 
                     function createSparkle() {
                         const sparkle = document.createElement('div');
                         sparkle.classList.add('sparkle');
-                        sparkle.style.left = `${Math.random() * textElement.offsetWidth}px`;
-                        sparkle.style.top = `${Math.random() * textElement.offsetHeight}px`;
-                        textElement.appendChild(sparkle);
+                        sparkle.style.left = `${Math.random() * rightSection.offsetWidth}px`;
+                        sparkle.style.top = `${Math.random() * rightSection.offsetHeight}px`;
+                        rightSection.appendChild(sparkle);
 
                         setTimeout(() => {
                             sparkle.remove();
