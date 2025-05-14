@@ -102,7 +102,7 @@ $emailBody = "
                     <!-- Header -->
                     <tr>
                         <td align='center' style='background-color: #000000; padding: 30px; border-radius: 6px 6px 0 0;'>
-                            <h1 style='color: {$goldColor}; margin: 0; font-size: 32px; letter-spacing: 2px;'>HYPEZA</h1>
+                            <h1 style='color: {$goldColor}; padding: 15px;  margin-top: 20px; font-size: 32px; letter-spacing: 2px;'>HYPEZA</h1>
                         </td>
                     </tr>
                     
@@ -1166,8 +1166,8 @@ $mail->AltBody = strip_tags(str_replace(['<br>', '<br/>', '<br />'], "\n", $emai
         <h1 class="success-title">Order Placed Successfully!</h1>
         <p class="success-details">Thank you for your order. A confirmation has been sent to your email.</p>
         <p>Your order number is: <strong id="order-number">HYPZ-123456</strong></p>
-        <a href="index.html" class="btn shimmer">Continue Shopping</a>
-        <p><a href="#" class="back-link">View Order Status</a></p>
+        <a href="home.php" class="btn shimmer">Continue Shopping</a>
+        <p class="back-link">Check Your Gmail Inbox For the purchase Details </p>
     </div>
 
     <script src="cartManager.js"></script>
