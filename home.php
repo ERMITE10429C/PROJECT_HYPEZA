@@ -61,11 +61,10 @@ if (!isset($_SESSION['user_id'])) {
 <div class="header">
 
 
-
     <div class="middle-section">
 
         <div class="product">
-            <a href="#product" class="product-link">Products</a>
+            <a href="connexion2.html" class="product-link">Products</a>
             <div class="dropdown-menu">
                 <a href="mens_collec/mens_collec.html">Man's Selection</a>
                 <a href="womans_collections/Women's_Collections.html">Woman's Selection</a>
@@ -98,7 +97,6 @@ if (!isset($_SESSION['user_id'])) {
                     dropdownMenu.style.display =
                         dropdownMenu.style.display === 'block' ? 'none' : 'block';
                 });
-
                 productLink.addEventListener('click', (e) => {
                     e.preventDefault();
                     dropdownMenu.style.display = 'block';
@@ -140,7 +138,7 @@ if (!isset($_SESSION['user_id'])) {
 
 <div class="overlay2">
     <div class="navbar">
-        <span class="navbar-text shimmer-text">HYPEZA</span>
+        <span class="navbar-text shimmer-text" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">HYPEZA</span>
     </div>
     <div class="hero">
         <span class="hero-text shimmer-text">HYPEZA</span>
