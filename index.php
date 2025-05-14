@@ -98,7 +98,10 @@
 
         <div class="product">
             <a href="connexion2.html" class="product-link">Products</a>
-
+            <div class="dropdown-menu">
+                <a href="connexion2.html">Man's Selection</a>
+                <a href="connexion2.html">Woman's Selection</a>
+            </div>
         </div>
         <script>
             document.addEventListener('DOMContentLoaded', () => {
@@ -126,6 +129,10 @@
                     e.preventDefault();
                     dropdownMenu.style.display =
                         dropdownMenu.style.display === 'block' ? 'none' : 'block';
+                });
+                productLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    dropdownMenu.style.display = 'block';
                 });
             });
         </script>
@@ -402,7 +409,7 @@
 
         <section class="comparisonSection" >
             <div class="comparisonImage beforeImage">
-                <img src="mens_collec.png" alt="before" style="width: 100%; height: 100%; object-fit: cover;">
+                <img src="mens_collec_slide.png" alt="before" style="width: 100%; height: 100%; object-fit: cover;">
             </div>
             <div class="comparisonImage afterImage">
                 <img src="mens_collec_slide2.jpg" alt="after" style="width: 100%; height: 100%; object-fit: cover;">
