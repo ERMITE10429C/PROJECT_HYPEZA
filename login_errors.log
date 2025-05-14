@@ -1,0 +1,89 @@
+[14-May-2025 12:54:02 Europe/Berlin] === LOGIN ATTEMPT STARTED AT 2025-05-14 12:54:02 ===
+[14-May-2025 12:54:02 Europe/Berlin] SSL certificate path: C:\xampp\htdocs\Project_V2.1\project_V2.1/DigiCertGlobalRootCA.crt.pem
+[14-May-2025 12:54:02 Europe/Berlin] SSL certificate exists: No
+[14-May-2025 12:54:02 Europe/Berlin] SSL certificate readable: No
+[14-May-2025 12:54:02 Europe/Berlin] SSL certificate size: 0 bytes
+[14-May-2025 12:54:02 Europe/Berlin] mysqli_init successful
+[14-May-2025 12:54:02 Europe/Berlin] SSL settings applied
+[14-May-2025 12:54:23 Europe/Berlin] LOGIN ERROR: Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu
+[14-May-2025 12:54:23 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Project_V2.1\project_V2.1\login.php(42): mysqli_real_connect(Object(mysqli), 'hypezaserversql...', 'user', Object(SensitiveParameterValue), 'users_db', 3306, '2048')
+#1 {main}
+[14-May-2025 12:54:23 Europe/Berlin] Connection closed after error
+[14-May-2025 12:54:23 Europe/Berlin] === LOGIN ATTEMPT COMPLETED AT 2025-05-14 12:54:23 ===
+[14-May-2025 12:54:23 Europe/Berlin] === LOGIN ATTEMPT STARTED AT 2025-05-14 12:54:23 ===
+[14-May-2025 12:54:23 Europe/Berlin] SSL certificate path: C:\xampp\htdocs\Project_V2.1\project_V2.1/DigiCertGlobalRootCA.crt.pem
+[14-May-2025 12:54:23 Europe/Berlin] SSL certificate exists: No
+[14-May-2025 12:54:23 Europe/Berlin] SSL certificate readable: No
+[14-May-2025 12:54:23 Europe/Berlin] SSL certificate size: 0 bytes
+[14-May-2025 12:54:23 Europe/Berlin] mysqli_init successful
+[14-May-2025 12:54:23 Europe/Berlin] SSL settings applied
+[14-May-2025 12:54:44 Europe/Berlin] LOGIN ERROR: Une tentative de connexion a échoué car le parti connecté n’a pas répondu convenablement au-delà d’une certaine durée ou une connexion établie a échoué car l’hôte de connexion n’a pas répondu
+[14-May-2025 12:54:44 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Project_V2.1\project_V2.1\login.php(42): mysqli_real_connect(Object(mysqli), 'hypezaserversql...', 'user', Object(SensitiveParameterValue), 'users_db', 3306, '2048')
+#1 {main}
+[14-May-2025 12:54:44 Europe/Berlin] Connection closed after error
+[14-May-2025 12:54:44 Europe/Berlin] === LOGIN ATTEMPT COMPLETED AT 2025-05-14 12:54:44 ===
+[14-May-2025 12:54:44 Europe/Berlin] === LOGIN ATTEMPT STARTED AT 2025-05-14 12:54:44 ===
+[14-May-2025 12:54:44 Europe/Berlin] SSL certificate path: C:\xampp\htdocs\Project_V2.1\project_V2.1/DigiCertGlobalRootCA.crt.pem
+[14-May-2025 12:54:44 Europe/Berlin] SSL certificate exists: No
+[14-May-2025 12:54:44 Europe/Berlin] SSL certificate readable: No
+[14-May-2025 12:54:44 Europe/Berlin] SSL certificate size: 0 bytes
+[14-May-2025 12:54:44 Europe/Berlin] mysqli_init successful
+[14-May-2025 12:54:44 Europe/Berlin] SSL settings applied
+[14-May-2025 12:54:44 Europe/Berlin] PHP Warning:  mysqli_real_connect(): php_network_getaddresses: getaddrinfo for hypezaserversql.mysql.database.azure.com failed: H�te inconnu.  in C:\xampp\htdocs\Project_V2.1\project_V2.1\login.php on line 42
+[14-May-2025 12:54:44 Europe/Berlin] LOGIN ERROR: php_network_getaddresses: getaddrinfo for hypezaserversql.mysql.database.azure.com failed: H�te inconnu. 
+[14-May-2025 12:54:44 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Project_V2.1\project_V2.1\login.php(42): mysqli_real_connect(Object(mysqli), 'hypezaserversql...', 'user', Object(SensitiveParameterValue), 'users_db', 3306, '2048')
+#1 {main}
+[14-May-2025 12:54:44 Europe/Berlin] Connection closed after error
+[14-May-2025 12:54:44 Europe/Berlin] === LOGIN ATTEMPT COMPLETED AT 2025-05-14 12:54:44 ===
+[14-May-2025 12:54:44 Europe/Berlin] === LOGIN ATTEMPT STARTED AT 2025-05-14 12:54:44 ===
+[14-May-2025 12:54:44 Europe/Berlin] SSL certificate path: C:\xampp\htdocs\Project_V2.1\project_V2.1/DigiCertGlobalRootCA.crt.pem
+[14-May-2025 12:54:44 Europe/Berlin] SSL certificate exists: No
+[14-May-2025 12:54:44 Europe/Berlin] SSL certificate readable: No
+[14-May-2025 12:54:44 Europe/Berlin] SSL certificate size: 0 bytes
+[14-May-2025 12:54:44 Europe/Berlin] mysqli_init successful
+[14-May-2025 12:54:44 Europe/Berlin] SSL settings applied
+[14-May-2025 12:54:44 Europe/Berlin] PHP Warning:  mysqli_real_connect(): php_network_getaddresses: getaddrinfo for hypezaserversql.mysql.database.azure.com failed: H�te inconnu.  in C:\xampp\htdocs\Project_V2.1\project_V2.1\login.php on line 42
+[14-May-2025 12:54:44 Europe/Berlin] LOGIN ERROR: php_network_getaddresses: getaddrinfo for hypezaserversql.mysql.database.azure.com failed: H�te inconnu. 
+[14-May-2025 12:54:44 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Project_V2.1\project_V2.1\login.php(42): mysqli_real_connect(Object(mysqli), 'hypezaserversql...', 'user', Object(SensitiveParameterValue), 'users_db', 3306, '2048')
+#1 {main}
+[14-May-2025 12:54:44 Europe/Berlin] Connection closed after error
+[14-May-2025 12:54:44 Europe/Berlin] === LOGIN ATTEMPT COMPLETED AT 2025-05-14 12:54:44 ===
+[14-May-2025 12:54:44 Europe/Berlin] === LOGIN ATTEMPT STARTED AT 2025-05-14 12:54:44 ===
+[14-May-2025 12:54:44 Europe/Berlin] SSL certificate path: C:\xampp\htdocs\Project_V2.1\project_V2.1/DigiCertGlobalRootCA.crt.pem
+[14-May-2025 12:54:44 Europe/Berlin] SSL certificate exists: No
+[14-May-2025 12:54:44 Europe/Berlin] SSL certificate readable: No
+[14-May-2025 12:54:44 Europe/Berlin] SSL certificate size: 0 bytes
+[14-May-2025 12:54:44 Europe/Berlin] mysqli_init successful
+[14-May-2025 12:54:44 Europe/Berlin] SSL settings applied
+[14-May-2025 12:54:44 Europe/Berlin] PHP Warning:  mysqli_real_connect(): php_network_getaddresses: getaddrinfo for hypezaserversql.mysql.database.azure.com failed: H�te inconnu.  in C:\xampp\htdocs\Project_V2.1\project_V2.1\login.php on line 42
+[14-May-2025 12:54:44 Europe/Berlin] LOGIN ERROR: php_network_getaddresses: getaddrinfo for hypezaserversql.mysql.database.azure.com failed: H�te inconnu. 
+[14-May-2025 12:54:44 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Project_V2.1\project_V2.1\login.php(42): mysqli_real_connect(Object(mysqli), 'hypezaserversql...', 'user', Object(SensitiveParameterValue), 'users_db', 3306, '2048')
+#1 {main}
+[14-May-2025 12:54:44 Europe/Berlin] Connection closed after error
+[14-May-2025 12:54:44 Europe/Berlin] === LOGIN ATTEMPT COMPLETED AT 2025-05-14 12:54:44 ===
+[14-May-2025 12:54:44 Europe/Berlin] === LOGIN ATTEMPT STARTED AT 2025-05-14 12:54:44 ===
+[14-May-2025 12:54:44 Europe/Berlin] SSL certificate path: C:\xampp\htdocs\Project_V2.1\project_V2.1/DigiCertGlobalRootCA.crt.pem
+[14-May-2025 12:54:44 Europe/Berlin] SSL certificate exists: No
+[14-May-2025 12:54:44 Europe/Berlin] SSL certificate readable: No
+[14-May-2025 12:54:44 Europe/Berlin] SSL certificate size: 0 bytes
+[14-May-2025 12:54:44 Europe/Berlin] mysqli_init successful
+[14-May-2025 12:54:44 Europe/Berlin] SSL settings applied
+[14-May-2025 12:54:44 Europe/Berlin] PHP Warning:  mysqli_real_connect(): php_network_getaddresses: getaddrinfo for hypezaserversql.mysql.database.azure.com failed: H�te inconnu.  in C:\xampp\htdocs\Project_V2.1\project_V2.1\login.php on line 42
+[14-May-2025 12:54:44 Europe/Berlin] LOGIN ERROR: php_network_getaddresses: getaddrinfo for hypezaserversql.mysql.database.azure.com failed: H�te inconnu. 
+[14-May-2025 12:54:44 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Project_V2.1\project_V2.1\login.php(42): mysqli_real_connect(Object(mysqli), 'hypezaserversql...', 'user', Object(SensitiveParameterValue), 'users_db', 3306, '2048')
+#1 {main}
+[14-May-2025 12:54:44 Europe/Berlin] Connection closed after error
+[14-May-2025 12:54:44 Europe/Berlin] === LOGIN ATTEMPT COMPLETED AT 2025-05-14 12:54:44 ===
+[14-May-2025 12:54:44 Europe/Berlin] === LOGIN ATTEMPT STARTED AT 2025-05-14 12:54:44 ===
+[14-May-2025 12:54:44 Europe/Berlin] SSL certificate path: C:\xampp\htdocs\Project_V2.1\project_V2.1/DigiCertGlobalRootCA.crt.pem
+[14-May-2025 12:54:44 Europe/Berlin] SSL certificate exists: No
+[14-May-2025 12:54:44 Europe/Berlin] SSL certificate readable: No
+[14-May-2025 12:54:44 Europe/Berlin] SSL certificate size: 0 bytes
+[14-May-2025 12:54:44 Europe/Berlin] mysqli_init successful
+[14-May-2025 12:54:44 Europe/Berlin] SSL settings applied
+[14-May-2025 12:54:44 Europe/Berlin] PHP Warning:  mysqli_real_connect(): php_network_getaddresses: getaddrinfo for hypezaserversql.mysql.database.azure.com failed: H�te inconnu.  in C:\xampp\htdocs\Project_V2.1\project_V2.1\login.php on line 42
+[14-May-2025 12:54:44 Europe/Berlin] LOGIN ERROR: php_network_getaddresses: getaddrinfo for hypezaserversql.mysql.database.azure.com failed: H�te inconnu. 
+[14-May-2025 12:54:44 Europe/Berlin] Stack trace: #0 C:\xampp\htdocs\Project_V2.1\project_V2.1\login.php(42): mysqli_real_connect(Object(mysqli), 'hypezaserversql...', 'user', Object(SensitiveParameterValue), 'users_db', 3306, '2048')
+#1 {main}
+[14-May-2025 12:54:44 Europe/Berlin] Connection closed after error
+[14-May-2025 12:54:44 Europe/Berlin] === LOGIN ATTEMPT COMPLETED AT 2025-05-14 12:54:44 ===
