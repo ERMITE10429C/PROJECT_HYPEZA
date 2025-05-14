@@ -17,12 +17,12 @@ $code = $_GET['code'];
 
 // === Étape 2 : échanger le code contre un token d'accès ===
 $data = [
-    'client_id' => $client_id,
-    'client_secret' => $client_secret,
-    'code' => $code,
-    'redirect_uri' => $redirect_uri,
+    'client_id' => 'afcc759f-baea-44df-9b5a-7fb7404d7094',
+    'scope' => 'https://graph.microsoft.com/user.read',
+    'code' => $_GET['code'],
+    'redirect_uri' => 'https://hypeza.tech/microsoft_callback.php',
     'grant_type' => 'authorization_code',
-    'scope' => 'https://graph.microsoft.com/user.read'
+    'client_secret' => 'SoY8Q~ulL-i3BA0PoI4E2qfrg~71VWmwj3JGRc-m'
 ];
 
 $options = [
@@ -34,12 +34,13 @@ $options = [
 ];
 
 $context  = stream_context_create($options);
-$response = file_get_contents($token_url, false, $context);
+$response = file_get_contents('https://login.microsoftonline.com/common/oauth2/v2.0/token', false, $context);
 $token = json_decode($response, true);
 
 if (!isset($token['access_token'])) {
-    die("Erreur lors de l'échange du code : " . $response);
+    die("Erreur lors de l'échange du code : " . $response); // Tu vois cette ligne
 }
+
 
 // === Étape 3 : récupérer les infos utilisateur ===
 $opts = [
