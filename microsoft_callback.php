@@ -22,7 +22,7 @@ $data = [
     'code' => $_GET['code'],
     'redirect_uri' => 'https://hypeza.tech/microsoft_callback.php',
     'grant_type' => 'authorization_code',
-    'client_secret' => 'SoY8Q~ulL-i3BA0PoI4E2qfrg~71VWmwj3JGRc-m'
+    'client_secret' => 'EzR8Q~rNfDQ-mYO3aH1jkVFnuF263yHCtdwRQbfy'
 ];
 
 $options = [
