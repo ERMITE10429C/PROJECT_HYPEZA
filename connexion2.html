@@ -309,14 +309,14 @@
             </div>
             <script>
                 document.addEventListener('DOMContentLoaded', () => {
-                    const rightSection = document.querySelector('.right-section');
+                    const leftSection = document.querySelector('.left-section');
 
                     function createSparkle() {
                         const sparkle = document.createElement('div');
                         sparkle.classList.add('sparkle');
-                        sparkle.style.left = `${Math.random() * rightSection.offsetWidth}px`;
-                        sparkle.style.top = `${Math.random() * rightSection.offsetHeight}px`;
-                        rightSection.appendChild(sparkle);
+                        sparkle.style.left = `${Math.random() * leftSection.offsetWidth}px`;
+                        sparkle.style.top = `${Math.random() * leftSection.offsetHeight}px`;
+                        leftSection.appendChild(sparkle);
 
                         setTimeout(() => {
                             sparkle.remove();
