@@ -89,6 +89,10 @@
                     dropdownMenu.style.display =
                         dropdownMenu.style.display === 'block' ? 'none' : 'block';
                 });
+                productLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    dropdownMenu.style.display = 'block';
+                });
             });
         </script>
 
