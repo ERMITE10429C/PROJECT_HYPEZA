@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://hypza.tech/sitemap.xml

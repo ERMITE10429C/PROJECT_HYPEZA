@@ -1,87 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
 
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1K37NRKQ9N"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-1K37NRKQ9N');
+    </script>
     <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    <script>
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
                 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
             j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-T5PXQ6SM');</script>
+        })(window,document,'script','dataLayer','GTM-T5PXQ6SM');
+    </script>
     <!-- End Google Tag Manager -->
 
-
-
-    <title>HYPEZA | Premium Fashion & Clothing Store | hypza.tech</title>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="description" content="HYPZA offers premium fashion including shoes, clothes, and accessories. Shop now for exclusive designs.">
-    <meta name="keywords" content="hypza, hypezza, luxury streetwear, fashion, clothing, shoes">
+    <title>HYPZA – Luxury Fashion & Streetwear | hypza.tech</title>
+
+    <meta name="description" content="Discover HYPZA – a luxury fashion and streetwear brand. Explore exclusive clothing, shoes, and accessories at hypza.tech. Where identity meets style.">
+    <meta name="keywords" content="hypza, hypeza, HYPZA clothing, streetwear, luxury fashion, designer apparel, fashion brand">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://hypza.tech/">
 
+    <!-- Schema.org JSON-LD for Brand SEO -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "HYPZA",
+            "alternateName": "HYPEZA",
+            "url": "https://hypza.tech",
+            "logo": "https://hypza.tech/favicon.ico",
+            "description": "HYPZA – premium fashion and streetwear brand for exclusive modern apparel.",
+            "sameAs": [
+                "https://facebook.com/hypeza",
+                "https://instagram.com/hypeza"
+            ]
+        }
+    </script>
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "ClothingStore",
-  "name": "HYPEZA",
-  "alternateName": "HYPZA",
-  "url": "https://www.hypza.tech",
-  "logo": "https://www.hypza.tech/images/logo.png",
-  "description": "HYPEZA - Fashion and premium clothing online store offering exclusive designs and stylish apparel",
-  "keywords": "HYPEZA, HYPZA, fashion, clothing, premium apparel, online store",
-  "sameAs": [
-    "https://facebook.com/hypeza",
-    "https://instagram.com/hypeza"
-  ],
-  "image": "https://www.hypza.tech/images/",
-  "telephone": "+33XXXXXXXXX",
-  "email": "team@hypza.tech",
-  "priceRange": "€€",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "1 Rue Exemple",
-    "addressLocality": "Paris",
-    "postalCode": "75001",
-    "addressCountry": "FR"
-  },
-  "openingHours": "Mo-Sa 09:00-20:00",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "https://www.hypza.tech/search?q={search_term_string}",
-    "query-input": "required name=search_term_string"
-  }
-}
-</script>
-
-    <link rel='stylesheet' href='https://slater.app/10324/23333.css'>
-
-    <link rel="stylesheet" href="styles.css">
-
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Prata&family=Roboto&family=Satisfy&display=swap"
-          rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Prata&family=Roboto&family=Satisfy&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Prata&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
 
-
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://slater.app/10324/23333.css">
+    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="./style.css">
-
     <link rel="stylesheet" href="split1.css">
-
     <link rel="stylesheet" href="horizontal_scroll.css">
-
     <link rel="stylesheet" href="paralax_1.css">
-
-
-
 </head>
 
 <body>
