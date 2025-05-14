@@ -66,6 +66,10 @@ if (!isset($_SESSION['user_id'])) {
 
         <div class="product">
             <a href="#product" class="product-link">Products</a>
+            <div class="dropdown-menu">
+                <a href="mens_collec/mens_collec.html">Man's Selection</a>
+                <a href="womans_collections/Women's_Collections.html">Woman's Selection</a>
+            </div>
         </div>
         <script>
             document.addEventListener('DOMContentLoaded', () => {
@@ -93,6 +97,11 @@ if (!isset($_SESSION['user_id'])) {
                     e.preventDefault();
                     dropdownMenu.style.display =
                         dropdownMenu.style.display === 'block' ? 'none' : 'block';
+                });
+
+                productLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    dropdownMenu.style.display = 'block';
                 });
             });
         </script>
