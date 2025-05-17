@@ -1,6 +1,5 @@
 <?php
 session_start();
-require_once 'config.php';
 require 'vendor/autoload.php'; // Charger PHPMailer
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -19,39 +18,65 @@ if (!isset($_GET['id'])) {
 
 $ticket_id = intval($_GET['id']);
 
-// Récupération des informations du ticket
-$stmt = $pdo->prepare("SELECT t.*, u.firstname, u.lastname, u.email FROM tickets t JOIN users u ON t.user_id = u.id WHERE t.id = ?");
-$stmt->execute([$ticket_id]);
-$ticket = $stmt->fetch();
+// Database connection parameters
+$host = "hypezaserversql.mysql.database.azure.com";
+$user = "user";
+$pass = "HPL1710COMPAq";
+$db = "users_db";
 
-if (!$ticket) {
-    die("Ticket introuvable.");
-}
+// Path to SSL certificate
+$ssl_cert = __DIR__ . '/DigiCertGlobalRootCA.crt.pem';
 
-// Fonction pour envoyer un e-mail avec PHPMailer
-function envoyerNotificationEmail($email, $prenom, $titreTicket) {
-    $mail = new PHPMailer(true);
+try {
+    // Create connection with SSL
+    $conn = mysqli_init();
 
-    try {
-        // Configuration du serveur SMTP
-        $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';
-        $mail->SMTPAuth = true;
-        $mail->Username = 'hypeza.test1@gmail.com';
-        $mail->Password = 'kbfa wlby tjpf oqcq';
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port = 587;
+    if (!$conn) {
+        throw new Exception("mysqli_init failed");
+    }
 
-        // Destinataires
-        $mail->setFrom('hypeza.test1@gmail.com', 'HYPEZA Support');
-        $mail->addAddress($email, $prenom);
+    mysqli_ssl_set($conn, NULL, NULL, $ssl_cert, NULL, NULL);
 
-        // Contenu de l'e-mail
-        $mail->isHTML(true);
-        $mail->Subject = "Votre ticket a été répondu";
+    if (!mysqli_real_connect($conn, $host, $user, $pass, $db, 3306, MYSQLI_CLIENT_SSL)) {
+        throw new Exception("Connection failed: " . mysqli_connect_error());
+    }
 
-        // Corps de l'e-mail stylisé
-        $mail->Body = "
+    // Récupération des informations du ticket
+    $stmt = mysqli_prepare($conn, "SELECT t.*, u.firstname, u.lastname, u.email FROM tickets t JOIN users u ON t.user_id = u.id WHERE t.id = ?");
+    mysqli_stmt_bind_param($stmt, "i", $ticket_id);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $ticket = mysqli_fetch_assoc($result);
+    mysqli_stmt_close($stmt);
+
+    if (!$ticket) {
+        throw new Exception("Ticket introuvable.");
+    }
+
+    // Fonction pour envoyer un e-mail avec PHPMailer
+    function envoyerNotificationEmail($email, $prenom, $titreTicket) {
+        $mail = new PHPMailer(true);
+
+        try {
+            // Configuration du serveur SMTP
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'hypeza.test1@gmail.com';
+            $mail->Password = 'kbfa wlby tjpf oqcq';
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
+
+            // Destinataires
+            $mail->setFrom('hypeza.test1@gmail.com', 'HYPEZA Support');
+            $mail->addAddress($email, $prenom);
+
+            // Contenu de l'e-mail
+            $mail->isHTML(true);
+            $mail->Subject = "Votre ticket a été répondu";
+
+            // Corps de l'e-mail stylisé
+            $mail->Body = "
 <div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;'>
     <!-- En-tête -->
     <div style='background-color: #000000; padding: 20px; text-align: center;'>
@@ -81,31 +106,43 @@ function envoyerNotificationEmail($email, $prenom, $titreTicket) {
     </div>
 </div>";
 
-        $mail->send();
-    } catch (Exception $e) {
-        error_log("Erreur lors de l'envoi de l'e-mail : {$mail->ErrorInfo}");
-        echo "Erreur : {$mail->ErrorInfo}";
+            $mail->send();
+        } catch (Exception $e) {
+            error_log("Erreur lors de l'envoi de l'e-mail : {$mail->ErrorInfo}");
+            echo "Erreur : {$mail->ErrorInfo}";
+        }
     }
-}
 
-// Gestion de la réponse
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $response = $_POST['response'];
-    $admin_id = $_SESSION['user_id'];
+    // Gestion de la réponse
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $response = $_POST['response'];
+        $admin_id = $_SESSION['user_id'];
 
-    // Enregistrer la réponse dans la base de données
-    $stmt = $pdo->prepare("INSERT INTO ticket_responses (ticket_id, admin_id, response, created_at) VALUES (?, ?, ?, NOW())");
-    $stmt->execute([$ticket_id, $admin_id, $response]);
+        // Enregistrer la réponse dans la base de données
+        $stmt = mysqli_prepare($conn, "INSERT INTO ticket_responses (ticket_id, admin_id, response, created_at) VALUES (?, ?, ?, NOW())");
+        mysqli_stmt_bind_param($stmt, "iis", $ticket_id, $admin_id, $response);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
 
-    // Mettre à jour le statut du ticket
-    $stmt = $pdo->prepare("UPDATE tickets SET status = 'Répondu', is_notified = 1 WHERE id = ?");
-    $stmt->execute([$ticket_id]);
+        // Mettre à jour le statut du ticket
+        $stmt = mysqli_prepare($conn, "UPDATE tickets SET status = 'Répondu', is_notified = 1 WHERE id = ?");
+        mysqli_stmt_bind_param($stmt, "i", $ticket_id);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
 
-    // Envoyer une notification par e-mail
-    envoyerNotificationEmail($ticket['email'], $ticket['firstname'], $ticket['title']);
+        // Envoyer une notification par e-mail
+        envoyerNotificationEmail($ticket['email'], $ticket['firstname'], $ticket['title']);
 
-    header("Location: admin_tickets.php?status=responded");
-    exit();
+        mysqli_close($conn);
+        header("Location: admin_tickets.php?status=responded");
+        exit();
+    }
+
+    // Close connection if not in POST request
+    mysqli_close($conn);
+
+} catch (Exception $e) {
+    die("Error: " . $e->getMessage());
 }
 ?>
 
