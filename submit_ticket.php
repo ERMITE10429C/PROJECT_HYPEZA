@@ -1,5 +1,7 @@
 <?php
 session_start();
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
 // Database connection parameters
 $host = "hypezaserversql.mysql.database.azure.com";
@@ -16,7 +18,9 @@ $ssl_cert   = file_exists($ssl_cert_1) ? $ssl_cert_1 : $ssl_cert_2;
 $conn = mysqli_init();
 mysqli_ssl_set($conn, NULL, NULL, $ssl_cert, NULL, NULL);
 if (!mysqli_real_connect($conn, $host, $user, $pass, $db, 3306, MYSQLI_CLIENT_SSL)) {
-    die("Database connection error: " . mysqli_connect_error());
+    $_SESSION['error_message'] = "Database connection error: " . mysqli_connect_error();
+    header("Location: submit_ticket.php");
+    exit();
 }
 
 // Check user authentication
@@ -28,29 +32,45 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Sanitize and validate inputs
-    $title       = trim(filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING));
-    $description = trim(filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING));
-    $image_path  = null;
+    // Sanitize and validate inputs - Using PHP 8.4 compatible methods
+    $title = trim(htmlspecialchars($_POST['title'] ?? ''));
+    $description = trim(htmlspecialchars($_POST['description'] ?? ''));
+    $image_path = null;
+
+    // Validate required fields
+    if (empty($title) || empty($description)) {
+        $_SESSION['error_message'] = "Title and description are required.";
+        header("Location: submit_ticket.php");
+        exit();
+    }
 
     // Handle file upload if image is provided
     if (!empty($_FILES['image']['name']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
         $target_dir = "uploads/";
-        if (!is_dir($target_dir) && !mkdir($target_dir, 0777, true)) {
-            die("Error: Upload directory creation failed.");
+        if (!is_dir($target_dir)) {
+            if (!mkdir($target_dir, 0755, true)) {
+                $_SESSION['error_message'] = "Error: Upload directory creation failed.";
+                header("Location: submit_ticket.php");
+                exit();
+            }
         }
+
         $image_name = uniqid() . "_" . basename($_FILES['image']['name']);
         $temp_path  = $_FILES['image']['tmp_name'];
 
         // Validate file type is an image using getimagesize
         $image_info = getimagesize($temp_path);
         if ($image_info === false) {
-            die("Error: Uploaded file is not a valid image.");
+            $_SESSION['error_message'] = "Error: Uploaded file is not a valid image.";
+            header("Location: submit_ticket.php");
+            exit();
         }
 
         $image_path = $target_dir . $image_name;
         if (!move_uploaded_file($temp_path, $image_path)) {
-            die("Error: Image upload failed.");
+            $_SESSION['error_message'] = "Error: Image upload failed.";
+            header("Location: submit_ticket.php");
+            exit();
         }
     }
 
@@ -59,9 +79,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt   = $conn->prepare("INSERT INTO tickets (title, description, image_path, status, user_id, created_at) VALUES (?, ?, ?, ?, ?, NOW())");
     $stmt->bind_param("ssssi", $title, $description, $image_path, $status, $user_id);
     if (!$stmt->execute()) {
-        die("Error: Could not submit ticket. " . $stmt->error);
+        $_SESSION['error_message'] = "Error: Could not submit ticket. " . $stmt->error;
+        header("Location: submit_ticket.php");
+        exit();
     }
 
+    $_SESSION['success_message'] = "Ticket submitted successfully!";
     header("Location: view_tickets.php?status=submitted");
     exit();
 }
@@ -142,11 +165,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .btn-back:hover {
             background-color: #555;
         }
+        .alert {
+            padding: 10px;
+            background-color: #f44336;
+            color: white;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+        .success {
+            background-color: #4CAF50;
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <h1>Soumettre un Ticket</h1>
+
+    <?php if(isset($_SESSION['error_message'])): ?>
+        <div class="alert">
+            <?php echo $_SESSION['error_message']; unset($_SESSION['error_message']); ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if(isset($_SESSION['success_message'])): ?>
+        <div class="alert success">
+            <?php echo $_SESSION['success_message']; unset($_SESSION['success_message']); ?>
+        </div>
+    <?php endif; ?>
+
     <form method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <label for="title">Titre</label>

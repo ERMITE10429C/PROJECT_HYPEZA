@@ -2,355 +2,760 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Création de compte</title>
+    <meta name="description" content="Join HYPZA and discover premium fashion including shoes, clothes, and accessories.">
+    <meta name="keywords" content="hypza, account creation, signup, luxury fashion, clothing">
+    <title>HYPZA | Create Account</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prata&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <style>
-        /* Ajoutez ceci dans la section style existante */
-        .right-section {
-            animation: slideIn 0.5s ease forwards;
-            opacity: 0;
-            transform: translateX(50px);
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #141414;
+            --accent-gold: #c89b3c;
+            --accent-gold-light: #e4c989;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --glass-bg: rgba(20, 20, 20, 0.65);
+            --glass-border: rgba(200, 155, 60, 0.2);
+            --input-bg: rgba(30, 30, 30, 0.6);
+            --error: #ff5252;
         }
 
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-    </style>
-
-    <style>
-
-        .right-section::-webkit-scrollbar {
-            display: none; /* Pour Chrome, Safari et Opera */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .overlay {
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image:
+                radial-gradient(circle at 90% 10%, rgba(200, 155, 60, 0.05) 0%, transparent 60%),
+                radial-gradient(circle at 10% 90%, rgba(200, 155, 60, 0.05) 0%, transparent 60%);
+            position: relative;
+        }
+/* CSS */
+.fade-out {
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+        /* Decorative elements */
+        .backdrop {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            display: flex;
-            flex-direction: row-reverse;
-            z-index: 9999;
+            pointer-events: none;
+            z-index: -1;
         }
 
-        .left-section {
-            width: 50%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .image {
+        .grid {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            background-image:
+                linear-gradient(to right, rgba(200, 155, 60, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(200, 155, 60, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: center;
         }
 
-        .right-section {
-            width: 50%;
-            height: 100%;
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+        }
+
+        .shape-1 {
+            top: 15%;
+            right: 15%;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(200, 155, 60, 0.15) 0%, rgba(20, 20, 20, 0) 70%);
+            animation: float 15s ease-in-out infinite alternate;
+        }
+
+        .shape-2 {
+            bottom: 10%;
+            left: 10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(200, 155, 60, 0.15) 0%, rgba(20, 20, 20, 0) 70%);
+            animation: float 18s ease-in-out infinite alternate-reverse;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(30px, 30px) rotate(5deg); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -100% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .signup-wrapper {
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        /* Brand section */
+        .brand-section {
+            flex: 1;
+            padding: 60px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo {
+            margin-bottom: 60px;
+            display: flex;
+            align-items: center;
+        }
+
+        .shimmer-text {
+            font-family: 'Prata', serif;
+            background: linear-gradient(
+                to right,
+                #c89b3c 0%,
+                #e4c989 20%,
+                #c89b3c 40%,
+                #e4c989 60%,
+                #c89b3c 80%,
+                #e4c989 100%
+            );
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: shimmer 8s linear infinite;
+        }
+
+        .logo-text {
+            font-family: 'Prata', serif;
+            font-size: 42px;
+            letter-spacing: 2px;
+        }
+
+        .brand-content {
+            max-width: 450px;
+        }
+
+        .brand-title {
+            font-family: 'Prata', serif;
+            font-weight: 400;
+            font-size: 58px;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .gold-text {
+            color: var(--accent-gold);
+        }
+
+        .brand-description {
+            font-size: 20px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            font-weight: 500;
+        }
+
+        .benefits-list {
+            margin-top: 60px;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .benefit-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+        }
+
+        .benefit-icon i {
+            font-size: 20px;
+            color: var(--accent-gold);
+        }
+
+        .benefit-text h3 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .benefit-text p {
+            font-size: 16px;
+            color: var(--text-secondary);
+        }
+
+        /* Signup section */
+        .signup-section {
+            width: 450px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 0;
+            padding: 50px;
+            position: relative;
+            z-index: 2;
             display: flex;
             flex-direction: column;
-            background-color: white;
-            overflow-y: auto;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
         }
 
-        .creation {
-            font-size: 40px;
-            font-family: "Prata", serif;
-            font-weight: bold;
-            text-align: center;
-            position: relative;
-            color: rgb(200, 155, 60);
-            animation: shimmer 2s infinite;
-            margin-bottom: 20px;
-        }
-        @keyframes shimmer {
-            0% {
-                color: rgb(200, 155, 60);
-                text-shadow: 0 0 5px rgba(200, 155, 60, 0.5);
-            }
-            50% {
-                color: rgb(255, 223, 0);
-                text-shadow: 0 0 15px rgba(255, 223, 0, 0.8);
-            }
-            100% {
-                color: rgb(200, 155, 60);
-                text-shadow: 0 0 5px rgba(200, 155, 60, 0.5);
-            }
-        }
-
-        .sparkle {
+        .signup-section::before {
+            content: '';
             position: absolute;
-            width: 8px;
-            height: 8px;
-            background: radial-gradient(circle, gold, rgba(255, 223, 0, 0.8), transparent);
-            border-radius: 50%;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 1px solid var(--accent-gold);
             pointer-events: none;
-            animation: sparkle-animation 1.5s ease-out infinite;
-            box-shadow: 0 0 10px rgba(255, 223, 0, 0.8);
+            z-index: -1;
         }
 
-        @keyframes sparkle-animation {
-            0% {
-                opacity: 1;
-                transform: scale(1) translate(0, 0);
-            }
-            100% {
-                opacity: 0;
-                transform: scale(0.8) translate(80px, -80px);
-            }
-        }
-
-        .text-info {
-            display: block;
-            display: flex;
-            justify-content: center;
-            margin-top: 0;
-            font-size: 20px;
+        .signup-header {
             text-align: center;
-            padding: 0 20px;
+            margin-bottom: 40px;
         }
 
-        .info-field {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 15px;
+        .signup-header h1 {
+            font-family: 'Prata', serif;
+            font-weight: 400;
+            font-size: 36px;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
         }
 
-        .input-field {
+        .signup-header p {
+            color: var(--text-secondary);
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .form-group label {
             display: block;
-            padding: 10px 20px;
-            margin-top: 5px;
-            margin-bottom: 0;
-            border-top: none;
-            border-right: none;
-            border-left: none;
-            border-bottom: 1px solid gray;
-            text-align: left;
-            width: 80%;
-            max-width: 400px;
-            background-color: white;
-        }
-
-        .create-button {
-            padding: 20px 70px;
-            background-color: #222222;
-            color: white;
-            border: none;
-            font-size: 20px;
-            cursor: pointer;
-            transition: background-color 0.5s;
-            margin-top: 10px;
-        }
-
-        .create-button:hover {
-            background-color: black;
-        }
-
-        .return {
-            margin-left: 20px;
-            transition: margin-left 0.3s ease-in-out;
-            margin-top: 20px;
-        }
-
-        .return:hover {
-            margin-left: 10px;
-        }
-
-        .return_link {
-            text-decoration: none;
-        }
-
-        .return_text {
-            font-size: 15px;
-            color: rgb(80, 80, 80);
-            text-decoration: none;
-            font-family: "Prata", serif;
-        }
-
-        .terms-container {
-            display: flex;
-            align-items: flex-start;
-            margin-left: 10%;
-            margin-right: 10%;
-            font-size: 14px;
-            color: rgb(80, 80, 80);
-            font-family: "Prata", serif;
-            margin-bottom: 20px;
-        }
-
-        .terms-text {
-            margin-left: 10px;
-        }
-
-        .login {
-            margin-top: 15px;
-            display: flex;
-            justify-content: center;
-            margin-bottom: 30px;
-        }
-
-        .login-text {
+            margin-bottom: 8px;
             font-size: 16px;
-            color: rgb(80, 80, 80);
+            font-weight: 500;
+            color: var(--accent-gold);
+            letter-spacing: 0.5px;
         }
 
-        .login-link {
-            margin-left: 4px;
-            color: rgb(200, 155, 60);
-            text-decoration: none;
+        .form-input-wrapper {
+            position: relative;
         }
 
-        .name-row {
+        .form-input {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid rgba(200, 155, 60, 0.3);
+            border-radius: 0;
+            padding: 16px 46px 16px 16px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 3px rgba(200, 155, 60, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent-gold);
+            font-size: 18px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: var(--accent-gold);
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px;
+        }
+
+        .toggle-password:hover {
+            color: var(--accent-gold-light);
+        }
+
+        .name-fields {
             display: flex;
-            justify-content: center;
-            width: 80%;
-            max-width: 400px;
-            margin: 0 auto;
             gap: 15px;
         }
 
-        .half-width {
-            width: 50%;
+        .name-fields .form-group {
+            flex: 1;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .btn-primary {
+            background: var(--accent-gold);
+            color: var(--bg-primary);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            border-radius: 0;
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--accent-gold-light);
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+
+        .btn-primary:hover::after {
+            opacity: 1;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(200, 155, 60, 0.3);
+        }
+
+        .btn-social {
+            background: var(--input-bg);
+            color: var(--text-primary);
+            border: 1px solid rgba(200, 155, 60, 0.3);
+            margin-bottom: 12px;
+            border-radius: 0;
+        }
+
+        .btn-social:hover {
+            background: rgba(200, 155, 60, 0.1);
+            transform: translateY(-3px);
+            border-color: var(--accent-gold);
+        }
+
+        .separator {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 32px 0;
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        .separator::before,
+        .separator::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid rgba(200, 155, 60, 0.3);
+        }
+
+        .separator::before {
+            margin-right: 15px;
+        }
+
+        .separator::after {
+            margin-left: 15px;
+        }
+
+        .login-prompt {
+            text-align: center;
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-top: 32px;
+        }
+
+        .login-prompt a {
+            color: var(--accent-gold);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .login-prompt a:hover {
+            color: var(--accent-gold-light);
+            text-decoration: underline;
+        }
+
+        /* Media queries */
+        @media (max-width: 1100px) {
+            .signup-wrapper {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .brand-section {
+                padding: 40px 20px;
+                margin-bottom: 40px;
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .brand-content {
+                max-width: 600px;
+            }
+
+            .logo {
+                justify-content: center;
+                margin-bottom: 40px;
+            }
+
+            .benefits-list {
+                width: 100%;
+                max-width: 500px;
+            }
+
+            .signup-section {
+                width: 100%;
+                max-width: 500px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .brand-title {
+                font-size: 42px;
+            }
+
+            .brand-description {
+                font-size: 18px;
+            }
+
+            .signup-section {
+                padding: 40px 30px;
+            }
+
+            .name-fields {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .brand-title {
+                font-size: 36px;
+            }
+
+            .benefit-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .benefit-icon {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
         }
     </style>
 </head>
+
 <body>
-<form method="POST" action="registre.php">
-    <div class="overlay">
-        <div class="left-section">
-            <img src="WhatsApp%20Image%202025-04-11%20at%2022.35.24_c8f55211.jpg" alt="Image" class="image">
-        </div>
-        <div class="right-section">
-            <div class="return">
-                <a href="connexion2.html" class="return_link">
-                    <p class="return_text">&#8592; Return </p>
-                </a>
-            </div>
-            <div class="creation">
-                <h1>Create Your Account</h1>
-            </div>
+    <div class="backdrop">
+        <div class="grid"></div>
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+    </div>
 
-            <script>
-                document.addEventListener('DOMContentLoaded', () => {
-                    const textElement = document.querySelector('.creation h1');
-
-                    function createSparkle() {
-                        const sparkle = document.createElement('div');
-                        sparkle.classList.add('sparkle');
-                        sparkle.style.left = `${Math.random() * textElement.offsetWidth}px`;
-                        sparkle.style.top = `${Math.random() * textElement.offsetHeight}px`;
-                        textElement.appendChild(sparkle);
-
-                        setTimeout(() => {
-                            sparkle.remove();
-                        }, 1000);
-                    }
-
-                    setInterval(createSparkle, 300);
-                });
-            </script>
-
-            <div class="div-info">
-                <p class="text-info">Create your account to access our exclusive services</p>
-            </div>
-
-            <div class="name-row">
-                <div class="info-field half-width">
-                    <input class="input-field" placeholder="First Name*" name="firstname">
+    <div class="container">
+        <div class="signup-wrapper">
+            <!-- Brand Section -->
+            <div class="brand-section">
+                <div class="logo">
+                    <h1 class="logo-text shimmer-text">HYPZA</h1>
                 </div>
-                <div class="info-field half-width">
-                    <input class="input-field" placeholder="Last Name*" name="lastname">
+
+                <div class="brand-content">
+                    <h2 class="brand-title">Join our <span class="gold-text">exclusive</span> community</h2>
+                    <p class="brand-description">Create your HYPZA account today and discover a world of premium fashion, personalized recommendations, and exclusive member benefits.</p>
                 </div>
-            </div>
 
-            <div class="info-field">
-                <input class="input-field" placeholder="Email*" name="email" type="email">
-            </div>
+                <div class="benefits-list">
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="fas fa-user-crown"></i>
+                        </div>
+                        <div class="benefit-text">
+                            <h3>Member Privileges</h3>
+                            <p>Gain access to exclusive collections and early releases.</p>
+                        </div>
+                    </div>
 
-            <div class="info-field">
-                <input class="input-field" placeholder="Phone Number*" name="phone" type="tel">
-            </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="fas fa-gift"></i>
+                        </div>
+                        <div class="benefit-text">
+                            <h3>Special Offers</h3>
+                            <p>Receive personalized deals and birthday surprises.</p>
+                        </div>
+                    </div>
 
-            <div class="info-field">
-                <input class="input-field" placeholder="Password*" name="password" type="password">
-            </div>
-
-            <div class="info-field">
-                <input class="input-field" placeholder="Password Confirmation*" name="confirm-password" type="password">
-            </div>
-
-            <div class="terms-container">
-                <div class="terms-box">
-                    <input type="checkbox" class="checkbox" required>
-                </div>
-                <div class="terms-text">
-                    <p>I accept the terms and conditions of use and the privacy policy. I understand that my personal data will be processed in accordance with the privacy policy.</p>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <div class="benefit-text">
+                            <h3>Fast Checkout</h3>
+                            <p>Save your preferences for a seamless shopping experience.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="terms-container">
-                <div class="terms-box">
-                    <input type="checkbox" class="checkbox">
+            <!-- Signup Section -->
+            <div class="signup-section">
+                <div class="signup-header">
+                    <h1>Create Account</h1>
+                    <p>Join the HYPZA experience today</p>
                 </div>
-                <div class="terms-text">
-                    <p>Je souhaite recevoir des informations sur les nouveaux produits, offres spéciales et événements exclusifs.</p>
+
+                <form method="POST" action="registre.php" class="signup-form">
+                    <div class="name-fields">
+                        <div class="form-group">
+                            <label for="first-name">First Name</label>
+                            <div class="form-input-wrapper">
+                                <input type="text" id="first-name" name="first_name" class="form-input" placeholder="John" required>
+                                <i class="fas fa-user input-icon"></i>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="last-name">Last Name</label>
+                            <div class="form-input-wrapper">
+                                <input type="text" id="last-name" name="last_name" class="form-input" placeholder="Doe" required>
+                                <i class="fas fa-user input-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <div class="form-input-wrapper">
+                            <input type="email" id="email" name="email" class="form-input" placeholder="your@email.com" required>
+                            <i class="fas fa-envelope input-icon"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="form-input-wrapper">
+                            <input type="password" id="password" name="password" class="form-input" placeholder="••••••••" required>
+                            <button type="button" class="toggle-password" onclick="togglePasswordVisibility()">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-user-plus"></i> Create Account
+                    </button>
+                </form>
+
+                <div class="separator">OR CONTINUE WITH</div>
+
+
+                <!-- Google Sign-in -->
+                <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+                <!-- Custom styled button that will display the Google sign-in popup -->
+                <button type="button" class="btn btn-social" id="custom-google-btn">
+                    <i class="fab fa-google"></i> Google
+                </button>
+
+                <!-- Hidden original Google sign-in elements -->
+                <div style="height: 0; overflow: hidden; opacity: 0; position: absolute;">
+                    <div id="g_id_onload"
+                         data-client_id="951615846978-gc5ogjg33khp087k2044c3qtd9u9ql5a.apps.googleusercontent.com"
+                         data-login_uri="https://hypeza.tech/google_callback.php"
+                         data-auto_prompt="false">
+                    </div>
+                    <div class="g_id_signin"
+                         data-type="standard"
+                         data-size="large"
+                         data-theme="outline"
+                         data-text="sign_in_with"
+                         data-shape="rectangular"
+                         data-logo_alignment="left">
+                    </div>
                 </div>
-            </div>
 
-            <div class="creation" style="margin-top: 10px;">
-                <button class="create-button">Create an account</button>
-            </div>
+                <script>
+                    // Wait for Google Sign-In API to load
+                    window.addEventListener('load', function() {
+                        // Add click event to our custom button
+                        document.getElementById('custom-google-btn').addEventListener('click', function() {
+                            // Find and click the actual Google sign-in button
+                            document.querySelector('.g_id_signin div[role="button"]').click();
+                        });
+                    });
+                </script>
 
-            <div class="login">
-                <p class="login-text">Already have an account?
-                    <a href="connexion2.html" class="login-link">Log in here.</a>
-                </p>
+                <button type="button" class="btn btn-social" onclick="window.location.href='https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=afcc759f-baea-44df-9b5a-7fb7404d7094&response_type=code&redirect_uri=https://hypeza.tech/microsoft_callback.php&response_mode=query&scope=https%3A%2F%2Fgraph.microsoft.com%2Fuser.read%20email%20openid%20profile&state=12345'">
+                    <i class="fab fa-microsoft"></i> Microsoft
+                </button>
+
+
+                <div class="login-prompt">
+                    <p>Already have an account? <a href="connexion2.html">Sign in</a></p>
+                </div>
             </div>
         </div>
     </div>
+
     <script>
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const icon = document.querySelector('.toggle-password i');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // Initialize the Google Sign-In
+        function initGoogleSignIn() {
+            window.google?.accounts?.id?.initialize({
+                client_id: "951615846978-gc5ogjg33khp087k2044c3qtd9u9ql5a.apps.googleusercontent.com",
+                callback: onGoogleSignIn,
+                auto_select: false,
+                cancel_on_tap_outside: true
+            });
+        }
+
+        // Handle the sign-in response
+        function onGoogleSignIn(response) {
+            // Redirect to callback URL with the credential
+            window.location.href = "https://hypeza.tech/google_callback.php?credential=" + response.credential;
+        }
+
+        // Attach click event to custom button
         document.addEventListener('DOMContentLoaded', function() {
-            // Sélectionner le lien Se connecter
-            const loginLink = document.querySelector('.login-link');
+            document.getElementById('custom-google-btn').addEventListener('click', function() {
+                if (window.google && window.google.accounts && window.google.accounts.id) {
+                    window.google.accounts.id.prompt();
+                } else {
+                    // Fallback to click the original button if found
+                    const googleBtn = document.querySelector('.g_id_signin div[role="button"]');
+                    if (googleBtn) googleBtn.click();
+                }
+            });
+        });
 
-            if (loginLink) {
-                loginLink.addEventListener('click', function(e) {
-                    e.preventDefault(); // Empêche la navigation immédiate
-
-                    const href = this.getAttribute('href');
-                    const rightSection = document.querySelector('.right-section');
-
-                    // Animation de sortie avec flou et translation
-                    rightSection.style.transition = 'opacity 0.6s ease-in-out, transform 0.6s ease-in-out, filter 0.6s ease-in-out';
-                    rightSection.style.opacity = '0';
-                    rightSection.style.transform = 'translateX(50px) rotate(5deg) ';
-                    rightSection.style.filter = 'blur(8px)';
-
-                    // Rediriger après l'animation
-                    setTimeout(function() {
-                        window.location.href = href;
-                    }, 500);
-                });
+        // Ensure Google API is loaded
+        window.addEventListener('load', function() {
+            if (window.google && window.google.accounts && window.google.accounts.id) {
+                initGoogleSignIn();
             }
         });
     </script>
-</form>
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const transitionLinks = document.querySelectorAll('a[href$="acc_create.html"], a[href$="connexion2.html"]');
+
+            transitionLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.body.classList.add('fade-out');
+                    setTimeout(() => {
+                        window.location.href = link.href;
+                    }, 600);
+                });
+            });
+        });
+
+    </script>
+
 
 </body>
 </html>
