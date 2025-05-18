@@ -258,7 +258,11 @@ document.addEventListener("DOMContentLoaded", () => {
       startAnimation();
   };
 
-  horizontalContainer.addEventListener("wheel", handleWheel, { passive: false });
+
+
+
+
+    horizontalContainer.addEventListener("wheel", handleWheel, { passive: false });
   horizontalContainer.addEventListener("mousedown", handleMouseDown);
   window.addEventListener("mousemove", handleMouseMove);
   window.addEventListener("mouseup", handleMouseUp);
@@ -268,7 +272,7 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("resize", updateDimensions);
 
   // Video background play rate
-  if (videoBackground) videoBackground.playbackRate = 0.6;
+  if (videoBackground) videoBackground.playbackRate = 0.95;
 
   // Lock page vertical scrolling until horizontal section complete
   window.addEventListener("scroll", () => {

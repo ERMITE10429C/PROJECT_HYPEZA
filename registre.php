@@ -48,7 +48,7 @@ try {
     error_log('Database connection successful');
 
     // Validate input data (comprehensive validation)
-    $required_fields = ['firstname', 'lastname', 'email', 'phone', 'password'];
+    $required_fields = ['first_name', 'last_name', 'email', 'password'];
     $missing_fields = [];
 
     foreach ($required_fields as $field) {

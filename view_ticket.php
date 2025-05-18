@@ -1,7 +1,33 @@
 <?php
 //Ce fichier permet l'utilsateur de voir les détails et la réponse à propos son ticket.
 session_start();
-require_once 'config.php';
+
+// Direct connection to Azure MySQL database
+$host = "hypezaserversql.mysql.database.azure.com";
+$user = "user";
+$pass = "HPL1710COMPAq";
+$db = "users_db";
+
+// Path to SSL certificate - try both locations
+$ssl_cert_1 = __DIR__ . '/ssl/DigiCertGlobalRootCA.crt.pem';
+$ssl_cert_2 = __DIR__ . '/DigiCertGlobalRootCA.crt.pem';
+
+// Choose the certificate that exists
+$ssl_cert = file_exists($ssl_cert_1) ? $ssl_cert_1 : $ssl_cert_2;
+
+// Using PDO with SSL options for Azure
+try {
+    $options = [
+        PDO::MYSQL_ATTR_SSL_CA => $ssl_cert,
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_EMULATE_PREPARES => false,
+    ];
+
+    $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $pass, $options);
+} catch (PDOException $e) {
+    die("Erreur de connexion à la base de données: " . $e->getMessage());
+}
 
 // Vérification si l'utilisateur est connecté
 if (!isset($_SESSION['user_id'])) {

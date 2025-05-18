@@ -692,57 +692,45 @@
 
                                     <div class="social-login">
 
-<!-- Google Sign-in -->
-<script src="https://accounts.google.com/gsi/client" async defer></script>
+                                <!-- Google Sign-in -->
+                                <script src="https://accounts.google.com/gsi/client" async defer></script>
 
-<!-- Custom styled button that will display the Google sign-in popup -->
-<button type="button" class="btn btn-social" id="custom-google-btn">
-    <i class="fab fa-google"></i> Google
-</button>
+                                <!-- Custom styled button that will display the Google sign-in popup -->
+                                <button type="button" class="btn btn-social" id="custom-google-btn">
+                                    <i class="fab fa-google"></i> Google
+                                </button>
 
-<!-- Hidden original Google sign-in elements -->
-<div style="height: 0; overflow: hidden; opacity: 0; position: absolute;">
-    <div id="g_id_onload"
-         data-client_id="951615846978-gc5ogjg33khp087k2044c3qtd9u9ql5a.apps.googleusercontent.com"
-         data-login_uri="https://hypeza.tech/google_callback.php"
-         data-auto_prompt="false">
-    </div>
-    <div class="g_id_signin"
-         data-type="standard"
-         data-size="large"
-         data-theme="outline"
-         data-text="sign_in_with"
-         data-shape="rectangular"
-         data-logo_alignment="left">
-    </div>
-</div>
 
-<script>
-    // Wait for Google Sign-In API to load
-    window.addEventListener('load', function() {
-        // Check if Google API is loaded
-        if (typeof google !== 'undefined') {
-            // Add click event to our custom button
-            document.getElementById('custom-google-btn').addEventListener('click', function() {
-                // Try to find and click the Google button, with a slight delay to ensure it's ready
-                setTimeout(function() {
-                    try {
-                        const googleButton = document.querySelector('.g_id_signin div[role="button"]');
-                        if (googleButton) {
-                            googleButton.click();
-                        } else {
-                            console.error('Google Sign-In button not found');
-                        }
-                    } catch (e) {
-                        console.error('Error triggering Google Sign-In:', e);
-                    }
-                }, 100);
-            });
-        } else {
-            console.error('Google API not loaded properly');
-        }
-    });
-</script>
+
+                                <!-- Hidden original Google sign-in elements -->
+
+
+                                        <div id="google-signin-container" style="display: none !important; visibility: hidden !important; position: absolute !important; left: -9999px !important; height: 0 !important; width: 0 !important; overflow: hidden !important; opacity: 0 !important;">
+                                    <div id="g_id_onload"
+                                         data-client_id="951615846978-gc5ogjg33khp087k2044c3qtd9u9ql5a.apps.googleusercontent.com"
+                                         data-login_uri="https://hypeza.tech/google_callback.php"
+                                         data-auto_prompt="false">
+                                    </div>
+                                    <div class="g_id_signin"
+                                         data-type="standard"
+                                     data-size="large"
+                                     data-theme="outline"
+                                     data-text="sign_in_with"
+                                     data-shape="rectangular"
+                                     data-logo_alignment="left">
+                                </div>
+                            </div>
+
+                            <script>
+                                // Wait for Google Sign-In API to load
+                                window.addEventListener('load', function() {
+                                    // Add click event to our custom button
+                                    document.getElementById('custom-google-btn').addEventListener('click', function() {
+                                        // Find and click the actual Google sign-in button
+                                        document.querySelector('.g_id_signin div[role="button"]').click();
+                                    });
+                                });
+                            </script>
 
                                         <button type="button" class="btn btn-social" onclick="window.location.href='https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=afcc759f-baea-44df-9b5a-7fb7404d7094&response_type=code&redirect_uri=https://hypeza.tech/microsoft_callback.php&response_mode=query&scope=https%3A%2F%2Fgraph.microsoft.com%2Fuser.read%20email%20openid%20profile&state=12345'">
                                             <i class="fab fa-microsoft"></i> Microsoft
@@ -773,6 +761,28 @@
                                     icon.classList.add('fa-eye');
                                 }
                             }
+                        </script>
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                // Hide Google Sign-In elements
+                                const googleElements = document.getElementById('google-signin-container');
+                                if (googleElements) {
+                                    googleElements.style.display = 'none';
+                                    googleElements.style.visibility = 'hidden';
+                                    googleElements.style.opacity = '0';
+                                    googleElements.style.position = 'absolute';
+                                    googleElements.style.height = '0';
+                                    googleElements.style.overflow = 'hidden';
+                                }
+
+                                // For the default Google Sign-In button
+                                const googleButton = document.querySelector('.g-signin2') || document.querySelector('.abcRioButton');
+                                if (googleButton) {
+                                    googleButton.style.display = 'none';
+                                    googleButton.style.visibility = 'hidden';
+                                }
+                            });
                         </script>
 
 
