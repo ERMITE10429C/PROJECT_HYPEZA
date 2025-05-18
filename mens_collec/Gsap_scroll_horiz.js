@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const splitTexts = document.querySelectorAll(".split-text");
 
   // Constants (tweaked for smoother and faster)
-  const SMOOTH_FACTOR = 0.1;
+  const SMOOTH_FACTOR = 0.2;
   const WHEEL_SENSITIVITY = 1.2;
   const PANEL_COUNT = panels.length;
   const PARALLAX_INTENSITY = 0.2;

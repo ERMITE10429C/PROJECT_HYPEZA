@@ -147,8 +147,8 @@ if (!isset($_SESSION['user_id'])) {
 
 <div class="overlay">
     <div class="background">
-        <img src="whisk_storyboardd94a966788374da88f1ee0b5.png" alt="Featured Collection" class="background-categorie active">
-        <img src="whisk_storyboard9376d4f287c64902ba787667.png" alt="Men's Collection" class="background-categorie">
+        <img src="whisk_storyboardd94a966788374da88f1ee0b5.webp" alt="Featured Collection" class="background-categorie active">
+        <img src="whisk_storyboard9376d4f287c64902ba787667.webp" alt="Men's Collection" class="background-categorie">
 
 
         <div class="carousel-controls">
@@ -230,10 +230,10 @@ if (!isset($_SESSION['user_id'])) {
 
         <section class="comparisonSection" >
             <div class="comparisonImage beforeImage">
-                <img src="Untitled-3.png" alt="before" style="width: 100%; height: 100%; object-fit: cover;">
+                <img src="Untitled-3.webp" alt="before" style="width: 100%; height: 100%; object-fit: cover;">
             </div>
             <div class="comparisonImage afterImage">
-                <img src="Untitled-2.png" alt="after" style="width: 100%; height: 100%; object-fit: cover;">
+                <img src="Untitled-2.webp" alt="after" style="width: 100%; height: 100%; object-fit: cover;">
             </div>
         </section>
 
@@ -378,10 +378,10 @@ if (!isset($_SESSION['user_id'])) {
 
         <section class="comparisonSection" >
             <div class="comparisonImage beforeImage">
-                <img src="mens_collec.png" alt="before" style="width: 100%; height: 100%; object-fit: cover;">
+                <img src="mens_collec.webp" alt="before" style="width: 100%; height: 100%; object-fit: cover;">
             </div>
             <div class="comparisonImage afterImage">
-                <img src="mens_collec_slide2.jpg" alt="after" style="width: 100%; height: 100%; object-fit: cover;">
+                <img src="mens_collec_slide2.webp" alt="after" style="width: 100%; height: 100%; object-fit: cover;">
             </div>
         </section>
 
@@ -499,12 +499,12 @@ if (!isset($_SESSION['user_id'])) {
             <div class="parallax__visuals">
                 <div class="parallax__black-line-overflow"></div>
                 <div data-parallax-layers class="parallax__layers">
-                    <img src="filali_page_1.png" loading="eager"  data-parallax-layer="1" alt="" class="parallax__layer-img">
-                    <img src="paralax_2.png" loading="eager"  data-parallax-layer="2" alt="" class="parallax__layer-img">
+                    <img src="filali_page_1.webp" loading="eager"  data-parallax-layer="1" alt="" class="parallax__layer-img">
+                    <img src="paralax_2.webp" loading="eager"  data-parallax-layer="2" alt="" class="parallax__layer-img">
                     <div data-parallax-layer="3" class="parallax__layer-title">
                         <h2 class="parallax__title">HYPEZA</h2>
                     </div>
-                    <img src="3.png" loading="eager"  data-parallax-layer="4" alt="" class="parallax__layer-img">
+                    <img src="3.webp" loading="eager"  data-parallax-layer="4" alt="" class="parallax__layer-img">
                 </div>
 
                 <div class="parallax__fade"></div>
