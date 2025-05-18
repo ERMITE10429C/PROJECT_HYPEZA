@@ -102,7 +102,7 @@ try {
             Veuillez vous connecter à votre espace client pour consulter la réponse.
         </p>
         <div style='text-align: center; margin: 20px 0;'>
-            <a href='http://localhost/connexion2.html' style='background-color: rgb(200,155,60); color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-size: 16px;'>Accéder à votre espace client</a>
+            <a href='https://hypeza.tech/connexion2.html' style='background-color: rgb(200,155,60); color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-size: 16px;'>Accéder à votre espace client</a>
         </div>
         <p style='font-size: 14px; color: #666;'>
             Si vous avez des questions, n'hésitez pas à nous contacter.
@@ -124,7 +124,13 @@ try {
     }
 
     // Traitement du formulaire de réponse
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['response'])) {
+    // Changed the check from $_POST['response'] to just checking if the form is submitted
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Make sure the response field exists before using it
+        if (!isset($_POST['response'])) {
+            throw new Exception("Données du formulaire manquantes.");
+        }
+
         $response = trim($_POST['response']);
         $admin_id = $_SESSION['user_id'];
         $status = isset($_POST['status']) ? $_POST['status'] : $ticket['status'];
@@ -335,7 +341,8 @@ try {
             <p><strong>Date de création:</strong> <?= htmlspecialchars($ticket['created_at']) ?></p>
         </div>
 
-        <form method="POST" action="respond_ticket.php?id=<?= $ticket_id ?>">
+        <!-- Make sure to use the absolute URL in the form action -->
+        <form method="POST" action="https://hypeza.tech/respond_ticket.php?id=<?= $ticket_id ?>">
             <div class="form-group">
                 <label for="status">Mettre à jour le statut:</label>
                 <select name="status" id="status">
