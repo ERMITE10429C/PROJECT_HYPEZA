@@ -1,50 +1,32 @@
 <?php
+// Create a new file: mark_as_read.php
 session_start();
 
-// Connexion à la base de données Azure MySQL
+if (!isset($_SESSION['user_id']) || !isset($_GET['ticket_id'])) {
+    header("Location: espace_client.php");
+    exit();
+}
+
+$ticket_id = (int)$_GET['ticket_id'];
+$user_id = $_SESSION['user_id'];
+
+// Database connection
 $host = "hypezaserversql.mysql.database.azure.com";
 $user = "user";
 $pass = "HPL1710COMPAq";
 $db = "users_db";
+$ssl_cert = __DIR__ . '/DigiCertGlobalRootCA.crt.pem';
 
-// Path to SSL certificate - try both locations
-$ssl_cert_1 = __DIR__ . '/ssl/DigiCertGlobalRootCA.crt.pem';
-$ssl_cert_2 = __DIR__ . '/DigiCertGlobalRootCA.crt.pem';
-
-// Choose the certificate that exists
-$ssl_cert = file_exists($ssl_cert_1) ? $ssl_cert_1 : $ssl_cert_2;
-
-// Create connection with SSL
 $conn = mysqli_init();
 mysqli_ssl_set($conn, NULL, NULL, $ssl_cert, NULL, NULL);
+mysqli_real_connect($conn, $host, $user, $pass, $db, 3306, MYSQLI_CLIENT_SSL);
 
-if (!mysqli_real_connect($conn, $host, $user, $pass, $db, 3306, MYSQLI_CLIENT_SSL)) {
-    die("Erreur de connexion : " . mysqli_connect_error());
-}
+// Mark notification as read, and verify this belongs to the user
+$stmt = $conn->prepare("UPDATE tickets SET has_new_response = 0 
+                       WHERE id = ? AND user_id = ?");
+$stmt->bind_param("ii", $ticket_id, $user_id);
+$stmt->execute();
 
-// Vérifiez si des notifications ont été sélectionnées
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['notification_ids'])) {
-    $notification_ids = $_POST['notification_ids'];
-
-    // Vérifier si le tableau n'est pas vide
-    if (empty($notification_ids)) {
-        header("Location: espace_client.php?status=no_selection");
-        exit();
-    }
-
-    // Préparez une requête pour mettre à jour les notifications sélectionnées
-    $placeholders = implode(',', array_fill(0, count($notification_ids), '?'));
-    $stmt = $conn->prepare("UPDATE tickets SET is_notified = 0 WHERE id IN ($placeholders)");
-
-    // Liez les paramètres dynamiquement
-    $types = str_repeat('i', count($notification_ids));
-    $stmt->bind_param($types, ...$notification_ids);
-    $stmt->execute();
-
-    header("Location: espace_client.php?status=notifications_updated");
-    exit();
-} else {
-    header("Location: espace_client.php?status=no_selection");
-    exit();
-}
+header("Location: view_ticket.php?id=".$ticket_id);
+exit();
 ?>

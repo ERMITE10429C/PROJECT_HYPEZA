@@ -36,31 +36,31 @@ document.addEventListener('DOMContentLoaded', function() {
     loadItems() {
       const trendingItems = [
         {
-          image: 'images/designer_suit.jpeg',
+          image: 'images/designer_suit.webp',
           title: 'Signature Tailored Suit',
           description: 'Impeccably crafted from premium Italian wool, our signature suit offers refined elegance with modern details.',
           price: '$1,895'
         },
         {
-          image: 'images/trousers.jpeg',
+          image: 'images/trousers.webp',
           title: 'Leather Weekend Duffle',
           description: 'Handcrafted from full-grain calfskin leather with brushed gold hardware and ultra-suede interior.',
           price: '$1,250'
         },
         {
-          image: 'images/mens_collec_watch.jpeg',
+          image: 'images/mens_collec_watch.webp',
           title: 'Limited Edition Chronograph',
           description: 'Swiss-made mechanical movement housed in a 42mm case with sapphire crystal and exhibition caseback.',
           price: '$3,750'
         },
         {
-          image: 'images/coat_.jpeg',
+          image: 'images/coat_.webp',
           title: 'Cashmere Overcoat',
           description: 'Double-faced pure cashmere with horn buttons and a half-canvas construction for perfect drape.',
           price: '$2,495'
         },
         {
-          image: 'images/shirt_black.jpeg',
+          image: 'images/shirt_black.webp',
           title: 'Italian Leather Oxfords',
           description: 'Goodyear-welted construction ensures these hand-polished calfskin shoes will last for years.',
           price: '$875'

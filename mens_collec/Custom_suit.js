@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="preview-container">
           <div class="suit-preview">
             <div class="suit-image-container">
-              <img id="suit-preview-image" src="images/suits/default-suit.jpg" alt="Suit Preview">
+              <img id="suit-preview-image" src="images/suits/default-suit.webp" alt="Suit Preview">
             </div>
             <div class="preview-details">
               <h3>Selected Options</h3>
@@ -97,9 +97,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Only update if all options are selected
     if (selectedOptions.fit && selectedOptions.buttons && selectedOptions.fabric) {
       // Construct image filename based on selections
-      // Format: fit-buttons-fabric.jpg
-      // Example: classic-two-wool.jpg or slim-three-cashmere.jpg
-      const imageName = `${selectedOptions.fit}-${selectedOptions.buttons}-${selectedOptions.fabric}.jpg`;
+      // Format: fit-buttons-fabric.webp
+      // Example: classic-two-wool.webp or slim-three-cashmere.webp
+      const imageName = `${selectedOptions.fit}-${selectedOptions.buttons}-${selectedOptions.fabric}.webp`;
       previewImage.src = `images/suits/${imageName}`;
     }
   }

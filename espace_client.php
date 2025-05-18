@@ -38,7 +38,11 @@ $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 
 // Récupérer les tickets répondus non notifiés
-$stmt = $conn->prepare("SELECT * FROM tickets WHERE user_id = ? AND is_notified = 1");
+$stmt = $conn->prepare("SELECT t.*, COUNT(tr.id) as response_count 
+                       FROM tickets t
+                       LEFT JOIN ticket_responses tr ON t.id = tr.ticket_id
+                       WHERE t.user_id = ? AND t.has_new_response = 1
+                       GROUP BY t.id");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $notifications = $stmt->get_result();
@@ -504,14 +508,23 @@ $notifications = $stmt->get_result();
             </div>
         </div>
 
-        <div class="card" id="tickets">
-            <h2>Gestion des Tickets</h2>
-            <div>
-                <a href="submit_ticket.php" class="btn">Soumettre un ticket</a>
-                <a href="view_tickets.php" class="btn">Voir mes tickets</a>
-            </div>
-        </div>
+<div class="card" id="tickets">
+    <h2>Gestion des Tickets</h2>
+    <div>
+        <a href="submit_ticket.php" class="btn">Soumettre un ticket</a>
+        <a href="view_tickets.php" class="btn">Voir mes tickets</a>
+
         <?php if ($notifications->num_rows > 0): ?>
+            <div class="alert" style="margin-top: 15px; padding: 10px; background-color: #FFF3CD; border-left: 4px solid #FFD700; border-radius: 4px;">
+                <p><i class="fas fa-bell"></i> <strong>Vous avez <?= $notifications->num_rows ?> ticket(s) avec des nouvelles réponses!</strong></p>
+                <a href="view_tickets.php" class="btn">Voir les réponses</a>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
+
+        <?php if ($notifications->num_rows > 0): ?>
+
             <div class="card" id="notifications">
                 <h2>Notifications</h2>
                 <form method="POST" action="mark_notifications.php">
@@ -527,7 +540,9 @@ $notifications = $stmt->get_result();
                     <button type="submit" class="btn">Marquer comme lu</button>
                 </form>
             </div>
+
         <?php endif; ?>
+
     </div>
 </div>
 

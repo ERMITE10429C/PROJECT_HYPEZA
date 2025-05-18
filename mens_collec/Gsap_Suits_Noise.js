@@ -5,28 +5,28 @@ const projects = [
         title: "Classic Oxford",
         year: "Spring/Summer",
         image:
-            "./images/suit_1.jpeg"
+            "./images/suit_1.webp"
     },
     {
         id: 2,
         title: "Italian Slim Fit",
         year: "All Seasons",
         image:
-            "./images/suit_2.jpeg"
+            "./images/suit_2.webp"
     },
     {
         id: 3,
         title: "British Wool",
         year: "Fall/Winter",
         image:
-            "./images/British Wool.jpeg"
+            "./images/British Wool.webp"
     },
     {
         id: 4,
         title: "Midnight Tuxedo",
         year: "Formal Collection",
         image:
-            "./images/Midnight Tuxedo.jpeg"
+            "./images/Midnight Tuxedo.webp"
     },
 
 ];
