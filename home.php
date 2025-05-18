@@ -500,7 +500,7 @@ if (!isset($_SESSION['user_id'])) {
                 <div class="parallax__black-line-overflow"></div>
                 <div data-parallax-layers class="parallax__layers">
                     <img src="filali_page_1.webp" loading="eager"  data-parallax-layer="1" alt="" class="parallax__layer-img">
-                    <img src="paralax_2.webp" loading="eager"  data-parallax-layer="2" alt="" class="parallax__layer-img">
+                    <img src="paralax_2.png" loading="eager"  data-parallax-layer="2" alt="" class="parallax__layer-img">
                     <div data-parallax-layer="3" class="parallax__layer-title">
                         <h2 class="parallax__title">HYPEZA</h2>
                     </div>

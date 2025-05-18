@@ -330,8 +330,10 @@ $notifications = $stmt->get_result();
         }
     </style>
 </head>
+
 <body>
 <div class="dashboard">
+
     <div class="sidebar">
         <h2 class="sidebar-title">Espace Client</h2>
         <nav>
@@ -340,7 +342,8 @@ $notifications = $stmt->get_result();
             <a href="#favorites" class="nav-link"><i class="fas fa-heart"></i> Mes Favoris</a>
             <a href="#addresses" class="nav-link"><i class="fas fa-map-marker-alt"></i> Mes Adresses</a>
             <a href="#tickets" class="nav-link"><i class="fas fa-ticket-alt"></i> Mes tickets</a>
-            <a href="logout.php" class="nav-link"><i class="fas fa-sign-out-alt"></i> Se déconnecter</a>
+            <a href="home.php" class="nav-link"><i class="fas fa-ticket-alt"></i> HOME </a>
+            <a href="logout.php" class="nav-link"><i class="fas fa-sign-out-alt"></i> Se déconnecter </a>
         </nav>
     </div>
 
