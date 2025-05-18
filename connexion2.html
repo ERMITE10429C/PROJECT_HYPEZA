@@ -720,11 +720,27 @@
 <script>
     // Wait for Google Sign-In API to load
     window.addEventListener('load', function() {
-        // Add click event to our custom button
-        document.getElementById('custom-google-btn').addEventListener('click', function() {
-            // Find and click the actual Google sign-in button
-            document.querySelector('.g_id_signin div[role="button"]').click();
-        });
+        // Check if Google API is loaded
+        if (typeof google !== 'undefined') {
+            // Add click event to our custom button
+            document.getElementById('custom-google-btn').addEventListener('click', function() {
+                // Try to find and click the Google button, with a slight delay to ensure it's ready
+                setTimeout(function() {
+                    try {
+                        const googleButton = document.querySelector('.g_id_signin div[role="button"]');
+                        if (googleButton) {
+                            googleButton.click();
+                        } else {
+                            console.error('Google Sign-In button not found');
+                        }
+                    } catch (e) {
+                        console.error('Error triggering Google Sign-In:', e);
+                    }
+                }, 100);
+            });
+        } else {
+            console.error('Google API not loaded properly');
+        }
     });
 </script>
 
