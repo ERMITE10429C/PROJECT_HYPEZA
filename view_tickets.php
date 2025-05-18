@@ -65,11 +65,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ticket_id'])) 
     exit();
 }
 ?>
+
 <!DOCTYPE html>
-<html lang="eng">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>Mes Tickets</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
@@ -90,6 +92,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ticket_id'])) 
             text-align: center;
             margin-bottom: 30px;
             font-weight: 600;
+            font-size: 2.5em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .search-form {
@@ -97,147 +102,306 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ticket_id'])) 
             display: flex;
             justify-content: center;
             gap: 10px;
+            position: relative;
         }
 
         .search-input {
-            padding: 12px;
+            padding: 12px 12px 12px 40px;
             width: 50%;
-            border: 1px solid #ddd;
-            border-radius: 6px;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
             font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: rgb(200,155,60);
+            outline: none;
+            box-shadow: 0 0 10px rgba(200,155,60,0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 26%;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
         }
 
         .search-button {
-            padding: 12px 24px;
+            padding: 12px 30px;
             background-color: rgb(200,155,60);
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 50px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 14px;
         }
 
         .search-button:hover {
             background-color: rgb(180,135,40);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
         .tickets-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 25px;
             margin-bottom: 30px;
         }
 
         .ticket-card {
             background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            padding: 25px;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.3s ease;
+            border: 1px solid #eee;
+            position: relative;
+            overflow: hidden;
         }
 
         .ticket-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+
+        .ticket-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background-color: rgb(200,155,60);
         }
 
         .ticket-title {
             font-size: 18px;
             font-weight: 600;
-            color: rgb(200,155,60);
-            margin-bottom: 10px;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            padding-right: 60px;
         }
 
         .ticket-preview {
             color: #666;
-            margin-bottom: 15px;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            font-size: 14px;
         }
 
         .ticket-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 14px;
-            color: #888;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .ticket-date {
+            display: flex;
+            align-items: center;
+            color: #666;
+            font-size: 13px;
+        }
+
+        .ticket-date i {
+            margin-right: 5px;
+            color: rgb(200,155,60);
         }
 
         .ticket-status {
-            padding: 4px 8px;
-            border-radius: 4px;
+            padding: 6px 12px;
+            border-radius: 50px;
             font-size: 12px;
-            font-weight: 500;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
         }
 
-        .status-en-attente { background-color: #fff3cd; color: #856404; }
-        .status-en-cours { background-color: #cce5ff; color: #004085; }
-        .status-resolu { background-color: #d4edda; color: #155724; }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            z-index: 1000;
+        /* Statuts personnalisés */
+        .status-en-attente {
+            background-color: #fff3e0;
+            color: #f57c00;
+            border: 1px solid #ffe0b2;
         }
 
+        .status-en-cours {
+            background-color: #e3f2fd;
+            color: #1976d2;
+            border: 1px solid #bbdefb;
+        }
+
+        .status-resolu {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+
+        .status-urgent {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 1px solid #ffcdd2;
+        }
+
+        /* Modal améliorée */
         .modal-content {
             position: relative;
             background-color: white;
             margin: 50px auto;
-            padding: 25px;
-            width: 80%;
+            padding: 30px;
+            width: 90%;
             max-width: 800px;
-            border-radius: 8px;
-            max-height: 80vh;
+            border-radius: 15px;
+            max-height: 85vh;
             overflow-y: auto;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .modal-header {
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            color: #2c3e50;
+            margin: 0;
         }
 
         .modal-close {
             position: absolute;
-            right: 20px;
-            top: 20px;
-            font-size: 24px;
+            right: 25px;
+            top: 25px;
+            width: 30px;
+            height: 30px;
+            background: #f8f9fa;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: #e9ecef;
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 20px 0;
+        }
+
+        .modal-description {
+            line-height: 1.6;
+            color: #4a4a4a;
+            margin-bottom: 20px;
+        }
+
+        .modal-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .modal-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-meta-item i {
+            color: rgb(200,155,60);
         }
 
         .btn-actions {
             display: flex;
-            gap: 10px;
-            margin-top: 20px;
+            gap: 15px;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px solid #f0f0f0;
         }
 
         .btn {
-            padding: 8px 16px;
-            border-radius: 4px;
+            padding: 10px 20px;
+            border-radius: 50px;
             border: none;
             cursor: pointer;
             text-decoration: none;
-            font-weight: 500;
-            transition: background-color 0.2s;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .btn-edit { background-color: #007bff; color: white; }
-        .btn-delete { background-color: #dc3545; color: white; }
-        .btn-back { background-color: #6c757d; color: white; }
+        .btn i {
+            font-size: 16px;
+        }
+
+        .btn-edit {
+            background-color: #2196f3;
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background-color: #1976d2;
+            transform: translateY(-2px);
+        }
+
+        .btn-delete {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background-color: #d32f2f;
+            transform: translateY(-2px);
+        }
+
+        .btn-back {
+            background-color: #757575;
+            color: white;
+        }
+
+        .btn-back:hover {
+            background-color: #616161;
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>Mes Tickets</h1>
+    <h1><i class="fas fa-ticket-alt"></i> Mes Tickets</h1>
 
     <form method="GET" class="search-form">
+        <i class="fas fa-search search-icon"></i>
         <input type="text" name="search" class="search-input"
                placeholder="Rechercher un ticket..."
                value="<?= htmlspecialchars($search) ?>">
-        <button type="submit" class="search-button">Rechercher</button>
+        <button type="submit" class="search-button">
+            <i class="fas fa-search"></i> Rechercher
+        </button>
     </form>
 
     <?php if (count($tickets) > 0): ?>
@@ -247,30 +411,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ticket_id'])) 
                     <div class="ticket-title"><?= htmlspecialchars($ticket['title']) ?></div>
                     <div class="ticket-preview"><?= htmlspecialchars(substr($ticket['description'], 0, 100)) ?>...</div>
                     <div class="ticket-meta">
-                            <span class="ticket-status status-<?= strtolower(str_replace(' ', '-', $ticket['status'])) ?>">
+                        <div class="ticket-date">
+                            <i class="far fa-calendar-alt"></i>
+                            <?= date('d/m/Y', strtotime($ticket['created_at'])) ?>
+                        </div>
+                        <span class="ticket-status status-<?= strtolower(str_replace(' ', '-', $ticket['status'])) ?>">
+                                <i class="fas fa-circle"></i>
                                 <?= htmlspecialchars($ticket['status']) ?>
                             </span>
-                        <span><?= date('d/m/Y', strtotime($ticket['created_at'])) ?></span>
                     </div>
                 </div>
             <?php endforeach; ?>
         </div>
     <?php else: ?>
-        <p>Aucun ticket trouvé pour votre recherche.</p>
+        <div style="text-align: center; padding: 40px;">
+            <i class="fas fa-search" style="font-size: 48px; color: #ccc;"></i>
+            <p style="color: #666; margin-top: 20px;">Aucun ticket trouvé pour votre recherche.</p>
+        </div>
     <?php endif; ?>
 
-    <a href="espace_client.php" class="btn btn-back">Retour à l'espace client</a>
+    <a href="espace_client.php" class="btn btn-back">
+        <i class="fas fa-arrow-left"></i> Retour à l'espace client
+    </a>
 </div>
 
 <!-- Modal pour afficher les détails du ticket -->
 <div id="ticketModal" class="modal">
     <div class="modal-content">
-        <span class="modal-close" onclick="closeModal()">&times;</span>
-        <h2 id="modalTitle"></h2>
-        <div id="modalDescription"></div>
-        <div id="modalImage"></div>
-        <div id="modalMeta"></div>
-        <div class="btn-actions" id="modalActions"></div>
+        <div class="modal-close" onclick="closeModal()">
+            <i class="fas fa-times"></i>
+        </div>
+        <div class="modal-header">
+            <h2 class="modal-title" id="modalTitle"></h2>
+        </div>
+        <div class="modal-body">
+            <div class="modal-description" id="modalDescription"></div>
+            <div id="modalImage"></div>
+            <div class="modal-meta" id="modalMeta"></div>
+            <div class="btn-actions" id="modalActions"></div>
+        </div>
     </div>
 </div>
 
@@ -279,21 +458,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ticket_id'])) 
         document.getElementById('modalTitle').textContent = ticket.title;
         document.getElementById('modalDescription').textContent = ticket.description;
         document.getElementById('modalMeta').innerHTML = `
-                <p><strong>Statut:</strong> ${ticket.status}</p>
-                <p><strong>Date de création:</strong> ${new Date(ticket.created_at).toLocaleDateString()}</p>
+                <div class="modal-meta-item">
+                    <i class="fas fa-tag"></i>
+                    <span><strong>Statut:</strong>
+                        <span class="ticket-status status-${ticket.status.toLowerCase().replace(' ', '-')}">
+                            ${ticket.status}
+                        </span>
+                    </span>
+                </div>
+                <div class="modal-meta-item">
+                    <i class="far fa-calendar-alt"></i>
+                    <span><strong>Créé le:</strong> ${new Date(ticket.created_at).toLocaleDateString()}</span>
+                </div>
             `;
 
         if (ticket.image_path) {
             document.getElementById('modalImage').innerHTML = `
-                    <img src="${ticket.image_path}" alt="Image du ticket" style="max-width: 100%; margin: 10px 0;">
+                    <img src="${ticket.image_path}" alt="Image du ticket" style="max-width: 100%; border-radius: 8px; margin: 15px 0;">
                 `;
         } else {
-            document.getElementById('modalImage').innerHTML = '<p>Aucune image associée</p>';
+            document.getElementById('modalImage').innerHTML = '';
         }
 
         document.getElementById('modalActions').innerHTML = `
-                <a href="edit_ticket.php?id=${ticket.id}" class="btn btn-edit">Modifier</a>
-                <button onclick="deleteTicket(${ticket.id})" class="btn btn-delete">Supprimer</button>
+                <a href="edit_ticket.php?id=${ticket.id}" class="btn btn-edit">
+                    <i class="fas fa-edit"></i> Modifier
+                </a>
+                <button onclick="deleteTicket(${ticket.id})" class="btn btn-delete">
+                    <i class="fas fa-trash-alt"></i> Supprimer
+                </button>
             `;
 
         document.getElementById('ticketModal').style.display = 'block';
