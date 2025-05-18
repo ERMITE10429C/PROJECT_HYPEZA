@@ -516,13 +516,6 @@ $notifications = $stmt->get_result();
     <div>
         <a href="submit_ticket.php" class="btn">Soumettre un ticket</a>
         <a href="view_tickets.php" class="btn">Voir mes tickets</a>
-
-        <?php if ($notifications->num_rows > 0): ?>
-            <div class="alert" style="margin-top: 15px; padding: 10px; background-color: #FFF3CD; border-left: 4px solid #FFD700; border-radius: 4px;">
-                <p><i class="fas fa-bell"></i> <strong>Vous avez <?= $notifications->num_rows ?> ticket(s) avec des nouvelles réponses!</strong></p>
-                <a href="view_tickets.php" class="btn">Voir les réponses</a>
-            </div>
-        <?php endif; ?>
     </div>
 </div>
 
@@ -534,9 +527,11 @@ $notifications = $stmt->get_result();
                     <ul>
                         <?php while ($notification = $notifications->fetch_assoc()): ?>
                             <li>
-                                <input type="checkbox" name="notification_ids[]" value="<?= $notification['id'] ?>">
-                                Votre ticket <strong><?= htmlspecialchars($notification['title']) ?></strong> a été répondu.
-                                <a href="view_ticket.php?id=<?= $notification['id'] ?>">Voir les détails</a>
+                                <label>
+                                    <input type="checkbox" name="notification_ids[]" value="<?= $notification['id'] ?>">
+                                    Votre ticket <strong><?= htmlspecialchars($notification['title']) ?></strong> a été répondu.
+                                    <a href="view_ticket.php?id=<?= $notification['id'] ?>">Voir les détails</a>
+                                </label>
                             </li>
                         <?php endwhile; ?>
                     </ul>
