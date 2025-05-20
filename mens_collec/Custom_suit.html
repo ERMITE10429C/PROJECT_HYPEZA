@@ -491,50 +491,46 @@
   document.querySelector('.appointment-form').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    // Montrer un indicateur de chargement (spinner ou message)
-    const submitBtn = this.querySelector('.submit-btn');
-    const originalBtnText = submitBtn.textContent;
-    submitBtn.textContent = 'Envoi en cours...';
-    submitBtn.disabled = true;
+    // Créer un objet avec les données du formulaire
+    const formData = {
+      name: document.getElementById('name').value,
+      email: document.getElementById('email').value,
+      phone: document.getElementById('phone').value,
+      date: document.getElementById('date').value,
+      time: document.getElementById('time').value,
+      notes: document.getElementById('notes').value
+    };
 
-    const formData = new FormData(this);
+    // Afficher les données dans la console pour déboguer
+    console.log('Données à envoyer:', formData);
 
-    // Convertir FormData en objet pour le débogage
-    const formDataObj = {};
-    formData.forEach((value, key) => {
-      formDataObj[key] = value;
-    });
-    console.log('Données envoyées:', formDataObj);
-
+    // Envoyer les données en JSON
     fetch('process_appointment.php', {
       method: 'POST',
-      body: formData
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData)
     })
             .then(response => {
-              if (!response.ok) {
-                throw new Error('Erreur réseau');
-              }
+              console.log('Status:', response.status);
               return response.json();
             })
             .then(data => {
-              console.log('Réponse reçue:', data);
+              console.log('Réponse:', data);
               if (data.success) {
-                alert('Votre demande de rendez-vous a été envoyée avec succès !');
+                alert('Votre rendez-vous a été confirmé ! Vous recevrez un email de confirmation.');
                 this.reset();
               } else {
-                alert('Erreur : ' + (data.message || 'Une erreur inconnue est survenue'));
+                throw new Error(data.message || 'Erreur lors de l\'envoi');
               }
             })
             .catch(error => {
-              console.error('Erreur détaillée:', error);
-              alert('Une erreur est survenue lors de l\'envoi du formulaire. Veuillez réessayer.');
-            })
-            .finally(() => {
-              // Restaurer le bouton
-              submitBtn.textContent = originalBtnText;
-              submitBtn.disabled = false;
+              console.error('Erreur:', error);
+              alert('Une erreur est survenue. Veuillez vérifier vos informations et réessayer.');
             });
   });
+
 </script>
 
 

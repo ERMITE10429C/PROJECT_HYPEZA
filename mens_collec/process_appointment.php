@@ -1,7 +1,4 @@
 <?php
-error_log("Script démarré");
-error_log("POST data: " . print_r($_POST, true));
-
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
@@ -11,130 +8,95 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-header('Content-Type: application/json');
+// Autoriser les requêtes CORS si nécessaire
+header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json; charset=UTF-8');
+header('Access-Control-Allow-Methods: POST');
+header('Access-Control-Allow-Headers: Content-Type');
+
+// Logger les données reçues
+error_log('Requête reçue : ' . file_get_contents('php://input'));
 
 try {
-    // Vérifier si c'est une requête POST
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        throw new Exception("Méthode non autorisée");
+    // Récupérer les données JSON
+    $json = file_get_contents('php://input');
+    $data = json_decode($json, true);
+
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        throw new Exception('Erreur de parsing JSON: ' . json_last_error_msg());
     }
 
-    // Charger l'autoloader de Composer
-    $autoloadFile = 'vendor/autoload.php';
-    if (!file_exists($autoloadFile)) {
-        throw new Exception("Erreur de configuration : autoload.php non trouvé");
-    }
-    require $autoloadFile;
-
-    // Récupérer et valider les données du formulaire
-    $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
-    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-    $phone = filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_STRING);
-    $date = filter_input(INPUT_POST, 'date', FILTER_SANITIZE_STRING);
-    $time = filter_input(INPUT_POST, 'time', FILTER_SANITIZE_STRING);
-    $notes = filter_input(INPUT_POST, 'notes', FILTER_SANITIZE_STRING);
-
-    // Validation des champs
-    if (!$name || !$email || !$date || !$time) {
-        throw new Exception("Tous les champs requis doivent être remplis");
+    // Valider les données requises
+    $required_fields = ['name', 'email', 'phone', 'date', 'time'];
+    foreach ($required_fields as $field) {
+        if (empty($data[$field])) {
+            throw new Exception("Le champ '$field' est requis");
+        }
     }
 
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    // Valider l'email
+    if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
         throw new Exception("L'adresse email n'est pas valide");
     }
 
-    // Log des données reçues
-    error_log("Données reçues : " . print_r($_POST, true));
+    // Charger PHPMailer
+    require 'vendor/autoload.php';
 
     $mail = new PHPMailer(true);
 
-    // Configuration SMTP avec debug
-    $mail->SMTPDebug = SMTP::DEBUG_SERVER;
-    $mail->Debugoutput = function($str, $level) {
-        error_log("PHPMailer Debug: $str");
-    };
+    try {
+        // Configuration du serveur
+        $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.titan.email';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'team@hypza.tech';
+        $mail->Password   = 'azerty@123';
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        $mail->Port       = 465;
 
-    // Configuration du serveur
-    $mail->isSMTP();
-    $mail->Host = 'smtp.titan.email';
-    $mail->SMTPAuth = true;
-    $mail->Username = 'team@hypza.tech';
-    $mail->Password = 'azerty@123';
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-    $mail->Port = 465;
+        // Configuration des destinataires
+        $mail->setFrom('team@hypza.tech', 'HYPEZA');
+        $mail->addAddress($data['email'], $data['name']);
+        $mail->addReplyTo('service-client@hypza.tech', 'Service Client HYPEZA');
 
-    // Options SSL plus permissives pour le débogage
-    $mail->SMTPOptions = array(
-        'ssl' => array(
-            'verify_peer' => false,
-            'verify_peer_name' => false,
-            'allow_self_signed' => true
-        )
-    );
+        // Configuration du contenu
+        $mail->isHTML(true);
+        $mail->CharSet = 'UTF-8';
+        $mail->Subject = 'Confirmation de votre rendez-vous - HYPEZA';
 
-    // Configuration de l'email
-    $mail->setFrom('team@hypza.tech', 'HYPEZA');
-    $mail->addAddress($email, $name);
-    $mail->addReplyTo('service-client@hypza.tech', 'Service Client HYPEZA');
-    $mail->CharSet = 'UTF-8';
-    $mail->isHTML(true);
-    $mail->Subject = 'Confirmation de votre rendez-vous - HYPEZA Custom Suit';
+        // Corps de l'email
+        $mail->Body = "
+            <html>
+            <body style='font-family: Arial, sans-serif;'>
+                <h2>Confirmation de rendez-vous</h2>
+                <p>Bonjour {$data['name']},</p>
+                <p>Votre rendez-vous a été programmé pour le {$data['date']} à {$data['time']}.</p>
+                <p>Détails :</p>
+                <ul>
+                    <li>Téléphone : {$data['phone']}</li>
+                    <li>Email : {$data['email']}</li>
+                </ul>
+                <p>Notes : {$data['notes']}</p>
+                <p>Merci de nous faire confiance.</p>
+                <p>L'équipe HYPEZA</p>
+            </body>
+            </html>
+        ";
 
-    // Corps de l'email
-    $emailBody = "
-    <!DOCTYPE html>
-    <html lang='fr'>
-    <head>
-        <meta charset='UTF-8'>
-        <title>Confirmation de rendez-vous</title>
-    </head>
-    <body style='font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f9f9f9;'>
-        <table width='100%' cellpadding='0' cellspacing='0'>
-            <tr>
-                <td align='center' style='padding: 20px;'>
-                    <table width='600' cellpadding='0' cellspacing='0' style='background-color: #ffffff; border-radius: 6px;'>
-                        <tr>
-                            <td align='center' style='background-color: #000000; padding: 30px; border-radius: 6px 6px 0 0;'>
-                                <h1 style='color: #C89B3C; margin: 0; font-size: 32px;'>HYPEZA</h1>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style='padding: 30px;'>
-                                <p>Bonjour " . htmlspecialchars($name) . ",</p>
-                                <p>Nous vous remercions d'avoir choisi HYPEZA pour votre costume sur mesure. Voici les détails de votre rendez-vous :</p>
-                                
-                                <div style='background-color: #f8f8f8; padding: 20px; margin: 20px 0; border-radius: 5px;'>
-                                    <p><strong>Date :</strong> " . htmlspecialchars($date) . "</p>
-                                    <p><strong>Heure :</strong> " . htmlspecialchars($time) . "</p>
-                                    <p><strong>Téléphone :</strong> " . htmlspecialchars($phone) . "</p>
-                                </div>
-                                
-                                <p>Notre équipe vous contactera prochainement pour confirmer votre rendez-vous.</p>
-                                
-                                <p>Pour toute question, n'hésitez pas à nous contacter à <a href='mailto:service-client@hypza.tech' style='color: #C89B3C;'>service-client@hypza.tech</a></p>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table>
-    </body>
-    </html>";
+        $mail->send();
+        echo json_encode([
+            'success' => true,
+            'message' => 'Email envoyé avec succès'
+        ]);
 
-    $mail->Body = $emailBody;
-
-    // Tentative d'envoi
-    if(!$mail->send()) {
-        throw new Exception("Erreur lors de l'envoi de l'email : " . $mail->ErrorInfo);
+    } catch (Exception $e) {
+        error_log("Erreur PHPMailer : " . $e->getMessage());
+        throw new Exception("Erreur lors de l'envoi de l'email : " . $e->getMessage());
     }
 
-    echo json_encode([
-        'success' => true,
-        'message' => 'Email envoyé avec succès'
-    ]);
-
 } catch (Exception $e) {
-    error_log("Erreur d'envoi d'email : " . $e->getMessage());
+    error_log("Erreur : " . $e->getMessage());
     echo json_encode([
         'success' => false,
         'message' => $e->getMessage()
