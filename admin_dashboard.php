@@ -913,49 +913,84 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
     let currentUserId = null;
 
     async function viewUser(id) {
-        currentUserId = id;
-        const modal = document.getElementById('userModal');
+        async function viewUser(id) {
+            currentUserId = id;
+            const modal = document.getElementById('userModal');
 
-        try {
-            // Simuler une requête API pour obtenir les données de l'utilisateur
-            // En production, remplacez ceci par une vraie requête AJAX
-            const response = await fetch(`get_user_details.php?id=${id}`);
-            const userData = await response.json();
+            try {
+                // Afficher un indicateur de chargement
+                document.getElementById('userActivity').innerHTML = '<p>Chargement...</p>';
+                modal.style.display = 'block';
 
-            // Mise à jour des informations de l'utilisateur
-            document.getElementById('userName').textContent = `${userData.firstname} ${userData.lastname}`;
-            document.getElementById('userEmail').textContent = userData.email;
-            document.getElementById('userRole').textContent = userData.role;
-            document.getElementById('userCreated').textContent = new Date(userData.created_at).toLocaleDateString();
-            document.getElementById('userOrders').textContent = userData.orders_count || 0;
-            document.getElementById('userTickets').textContent = userData.tickets_count || 0;
+                const response = await fetch(`get_user_details.php?id=${id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'same-origin'
+                });
 
-            // Affichage des activités récentes
-            const activityContainer = document.getElementById('userActivity');
-            activityContainer.innerHTML = ''; // Nettoyer les activités précédentes
+                if (!response.ok) {
+                    throw new Error(`Erreur HTTP: ${response.status}`);
+                }
 
-            if (userData.activities && userData.activities.length > 0) {
-                userData.activities.forEach(activity => {
-                    const activityElement = document.createElement('div');
-                    activityElement.className = 'activity-item';
-                    activityElement.innerHTML = `
+                const userData = await response.json();
+                console.log('Données reçues:', userData); // Pour le débogage
+
+                if (userData.error) {
+                    throw new Error(userData.error);
+                }
+
+                // Mise à jour des informations de l'utilisateur
+                const userFields = {
+                    'userName': `${userData.firstname || ''} ${userData.lastname || ''}`,
+                    'userEmail': userData.email || 'Non renseigné',
+                    'userRole': userData.role || 'Non défini',
+                    'userCreated': userData.created_at ? new Date(userData.created_at).toLocaleDateString() : 'Non renseigné',
+                    'userOrders': userData.orders_count || '0',
+                    'userTickets': userData.tickets_count || '0'
+                };
+
+                // Mettre à jour chaque champ en vérifiant son existence
+                Object.entries(userFields).forEach(([id, value]) => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        element.textContent = value;
+                    }
+                });
+
+                // Mise à jour des activités
+                const activityContainer = document.getElementById('userActivity');
+                activityContainer.innerHTML = ''; // Nettoyer les activités précédentes
+
+                if (userData.activities && userData.activities.length > 0) {
+                    userData.activities.forEach(activity => {
+                        const activityElement = document.createElement('div');
+                        activityElement.className = 'activity-item';
+                        activityElement.innerHTML = `
                     <div class="activity-date">${new Date(activity.date).toLocaleDateString()}</div>
                     <div class="activity-description">${activity.description}</div>
                 `;
-                    activityContainer.appendChild(activityElement);
-                });
-            } else {
-                activityContainer.innerHTML = '<p>Aucune activité récente</p>';
+                        activityContainer.appendChild(activityElement);
+                    });
+                } else {
+                    activityContainer.innerHTML = '<p>Aucune activité récente</p>';
+                }
+
+            } catch (error) {
+                console.error('Erreur détaillée:', error);
+                document.getElementById('userActivity').innerHTML = `
+            <div class="error-message">
+                <i class="fas fa-exclamation-circle"></i>
+                <p>Erreur lors du chargement des données: ${error.message}</p>
+            </div>
+        `;
             }
-
-            modal.style.display = 'block';
-        } catch (error) {
-            console.error('Erreur lors du chargement des données:', error);
-            alert('Erreur lors du chargement des données de l\'utilisateur');
         }
-    }
 
-    function closeUserModal() {
+
+        function closeUserModal() {
         const modal = document.getElementById('userModal');
         modal.style.display = 'none';
         currentUserId = null;
