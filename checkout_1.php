@@ -250,18 +250,6 @@ $mail->AltBody = strip_tags(str_replace(['<br>', '<br/>', '<br />'], "\n", $emai
             throw new Exception("Email could not be sent. Mailer Error: " . $mail->ErrorInfo);
         }
 
-
-        // Send email
-
-        if ($mail->send()) {
-            echo json_encode([
-                'success' => true,
-                'message' => 'Email sent successfully',
-                'orderNumber' => $data['orderNumber']
-            ]);
-        } else {
-            throw new Exception("Email could not be sent. Mailer Error: " . $mail->ErrorInfo);
-        }
     }
     catch (Exception $e) {
         echo json_encode([
