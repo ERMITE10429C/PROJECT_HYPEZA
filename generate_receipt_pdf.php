@@ -1,230 +1,173 @@
 <?php
-// Import required TCPDF library
-require_once 'vendor/autoload.php';
+// PDF Receipt Generator using DomPDF
 
-use TCPDF;
+require 'vendor/autoload.php';
 
-class ReceiptGenerator {
-    private $pdf;
-    private $orderData;
-    private $goldColor = [200, 155, 60];
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
-    public function __construct($orderData) {
-        $this->orderData = $orderData;
+/**
+ * Generate a PDF receipt from order data
+ *
+ * @param array $orderData Array containing order information
+ * @return string The PDF content as a string
+ */
+function generateReceiptPDF($orderData) {
+    // Configure DomPDF options
+    $options = new Options();
+    $options->set('isHtml5ParserEnabled', true);
+    $options->set('isRemoteEnabled', true);
+    $options->set('defaultFont', 'Arial');
 
-        // Initialize PDF
-        $this->pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+    // Create new DomPDF instance
+    $dompdf = new Dompdf($options);
 
-        // Set document information
-        $this->pdf->SetCreator('HYPEZA');
-        $this->pdf->SetAuthor('HYPEZA Shop');
-        $this->pdf->SetTitle('Order Receipt #' . $orderData['orderNumber']);
-        $this->pdf->SetSubject('HYPEZA Order Receipt');
+    // Create HTML for receipt
+    $goldColor = '#C89B3C';
+    $html = "
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset='UTF-8'>
+        <title>Receipt #{$orderData['orderNumber']}</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 20px;
+                color: #333;
+            }
+            .receipt {
+                max-width: 800px;
+                margin: 0 auto;
+                border: 1px solid #eee;
+                padding: 20px;
+            }
+            .header {
+                text-align: center;
+                border-bottom: 2px solid $goldColor;
+                padding-bottom: 10px;
+                margin-bottom: 20px;
+            }
+            .logo {
+                font-size: 24px;
+                font-weight: bold;
+                color: $goldColor;
+                letter-spacing: 2px;
+            }
+            .order-number {
+                margin: 10px 0;
+                font-weight: bold;
+            }
+            .section {
+                margin: 20px 0;
+            }
+            .section-title {
+                font-weight: bold;
+                border-bottom: 1px solid #eee;
+                padding-bottom: 5px;
+                margin-bottom: 10px;
+            }
+            .customer-details {
+                display: flex;
+                justify-content: space-between;
+            }
+            .detail-block {
+                width: 48%;
+            }
+            .order-summary table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            .order-summary th, .order-summary td {
+                padding: 10px;
+                text-align: left;
+                border-bottom: 1px solid #eee;
+            }
+            .total-row {
+                font-weight: bold;
+                border-top: 2px solid #eee;
+            }
+            .footer {
+                margin-top: 30px;
+                text-align: center;
+                font-size: 12px;
+                color: #999;
+                border-top: 1px solid #eee;
+                padding-top: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class='receipt'>
+            <div class='header'>
+                <div class='logo'>HYPEZA</div>
+                <div class='receipt-title'>PURCHASE RECEIPT</div>
+                <div class='order-number'>Order: {$orderData['orderNumber']}</div>
+                <div class='receipt-date'>Date: " . date('F j, Y') . "</div>
+            </div>
+            
+            <div class='section'>
+                <div class='section-title'>Customer Information</div>
+                <div class='customer-details'>
+                    <div class='detail-block'>
+                        <p><strong>Bill To:</strong><br>
+                        {$orderData['firstName']} {$orderData['lastName']}<br>
+                        {$orderData['email']}
+                        </p>
+                    </div>
+                    <div class='detail-block'>
+                        <p><strong>Ship To:</strong><br>
+                        {$orderData['firstName']} {$orderData['lastName']}<br>
+                        {$orderData['address']}<br>
+                        {$orderData['city']}, {$orderData['postalCode']}<br>
+                        {$orderData['country']}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class='section order-summary'>
+                <div class='section-title'>Order Summary</div>
+                <table>
+                    <tr>
+                        <th>Description</th>
+                        <th>Amount</th>
+                    </tr>
+                    <tr>
+                        <td>Subtotal</td>
+                        <td>{$orderData['subtotal']}</td>
+                    </tr>
+                    <tr>
+                        <td>Shipping</td>
+                        <td>{$orderData['shipping']}</td>
+                    </tr>
+                    <tr class='total-row'>
+                        <td>Total</td>
+                        <td>{$orderData['total']}</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class='footer'>
+                <p>Thank you for your purchase!</p>
+                <p>HYPEZA - Premium Luxury Products</p>
+                <p>123 Rue Example, 75000 Paris, France</p>
+                <p>For questions or support: service-client@hypza.tech</p>
+            </div>
+        </div>
+    </body>
+    </html>";
 
-        // Remove header and footer
-        $this->pdf->setPrintHeader(false);
-        $this->pdf->setPrintFooter(false);
+    // Load the HTML content
+    $dompdf->loadHtml($html);
 
-        // Set margins
-        $this->pdf->SetMargins(15, 15, 15);
+    // Set paper size
+    $dompdf->setPaper('A4', 'portrait');
 
-        // Set auto page breaks
-        $this->pdf->SetAutoPageBreak(true, 15);
+    // Render the PDF
+    $dompdf->render();
 
-        // Set font
-        $this->pdf->SetFont('helvetica', '', 10);
-
-        // Add a page
-        $this->pdf->AddPage();
-    }
-
-    public function generate() {
-        $this->addHeader();
-        $this->addBillingInfo();
-        $this->addOrderSummary();
-        $this->addFooter();
-
-        return $this->pdf;
-    }
-
-    private function addHeader() {
-        // Logo & Title
-        $this->pdf->SetFillColor(0, 0, 0);
-        $this->pdf->Rect(15, 15, 180, 30, 'F');
-
-        $this->pdf->SetY(25);
-        $this->pdf->SetTextColor($this->goldColor[0], $this->goldColor[1], $this->goldColor[2]);
-        $this->pdf->SetFont('helvetica', 'B', 24);
-        $this->pdf->Cell(180, 10, 'HYPEZA', 0, 1, 'C');
-
-        $this->pdf->SetY(50);
-        $this->pdf->SetTextColor(0, 0, 0);
-        $this->pdf->SetFont('helvetica', 'B', 16);
-        $this->pdf->Cell(180, 10, 'ORDER RECEIPT', 0, 1, 'C');
-
-        $this->pdf->SetFont('helvetica', '', 12);
-        $this->pdf->Cell(180, 10, 'Order #: ' . $this->orderData['orderNumber'], 0, 1, 'C');
-        $this->pdf->Cell(180, 10, 'Date: ' . date('F j, Y'), 0, 1, 'C');
-
-        $this->pdf->Ln(10);
-    }
-
-    private function addBillingInfo() {
-        $this->pdf->SetFont('helvetica', 'B', 12);
-        $this->pdf->SetFillColor(240, 240, 240);
-        $this->pdf->Cell(180, 10, 'Customer & Shipping Information', 0, 1, 'L', true);
-
-        $this->pdf->Ln(5);
-
-        $this->pdf->SetFont('helvetica', '', 10);
-
-        // Customer info - left column
-        $this->pdf->SetX(15);
-        $this->pdf->Cell(90, 6, 'Name: ' . $this->orderData['firstName'] . ' ' . $this->orderData['lastName'], 0, 1);
-        $this->pdf->Cell(90, 6, 'Email: ' . $this->orderData['email'], 0, 1);
-
-        // Shipping info - right column
-        $this->pdf->SetXY(105, $this->pdf->GetY() - 12);
-        $this->pdf->Cell(90, 6, 'Shipping Address:', 0, 1);
-        $this->pdf->SetX(105);
-        $this->pdf->MultiCell(90, 6, $this->orderData['address'] . "\n" .
-                               $this->orderData['city'] . ', ' . $this->orderData['postalCode'] . "\n" .
-                               $this->orderData['country'], 0, 'L');
-
-        $this->pdf->Ln(10);
-    }
-
-    private function addOrderSummary() {
-        $this->pdf->SetFont('helvetica', 'B', 12);
-        $this->pdf->SetFillColor(240, 240, 240);
-        $this->pdf->Cell(180, 10, 'Order Summary', 0, 1, 'L', true);
-
-        $this->pdf->Ln(5);
-
-        // Table header
-        $this->pdf->SetFont('helvetica', 'B', 10);
-        $this->pdf->Cell(90, 10, 'Description', 1, 0, 'L');
-        $this->pdf->Cell(30, 10, 'Quantity', 1, 0, 'C');
-        $this->pdf->Cell(30, 10, 'Unit Price', 1, 0, 'R');
-        $this->pdf->Cell(30, 10, 'Amount', 1, 1, 'R');
-
-        // If we had item details, we would loop through them here
-        // But since we only have totals, we'll add a placeholder row
-        $this->pdf->SetFont('helvetica', '', 10);
-        $this->pdf->Cell(90, 10, 'Order Items', 1, 0, 'L');
-        $this->pdf->Cell(30, 10, '1', 1, 0, 'C');
-        $this->pdf->Cell(30, 10, $this->orderData['subtotal'], 1, 0, 'R');
-        $this->pdf->Cell(30, 10, $this->orderData['subtotal'], 1, 1, 'R');
-
-        // Totals
-        $this->pdf->SetFont('helvetica', 'B', 10);
-        $this->pdf->Cell(150, 10, 'Subtotal:', 1, 0, 'R');
-        $this->pdf->Cell(30, 10, $this->orderData['subtotal'], 1, 1, 'R');
-
-        $this->pdf->Cell(150, 10, 'Shipping:', 1, 0, 'R');
-        $this->pdf->Cell(30, 10, $this->orderData['shipping'], 1, 1, 'R');
-
-        $this->pdf->SetTextColor($this->goldColor[0], $this->goldColor[1], $this->goldColor[2]);
-        $this->pdf->Cell(150, 10, 'Total:', 1, 0, 'R');
-        $this->pdf->Cell(30, 10, $this->orderData['total'], 1, 1, 'R');
-        $this->pdf->SetTextColor(0, 0, 0);
-
-        $this->pdf->Ln(10);
-    }
-
-    private function addFooter() {
-        $this->pdf->SetY(-50);
-        $this->pdf->SetFont('helvetica', 'I', 8);
-        $this->pdf->Cell(180, 10, 'Thank you for shopping with HYPEZA!', 0, 1, 'C');
-        $this->pdf->Cell(180, 10, 'For any questions regarding your order, please contact service-client@hypza.tech', 0, 1, 'C');
-        $this->pdf->Cell(180, 10, 'HYPEZA - 123 Rue Example, 75000 Paris, France', 0, 1, 'C');
-    }
-
-    // Save PDF to file and return the filename
-    public function saveToFile($directory = 'receipts/') {
-        // Make sure the directory exists
-        if (!is_dir($directory)) {
-            mkdir($directory, 0755, true);
-        }
-
-        $filename = $directory . 'receipt_' . $this->orderData['orderNumber'] . '.pdf';
-        $this->pdf->Output($filename, 'F');
-
-        return $filename;
-    }
-
-    // Return PDF as string for email attachment
-    public function getOutputString() {
-        return $this->pdf->Output('', 'S');
-    }
+    // Return the generated PDF as string
+    return $dompdf->output();
 }
-
-// If directly accessed, check if we have order data
-if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
-    isset($_SERVER['CONTENT_TYPE']) &&
-    strpos($_SERVER['CONTENT_TYPE'], 'application/json') !== false) {
-
-    // Get and decode JSON data
-    $input = file_get_contents('php://input');
-    $data = json_decode($input, true);
-
-    if (json_last_error() === JSON_ERROR_NONE) {
-        // Initialize receipt generator
-        $generator = new ReceiptGenerator($data);
-        $generator->generate();
-
-        // Decide whether to output PDF directly or save it
-        if (isset($_GET['output']) && $_GET['output'] === 'download') {
-            // Output PDF directly for download
-            header('Content-Type: application/pdf');
-            header('Content-Disposition: attachment; filename="receipt_' . $data['orderNumber'] . '.pdf"');
-            echo $generator->getOutputString();
-        } else {
-            // Save PDF and return the filename
-            $filename = $generator->saveToFile();
-
-            header('Content-Type: application/json');
-            echo json_encode([
-                'success' => true,
-                'filename' => $filename,
-                'url' => (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") .
-                        "://$_SERVER[HTTP_HOST]" . dirname($_SERVER['PHP_SELF']) . "/$filename"
-            ]);
-        }
-    } else {
-        // Invalid JSON
-        header('Content-Type: application/json');
-        http_response_code(400);
-        echo json_encode([
-            'success' => false,
-            'message' => 'Invalid JSON data: ' . json_last_error_msg()
-        ]);
-    }
-} else if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['orderNumber'])) {
-    // For direct access with order number parameter (for download links)
-    // In a real application, you'd fetch order details from the database here
-    // For this example, we're just showing a demo
-
-    $demoData = [
-        'orderNumber' => $_GET['orderNumber'],
-        'firstName' => 'Demo',
-        'lastName' => 'User',
-        'email' => 'demo@example.com',
-        'address' => '123 Demo Street',
-        'city' => 'Paris',
-        'postalCode' => '75000',
-        'country' => 'France',
-        'subtotal' => '$99.99',
-        'shipping' => '$9.99',
-        'total' => '$109.98'
-    ];
-
-    $generator = new ReceiptGenerator($demoData);
-    $generator->generate();
-
-    // Output PDF for download
-    header('Content-Type: application/pdf');
-    header('Content-Disposition: attachment; filename="receipt_' . $_GET['orderNumber'] . '.pdf"');
-    echo $generator->getOutputString();
-}
-?>

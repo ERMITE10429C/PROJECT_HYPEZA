@@ -1,15 +1,10 @@
 <?php
-
-require_once 'generate_receipt_pdf.php';
-
 // Add this PHP code at the very top of checkout_1.php
 // This part will handle the email sending request when accessed with POST
 // Import PHPMailer classes
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
-
-
 
 // Only process if this is a POST request with JSON content type
 if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
@@ -23,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
     try {
         // Load Composer's autoloader
         require 'vendor/autoload.php';
+        require_once 'generate_receipt_pdf.php';
 
         // Get and decode JSON data
         $input = file_get_contents('php://input');
@@ -39,8 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
                 throw new Exception("Missing required field: $field");
             }
         }
-
-
 
         // Create a new PHPMailer instance
         $mail = new PHPMailer(true);
@@ -68,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
         $mail->addReplyTo('service-client@hypza.tech', 'Service Client HYPEZA');
         $mail->addAddress($data['email'], $data['firstName'] . ' ' . $data['lastName']);
 
-        // Email content
+
 // Email content with the same structure as send_confirmation.php
 $mail->CharSet = 'UTF-8';
 $mail->Encoding = 'base64'; // Better encoding for international characters
@@ -90,35 +84,6 @@ $mail->addCustomHeader('Precedence', 'bulk');
 $mail->addCustomHeader('X-Auto-Response-Suppress', 'OOF, DR, RN, NRN, AutoReply');
 $mail->addCustomHeader('Feedback-ID', $data['orderNumber'] . ':HYPEZA:order:gmail');
 $mail->addCustomHeader('X-Entity-Ref-ID', $data['orderNumber']);
-
-
-// Add this after getting the order data in your checkout_1.php file,
-// inside the try block where you send the email
-
-// Generate PDF receipt
-$pdfGenerator = new ReceiptGenerator($data);
-$pdfGenerator->generate();
-$pdfContent = $pdfGenerator->getOutputString();
-
-// Save PDF if you want to keep a copy on the server
-$pdfPath = 'receipts/receipt_' . $data['orderNumber'] . '.pdf';
-file_put_contents($pdfPath, $pdfContent);
-
-// Create download URL for the receipt
-$pdfUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") .
-          "://$_SERVER[HTTP_HOST]" . dirname($_SERVER['REQUEST_URI']) . "/" . $pdfPath;
-
-// Add PDF receipt as attachment to the email
-$mail->addStringAttachment(
-    $pdfContent,
-    'HYPEZA_Receipt_' . $data['orderNumber'] . '.pdf',
-    'base64',
-    'application/pdf'
-);
-
-// Add a line in the email about the PDF attachment
-
-
 
 // Use the same comprehensive HTML structure as send_confirmation.php
 $goldColor = '#C89B3C';
@@ -256,6 +221,34 @@ $emailBody = "
 
 $mail->Body = $emailBody;
 $mail->AltBody = strip_tags(str_replace(['<br>', '<br/>', '<br />'], "\n", $emailBody));
+
+
+
+// Generate PDF receipt
+        $pdfContent = generateReceiptPDF($data);
+
+// Create a temporary file for the PDF
+        $tempFile = tempnam(sys_get_temp_dir(), 'receipt_');
+        file_put_contents($tempFile, $pdfContent);
+
+// Attach the PDF to the email
+        $mail->addAttachment($tempFile, "HYPEZA_Receipt_{$data['orderNumber']}.pdf");
+
+// Send email
+        if ($mail->send()) {
+            // Delete the temporary file after sending
+            @unlink($tempFile);
+
+            echo json_encode([
+                'success' => true,
+                'message' => 'Email sent successfully with receipt PDF',
+                'orderNumber' => $data['orderNumber']
+            ]);
+        } else {
+            // Delete the temporary file if email fails
+            @unlink($tempFile);
+            throw new Exception("Email could not be sent. Mailer Error: " . $mail->ErrorInfo);
+        }
 
 
         // Send email
