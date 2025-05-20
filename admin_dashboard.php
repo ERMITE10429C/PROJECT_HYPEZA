@@ -393,6 +393,174 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
             animation: fadeIn 0.5s ease forwards;
         }
 
+
+        .user-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .user-modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 0;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            position: relative;
+            animation: slideIn 0.3s ease;
+        }
+
+        .user-modal-header {
+            background: linear-gradient(45deg, var(--primary-color), #f1c40f);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .user-modal-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .user-modal-close {
+            position: absolute;
+            right: 1.5rem;
+            top: 1.5rem;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .user-modal-close:hover {
+            transform: scale(1.1);
+        }
+
+        .user-modal-body {
+            padding: 1.5rem;
+        }
+
+        .user-info-grid {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .user-avatar {
+            display: flex;
+            justify-content: center;
+            align-items: start;
+        }
+
+        .avatar-circle {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(45deg, var(--primary-color), #f1c40f);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .user-details {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .detail-group {
+            background-color: #f8f9fa;
+            padding: 1.2rem;
+            border-radius: 8px;
+        }
+
+        .detail-group h3 {
+            margin: 0 0 1rem 0;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+
+        .detail-group p {
+            margin: 0.5rem 0;
+            color: #666;
+        }
+
+        .detail-group i {
+            width: 20px;
+            color: var(--primary-color);
+            margin-right: 0.5rem;
+        }
+
+        .user-activity {
+            margin-top: 2rem;
+        }
+
+        .activity-timeline {
+            border-left: 2px solid #eee;
+            padding-left: 1.5rem;
+            margin-left: 1rem;
+        }
+
+        .activity-item {
+            position: relative;
+            padding-bottom: 1.5rem;
+        }
+
+        .activity-item::before {
+            content: '';
+            width: 12px;
+            height: 12px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            position: absolute;
+            left: -1.7rem;
+            top: 5px;
+        }
+
+        .activity-date {
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .user-modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .user-info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .user-avatar {
+                margin-bottom: 1rem;
+            }
+        }
+
+
     </style>
 </head>
 <body>
@@ -540,6 +708,49 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
         </div>
     </div>
 </div>
+
+<div id="userModal" class="user-modal">
+    <div class="user-modal-content">
+        <span class="user-modal-close">&times;</span>
+        <div class="user-modal-header">
+            <h2>Détails de l'Utilisateur</h2>
+        </div>
+        <div class="user-modal-body">
+            <div class="user-info-grid">
+                <div class="user-avatar">
+                    <div class="avatar-circle">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+                <div class="user-details">
+                    <div class="detail-group">
+                        <h3>Informations Personnelles</h3>
+                        <p><i class="fas fa-id-card"></i> <strong>Nom complet:</strong> <span id="userName"></span></p>
+                        <p><i class="fas fa-envelope"></i> <strong>Email:</strong> <span id="userEmail"></span></p>
+                        <p><i class="fas fa-user-tag"></i> <strong>Rôle:</strong> <span id="userRole"></span></p>
+                    </div>
+                    <div class="detail-group">
+                        <h3>Statistiques du Compte</h3>
+                        <p><i class="fas fa-calendar-alt"></i> <strong>Date d'inscription:</strong> <span id="userCreated"></span></p>
+                        <p><i class="fas fa-shopping-cart"></i> <strong>Nombre de commandes:</strong> <span id="userOrders"></span></p>
+                        <p><i class="fas fa-ticket-alt"></i> <strong>Tickets ouverts:</strong> <span id="userTickets"></span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="user-activity">
+                <h3>Activité Récente</h3>
+                <div class="activity-timeline" id="userActivity">
+                    <!-- Les activités seront ajoutées dynamiquement -->
+                </div>
+            </div>
+        </div>
+        <div class="user-modal-footer">
+            <button class="btn btn-edit" onclick="editUserFromModal()">Modifier</button>
+            <button class="btn btn-secondary" onclick="closeUserModal()">Fermer</button>
+        </div>
+    </div>
+</div>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Graphique des ventes
@@ -696,6 +907,77 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
             window.location.href = `delete_user.php?id=${id}`;
         }
     }
+
+
+    // focntion pour viewUser
+    let currentUserId = null;
+
+    async function viewUser(id) {
+        currentUserId = id;
+        const modal = document.getElementById('userModal');
+
+        try {
+            // Simuler une requête API pour obtenir les données de l'utilisateur
+            // En production, remplacez ceci par une vraie requête AJAX
+            const response = await fetch(`get_user_details.php?id=${id}`);
+            const userData = await response.json();
+
+            // Mise à jour des informations de l'utilisateur
+            document.getElementById('userName').textContent = `${userData.firstname} ${userData.lastname}`;
+            document.getElementById('userEmail').textContent = userData.email;
+            document.getElementById('userRole').textContent = userData.role;
+            document.getElementById('userCreated').textContent = new Date(userData.created_at).toLocaleDateString();
+            document.getElementById('userOrders').textContent = userData.orders_count || 0;
+            document.getElementById('userTickets').textContent = userData.tickets_count || 0;
+
+            // Affichage des activités récentes
+            const activityContainer = document.getElementById('userActivity');
+            activityContainer.innerHTML = ''; // Nettoyer les activités précédentes
+
+            if (userData.activities && userData.activities.length > 0) {
+                userData.activities.forEach(activity => {
+                    const activityElement = document.createElement('div');
+                    activityElement.className = 'activity-item';
+                    activityElement.innerHTML = `
+                    <div class="activity-date">${new Date(activity.date).toLocaleDateString()}</div>
+                    <div class="activity-description">${activity.description}</div>
+                `;
+                    activityContainer.appendChild(activityElement);
+                });
+            } else {
+                activityContainer.innerHTML = '<p>Aucune activité récente</p>';
+            }
+
+            modal.style.display = 'block';
+        } catch (error) {
+            console.error('Erreur lors du chargement des données:', error);
+            alert('Erreur lors du chargement des données de l\'utilisateur');
+        }
+    }
+
+    function closeUserModal() {
+        const modal = document.getElementById('userModal');
+        modal.style.display = 'none';
+        currentUserId = null;
+    }
+
+    function editUserFromModal() {
+        if (currentUserId) {
+            window.location.href = `edit_user.php?id=${currentUserId}`;
+        }
+    }
+
+    // Fermer la modal en cliquant en dehors
+    window.onclick = function(event) {
+        const modal = document.getElementById('userModal');
+        if (event.target == modal) {
+            closeUserModal();
+        }
+    }
+
+    // Fermer la modal avec la croix
+    document.querySelector('.user-modal-close').onclick = closeUserModal;
+
 
 </script>
 </body>
