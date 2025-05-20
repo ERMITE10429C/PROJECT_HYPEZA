@@ -93,127 +93,79 @@ $emailBody = "
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>Confirmation de votre commande HYPEZA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333333;
+            background-color: #f9f9f9;
+        }
+        .email-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .email-header {
+            background-color: #000000;
+            padding: 30px;
+            border-radius: 6px 6px 0 0;
+            text-align: center;
+        }
+        .email-header h1 {
+            color: {$goldColor};
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 32px;
+            letter-spacing: 2px;
+        }
+        .email-body {
+            padding: 30px;
+        }
+        .email-footer {
+            background-color: #f8f8f8;
+            padding: 20px;
+            border-radius: 0 0 6px 6px;
+            border-top: 1px solid #eee;
+            text-align: center;
+        }
+        .email-footer p {
+            margin: 0 0 15px;
+            color: #666666;
+            font-size: 14px;
+        }
+        .email-footer a {
+            color: #666;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+    </style>
 </head>
-<body style='font-family: Arial, sans-serif; margin: 0; padding: 0; color: #333333; background-color: #f9f9f9;'>
-    <table width='100%' cellpadding='0' cellspacing='0' border='0'>
-        <tr>
-            <td align='center' style='padding: 20px 0;'>
-                <table width='600' cellpadding='0' cellspacing='0' border='0' style='background-color: #ffffff; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);'>
-                    <!-- Header -->
-                    <tr>
-                        <td align='center' style='background-color: #000000; padding: 30px; border-radius: 6px 6px 0 0;'>
-                            <h1 style='color: {$goldColor}; padding: 15px;  margin-top: 20px; font-size: 32px; letter-spacing: 2px;'>HYPEZA</h1>
-                        </td>
-                    </tr>
-                    
-                    <!-- Main Content -->
-                    <tr>
-                        <td style='padding: 30px;'>
-                            <p style='font-size: 16px; color: #666666;'>Bonjour {$data['firstName']} {$data['lastName']},</p>
-                            
-                            <p style='font-size: 16px; line-height: 1.6; margin: 20px 0;'>
-                                Nous vous remercions d'avoir choisi HYPEZA. Votre commande a été confirmée et est en cours de traitement.
-                            </p>
-
-                            <!-- Order Number -->
-                            <table width='100%' cellpadding='0' cellspacing='0' border='0' style='background-color: #f8f8f8; border-radius: 5px; margin: 25px 0;'>
-                                <tr>
-                                    <td style='padding: 15px;'>
-                                        <p style='margin: 0; font-size: 14px;'>Numéro de commande :</p>
-                                        <p style='margin: 5px 0 0; font-size: 18px; font-weight: bold; color: {$goldColor};'>{$data['orderNumber']}</p>
-                                    </td>
-                                </tr>
-                            </table>
-
-                            <!-- Shipping Details -->
-                            <table width='100%' cellpadding='0' cellspacing='0' border='0' style='background-color: #f8f8f8; border-radius: 5px; margin: 25px 0;'>
-                                <tr>
-                                    <td style='padding: 20px;'>
-                                        <h3 style='color: {$goldColor}; margin: 0 0 15px; font-size: 18px;'>Adresse de livraison</h3>
-                                        <p style='margin: 5px 0; font-size: 14px; line-height: 1.6;'>
-                                            {$data['firstName']} {$data['lastName']}<br>
-                                            {$data['address']}<br>
-                                            {$data['city']}, {$data['postalCode']}<br>
-                                            {$data['country']}
-                                        </p>
-                                    </td>
-                                </tr>
-                            </table>
-
-                            <!-- Order Summary -->
-                            <table width='100%' cellpadding='0' cellspacing='0' border='0' style='border: 1px solid #eee; border-radius: 5px; margin: 25px 0;'>
-                                <tr>
-                                    <td style='background-color: #f8f8f8; padding: 15px; border-radius: 5px 5px 0 0; border-bottom: 1px solid #eee;'>
-                                        <h3 style='color: {$goldColor}; margin: 0; font-size: 18px;'>Résumé de la commande</h3>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style='padding: 20px;'>
-                                        <table width='100%' cellpadding='0' cellspacing='0' border='0'>
-                                            <tr>
-                                                <td style='padding: 10px 0; border-bottom: 1px solid #eee;'>Sous-total</td>
-                                                <td align='right' style='padding: 10px 0; border-bottom: 1px solid #eee;'>{$data['subtotal']}</td>
-                                            </tr>
-                                            <tr>
-                                                <td style='padding: 10px 0; border-bottom: 1px solid #eee;'>Frais de livraison</td>
-                                                <td align='right' style='padding: 10px 0; border-bottom: 1px solid #eee;'>{$data['shipping']}</td>
-                                            </tr>
-                                            <tr>
-                                                <td style='padding: 15px 0; font-weight: bold; font-size: 18px;'>Total</td>
-                                                <td align='right' style='padding: 15px 0; font-weight: bold; font-size: 18px; color: {$goldColor};'>{$data['total']}</td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </table>
-
-                            <p style='font-size: 14px; line-height: 1.6; color: #666666; margin: 25px 0;'>
-                                Nous vous informerons dès que votre commande sera expédiée. Pour toute question, n'hésitez pas à contacter notre service client à 
-                                <a href='mailto:service-client@hypza.tech' style='color: {$goldColor}; text-decoration: none;'>service-client@hypza.tech</a>.
-                            </p>
-                        </td>
-                    </tr>
-                    
-                    <!-- Footer -->
-                    <tr>
-                        <td style='background-color: #f8f8f8; padding: 20px; border-radius: 0 0 6px 6px; border-top: 1px solid #eee;'>
-                            <table width='100%' cellpadding='0' cellspacing='0' border='0'>
-                                <tr>
-                                    <td align='center'>
-                                        <p style='margin: 0 0 15px; color: #666666; font-size: 14px;'>
-                                            Merci de votre confiance<br>
-                                            <strong style='color: {$goldColor};'>L'équipe HYPEZA</strong>
-                                        </p>
-                                        <p style='margin: 15px 0 0; font-size: 12px; color: #999999;'>
-                                            Cet email a été envoyé à {$data['email']}.<br>
-                                            Si vous ne souhaitez plus recevoir nos emails, 
-                                            <a href='{$unsubscribeLink}' style='color: #666666;'>cliquez ici pour vous désabonner</a>.
-                                        </p>
-                                        
-                                        <!-- Social Links -->
-                                        <p style='margin-top: 20px;'>
-                                            <a href='https://facebook.com/hypeza' style='color: #666; margin: 0 10px;'>Facebook</a>
-                                            <a href='https://instagram.com/hypeza' style='color: #666; margin: 0 10px;'>Instagram</a>
-                                            <a href='https://hypza.tech' style='color: #666; margin: 0 10px;'>Website</a>
-                                        </p>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-                
-                <!-- Physical Address - Important for CAN-SPAM compliance -->
-                <table width='600' cellpadding='0' cellspacing='0' border='0'>
-                    <tr>
-                        <td align='center' style='padding: 20px 0; font-size: 12px; color: #999;'>
-                            HYPEZA, 123 Rue Example, 75000 Paris, France
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
+<body>
+    <div class='email-container'>
+        <div class='email-header'>
+            <h1>HYPEZA</h1>
+        </div>
+        <div class='email-body'>
+            <p>Bonjour {$data['firstName']} {$data['lastName']},</p>
+            <p>Nous vous remercions d'avoir choisi HYPEZA. Votre commande a été confirmée et est en cours de traitement.</p>
+            <p>Numéro de commande : <strong>{$data['orderNumber']}</strong></p>
+            <p>Adresse de livraison :</p>
+            <p>{$data['firstName']} {$data['lastName']}<br>{$data['address']}<br>{$data['city']}, {$data['postalCode']}<br>{$data['country']}</p>
+            <p>Résumé de la commande :</p>
+            <p>Sous-total : {$data['subtotal']}</p>
+            <p>Frais de livraison : {$data['shipping']}</p>
+            <p>Total : <strong>{$data['total']}</strong></p>
+            <p>Nous vous informerons dès que votre commande sera expédiée. Pour toute question, n'hésitez pas à contacter notre service client à <a href='mailto:service-client@hypza.tech'>service-client@hypza.tech</a>.</p>
+        </div>
+        <div class='email-footer'>
+            <p>Merci de votre confiance<br><strong>L'équipe HYPEZA</strong></p>
+            <p>HYPEZA, 123 Rue Example, 75000 Paris, France</p>
+        </div>
+    </div>
 </body>
 </html>
 ";
@@ -1212,266 +1164,3 @@ $mail->AltBody = strip_tags(str_replace(['<br>', '<br/>', '<br />'], "\n", $emai
                         document.querySelector('.checkout-container').style.display = 'none';
                         document.getElementById('success-message').style.display = 'block';
 
-                        // Generate random order number
-                        document.getElementById('order-number').textContent = `HYPZ-${Math.floor(100000 + Math.random() * 900000)}`;
-
-                        // Clear cart
-                        localStorage.removeItem('cartItems');
-                    }, 1500);
-                }
-            });
-
-            // Format credit card number as user types
-            document.getElementById('cardNumber').addEventListener('input', function(e) {
-                let value = e.target.value.replace(/\D/g, '');
-                if (value.length > 16) value = value.slice(0, 16);
-
-                // Add spaces every 4 digits
-                let formatted = '';
-                for(let i = 0; i < value.length; i++) {
-                    if (i > 0 && i % 4 === 0) formatted += ' ';
-                    formatted += value[i];
-                }
-
-                e.target.value = formatted;
-            });
-
-            // Format expiry date as user types
-            document.getElementById('expiryDate').addEventListener('input', function(e) {
-                let value = e.target.value.replace(/\D/g, '');
-                if (value.length > 4) value = value.slice(0, 4);
-
-                if (value.length > 2) {
-                    e.target.value = value.slice(0, 2) + '/' + value.slice(2);
-                } else {
-                    e.target.value = value;
-                }
-            });
-
-            // Format CVV as user types
-            document.getElementById('cvv').addEventListener('input', function(e) {
-                let value = e.target.value.replace(/\D/g, '');
-                if (value.length > 3) value = value.slice(0, 3);
-                e.target.value = value;
-            });
-        });
-
-        // Load cart items from localStorage
-
-        // Calculate shipping (free for orders over $500)
-
-        // Update summary amounts
-
-        // Validate form fields
-        function validateForm() {
-            let isValid = true;
-
-            // Shipping information validation
-            const email = document.getElementById('email');
-            if (!validateEmail(email.value)) {
-                showError(email, 'email-error');
-                isValid = false;
-            }
-
-            const firstName = document.getElementById('firstName');
-            if (!firstName.value.trim()) {
-                showError(firstName, 'firstName-error');
-                isValid = false;
-            }
-
-            const lastName = document.getElementById('lastName');
-            if (!lastName.value.trim()) {
-                showError(lastName, 'lastName-error');
-                isValid = false;
-            }
-
-            const address = document.getElementById('address');
-            if (!address.value.trim()) {
-                showError(address, 'address-error');
-                isValid = false;
-            }
-
-            const city = document.getElementById('city');
-            if (!city.value.trim()) {
-                showError(city, 'city-error');
-                isValid = false;
-            }
-
-            const postalCode = document.getElementById('postalCode');
-            if (!postalCode.value.trim()) {
-                showError(postalCode, 'postalCode-error');
-                isValid = false;
-            }
-
-            const country = document.getElementById('country');
-            if (!country.value) {
-                showError(country, 'country-error');
-                isValid = false;
-            }
-
-            const phone = document.getElementById('phone');
-            if (!validatePhone(phone.value)) {
-                showError(phone, 'phone-error');
-                isValid = false;
-            }
-
-            // Only validate payment details if credit card is selected
-            if (document.querySelector('.payment-method.active').getAttribute('data-method') === 'card') {
-                const cardName = document.getElementById('cardName');
-                if (!cardName.value.trim()) {
-                    showError(cardName, 'cardName-error');
-                    isValid = false;
-                }
-
-                const cardNumber = document.getElementById('cardNumber');
-                if (!validateCardNumber(cardNumber.value)) {
-                    showError(cardNumber, 'cardNumber-error');
-                    isValid = false;
-                }
-
-                const expiryDate = document.getElementById('expiryDate');
-                if (!validateExpiryDate(expiryDate.value)) {
-                    showError(expiryDate, 'expiryDate-error');
-                    isValid = false;
-                }
-
-                const cvv = document.getElementById('cvv');
-                if (!validateCVV(cvv.value)) {
-                    showError(cvv, 'cvv-error');
-                    isValid = false;
-                }
-            }
-
-            return isValid;
-        }
-
-        // Helper validation functions
-        function validateEmail(email) {
-            const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            return re.test(String(email).toLowerCase());
-        }
-
-        function validatePhone(phone) {
-            const re = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/;
-            return re.test(String(phone));
-        }
-
-        function validateCardNumber(cardNumber) {
-            const re = /^[\d\s]{15,19}$/;
-            return re.test(String(cardNumber));
-        }
-
-        function validateExpiryDate(expiryDate) {
-            const re = /^(0[1-9]|1[0-2])\/([0-9]{2})$/;
-            if (!re.test(expiryDate)) return false;
-
-            const [month, year] = expiryDate.split('/');
-            const currentDate = new Date();
-            const currentYear = currentDate.getFullYear() % 100;
-            const currentMonth = currentDate.getMonth() + 1;
-
-            const expYear = parseInt(year, 10);
-            const expMonth = parseInt(month, 10);
-
-            return (expYear > currentYear) || (expYear === currentYear && expMonth >= currentMonth);
-        }
-
-        function validateCVV(cvv) {
-            const re = /^[0-9]{3,4}$/;
-            return re.test(String(cvv));
-        }
-
-        // Show error message for a field
-        function showError(field, errorId) {
-            field.classList.add('error');
-            const errorElement = document.getElementById(errorId);
-            if (errorElement) {
-                errorElement.style.display = 'block';
-            }
-
-            // Remove error when user starts typing again
-            field.addEventListener('input', function() {
-                field.classList.remove('error');
-                if (errorElement) {
-                    errorElement.style.display = 'none';
-                }
-            }, { once: true });
-        }
-
-        // Ajoutez cette fonction dans votre script existant
-
-        async function sendConfirmationEmail(orderData) {
-            try {
-                // Send request to the same page (checkout_1.php)
-                const response = await fetch(window.location.href, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(orderData),
-                    signal: AbortSignal.timeout(10000)
-                });
-
-                if (!response.ok) {
-                    throw new Error(`Server responded with status: ${response.status}`);
-                }
-
-                const result = await response.json();
-                console.log('Email sending result:', result);
-                return result.success;
-            } catch (error) {
-                console.error('Error sending confirmation email:', error);
-                return false;
-            }
-        }
-
-
-
-
-
-        // Modifiez la partie du code qui gère la soumission de la commande
-        document.getElementById('place-order-btn').addEventListener('click', async function(e) {
-            e.preventDefault();
-
-            if (validateForm()) {
-                const btn = this;
-                btn.textContent = 'Processing...';
-                btn.disabled = true;
-
-                // Récupération des données du formulaire
-                const orderData = {
-                    orderNumber: `HYPZ-${Math.floor(100000 + Math.random() * 900000)}`,
-                    email: document.getElementById('email').value,
-                    firstName: document.getElementById('firstName').value,
-                    lastName: document.getElementById('lastName').value,
-                    address: document.getElementById('address').value,
-                    city: document.getElementById('city').value,
-                    postalCode: document.getElementById('postalCode').value,
-                    country: document.getElementById('country').value,
-                    subtotal: document.getElementById('subtotal-amount').textContent,
-                    shipping: document.getElementById('shipping-amount').textContent,
-                    total: document.getElementById('total-amount').textContent
-                };
-
-                // Envoi de l'email de confirmation
-                const emailSent = await sendConfirmationEmail(orderData);
-
-                if (emailSent) {
-                    // Affichage du message de succès
-                    document.querySelector('.checkout-container').style.display = 'none';
-                    document.getElementById('success-message').style.display = 'block';
-                    document.getElementById('order-number').textContent = orderData.orderNumber;
-
-                    // Nettoyage du panier
-                    localStorage.removeItem('cartItems');
-                } else {
-                    alert('Une erreur est survenue lors de l\'envoi de l\'email de confirmation');
-                    btn.textContent = 'Place Order';
-                    btn.disabled = false;
-                }
-            }
-        });
-
-    </script>
-
-</body>

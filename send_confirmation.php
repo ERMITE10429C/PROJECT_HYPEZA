@@ -2,6 +2,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
+use FPDF\FPDF;
 
 require 'vendor/autoload.php';
 
@@ -14,6 +15,9 @@ try {
     $user = "user";
     $pass = "HPL1710COMPAq";
     $db = "users_db";
+
+    // Ensure the mysqli extension is declared in composer.json for compatibility
+    // Note: Update composer.json manually or via composer require if needed.
 
     // Path to SSL certificate - try both locations
     $ssl_cert_1 = __DIR__ . '/ssl/DigiCertGlobalRootCA.crt.pem';
@@ -45,7 +49,7 @@ try {
         }
 
         // Validate required fields
-        $requiredFields = ['email', 'firstName', 'lastName', 'orderNumber', 'address', 'city', 'postalCode', 'country', 'subtotal', 'shipping', 'total'];
+        $requiredFields = ['email', 'firstName', 'lastName', 'address', 'city', 'postalCode', 'country', 'subtotal', 'shipping', 'total'];
         foreach ($requiredFields as $field) {
             if (empty($data[$field])) {
                 throw new Exception("Missing required field: $field");
@@ -56,6 +60,12 @@ try {
         if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
             throw new Exception('Invalid email format');
         }
+
+        // Generate a unique order number
+        $orderNumber = 'HYPZ-' . mt_rand(100000, 999999);
+
+        // Include the order number in the email body and database log
+        $data['orderNumber'] = $orderNumber;
 
         $mail = new PHPMailer(true);
 
@@ -93,10 +103,10 @@ try {
         $mail->Priority = 1; // Highest priority
 
         // More specific subject with order number
-        $mail->Subject = 'Confirmation de commande #' . $data['orderNumber'] . ' - HYPEZA';
+        $mail->Subject = 'Confirmation de commande #' . $orderNumber . ' - HYPEZA';
 
         // Create a unique message ID
-        $mail->MessageID = '<' . time() . '.' . md5($data['email'] . $data['orderNumber']) . '@hypza.tech>';
+        $mail->MessageID = '<' . time() . '.' . md5($data['email'] . $orderNumber) . '@hypza.tech>';
 
         // Add custom headers to improve deliverability
         $unsubscribeLink = 'https://hypza.tech/unsubscribe?email=' . urlencode($data['email']) . '&token=' . md5($data['email'] . 'some-secret-key');
@@ -104,8 +114,8 @@ try {
         $mail->addCustomHeader('List-Unsubscribe-Post', 'List-Unsubscribe=One-Click');
         $mail->addCustomHeader('Precedence', 'bulk');
         $mail->addCustomHeader('X-Auto-Response-Suppress', 'OOF, DR, RN, NRN, AutoReply');
-        $mail->addCustomHeader('Feedback-ID', $data['orderNumber'] . ':HYPEZA:order:gmail');
-        $mail->addCustomHeader('X-Entity-Ref-ID', $data['orderNumber']);
+        $mail->addCustomHeader('Feedback-ID', $orderNumber . ':HYPEZA:order:gmail');
+        $mail->addCustomHeader('X-Entity-Ref-ID', $orderNumber);
 
         // Use a cleaner HTML structure with minimal inline styles
         $goldColor = '#C89B3C';
@@ -116,133 +126,150 @@ try {
             <meta charset='UTF-8'>
             <meta name='viewport' content='width=device-width, initial-scale=1.0'>
             <title>Confirmation de votre commande HYPEZA</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    color: #333333;
+                    background-color: #f9f9f9;
+                }
+                .email-container {
+                    max-width: 600px;
+                    margin: 0 auto;
+                    background-color: #ffffff;
+                    border-radius: 6px;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+                }
+                .email-header {
+                    background-color: #000000;
+                    padding: 30px;
+                    border-radius: 6px 6px 0 0;
+                    text-align: center;
+                }
+                .email-header h1 {
+                    color: {$goldColor};
+                    margin: 0;
+                    font-size: 32px;
+                    letter-spacing: 2px;
+                }
+                .email-content {
+                    padding: 30px;
+                }
+                .email-footer {
+                    background-color: #f8f8f8;
+                    padding: 20px;
+                    border-radius: 0 0 6px 6px;
+                    border-top: 1px solid #eee;
+                    text-align: center;
+                }
+                .email-footer p {
+                    margin: 0;
+                    font-size: 12px;
+                    color: #999;
+                }
+                .email-footer a {
+                    color: #666;
+                    text-decoration: none;
+                    margin: 0 10px;
+                }
+                .order-summary, .shipping-details {
+                    background-color: #f8f8f8;
+                    border-radius: 5px;
+                    margin: 25px 0;
+                    padding: 20px;
+                }
+                .order-summary h3, .shipping-details h3 {
+                    color: {$goldColor};
+                    margin: 0 0 15px;
+                    font-size: 18px;
+                }
+                .order-summary table, .shipping-details table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+                .order-summary td, .shipping-details td {
+                    padding: 10px 0;
+                    border-bottom: 1px solid #eee;
+                }
+                .order-summary td:last-child, .shipping-details td:last-child {
+                    text-align: right;
+                }
+            </style>
         </head>
-        <body style='font-family: Arial, sans-serif; margin: 0; padding: 0; color: #333333; background-color: #f9f9f9;'>
-            <table width='100%' cellpadding='0' cellspacing='0' border='0'>
-                <tr>
-                    <td align='center' style='padding: 20px 0;'>
-                        <table width='600' cellpadding='0' cellspacing='0' border='0' style='background-color: #ffffff; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);'>
-                            <!-- Header -->
+        <body>
+            <div class='email-container'>
+                <div class='email-header'>
+                    <h1>HYPEZA</h1>
+                </div>
+                <div class='email-content'>
+                    <p>Bonjour {$data['firstName']} {$data['lastName']},</p>
+                    <p>Nous vous remercions d'avoir choisi HYPEZA. Votre commande a été confirmée et est en cours de traitement.</p>
+                    <div class='order-summary'>
+                        <h3>Résumé de la commande</h3>
+                        <table>
                             <tr>
-                                <td align='center' style='background-color: #000000; padding: 30px; border-radius: 6px 6px 0 0;'>
-                                    <h1 style='color: {$goldColor}; margin: 0; font-size: 32px; letter-spacing: 2px;'>HYPEZA</h1>
-                                </td>
+                                <td>Sous-total</td>
+                                <td>{$data['subtotal']}</td>
                             </tr>
-                            
-                            <!-- Main Content -->
                             <tr>
-                                <td style='padding: 30px;'>
-                                    <p style='font-size: 16px; color: #666666;'>Bonjour {$data['firstName']} {$data['lastName']},</p>
-                                    
-                                    <p style='font-size: 16px; line-height: 1.6; margin: 20px 0;'>
-                                        Nous vous remercions d'avoir choisi HYPEZA. Votre commande a été confirmée et est en cours de traitement.
-                                    </p>
-
-                                    <!-- Order Number -->
-                                    <table width='100%' cellpadding='0' cellspacing='0' border='0' style='background-color: #f8f8f8; border-radius: 5px; margin: 25px 0;'>
-                                        <tr>
-                                            <td style='padding: 15px;'>
-                                                <p style='margin: 0; font-size: 14px;'>Numéro de commande :</p>
-                                                <p style='margin: 5px 0 0; font-size: 18px; font-weight: bold; color: {$goldColor};'>{$data['orderNumber']}</p>
-                                            </td>
-                                        </tr>
-                                    </table>
-
-                                    <!-- Shipping Details -->
-                                    <table width='100%' cellpadding='0' cellspacing='0' border='0' style='background-color: #f8f8f8; border-radius: 5px; margin: 25px 0;'>
-                                        <tr>
-                                            <td style='padding: 20px;'>
-                                                <h3 style='color: {$goldColor}; margin: 0 0 15px; font-size: 18px;'>Adresse de livraison</h3>
-                                                <p style='margin: 5px 0; font-size: 14px; line-height: 1.6;'>
-                                                    {$data['firstName']} {$data['lastName']}<br>
-                                                    {$data['address']}<br>
-                                                    {$data['city']}, {$data['postalCode']}<br>
-                                                    {$data['country']}
-                                                </p>
-                                            </td>
-                                        </tr>
-                                    </table>
-
-                                    <!-- Order Summary -->
-                                    <table width='100%' cellpadding='0' cellspacing='0' border='0' style='border: 1px solid #eee; border-radius: 5px; margin: 25px 0;'>
-                                        <tr>
-                                            <td style='background-color: #f8f8f8; padding: 15px; border-radius: 5px 5px 0 0; border-bottom: 1px solid #eee;'>
-                                                <h3 style='color: {$goldColor}; margin: 0; font-size: 18px;'>Résumé de la commande</h3>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style='padding: 20px;'>
-                                                <table width='100%' cellpadding='0' cellspacing='0' border='0'>
-                                                    <tr>
-                                                        <td style='padding: 10px 0; border-bottom: 1px solid #eee;'>Sous-total</td>
-                                                        <td align='right' style='padding: 10px 0; border-bottom: 1px solid #eee;'>{$data['subtotal']}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style='padding: 10px 0; border-bottom: 1px solid #eee;'>Frais de livraison</td>
-                                                        <td align='right' style='padding: 10px 0; border-bottom: 1px solid #eee;'>{$data['shipping']}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style='padding: 15px 0; font-weight: bold; font-size: 18px;'>Total</td>
-                                                        <td align='right' style='padding: 15px 0; font-weight: bold; font-size: 18px; color: {$goldColor};'>{$data['total']}</td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </table>
-
-                                    <p style='font-size: 14px; line-height: 1.6; color: #666666; margin: 25px 0;'>
-                                        Nous vous informerons dès que votre commande sera expédiée. Pour toute question, n'hésitez pas à contacter notre service client à 
-                                        <a href='mailto:service-client@hypza.tech' style='color: {$goldColor}; text-decoration: none;'>service-client@hypza.tech</a>.
-                                    </p>
-                                </td>
+                                <td>Frais de livraison</td>
+                                <td>{$data['shipping']}</td>
                             </tr>
-                            
-                            <!-- Footer -->
                             <tr>
-                                <td style='background-color: #f8f8f8; padding: 20px; border-radius: 0 0 6px 6px; border-top: 1px solid #eee;'>
-                                    <table width='100%' cellpadding='0' cellspacing='0' border='0'>
-                                        <tr>
-                                            <td align='center'>
-                                                <p style='margin: 0 0 15px; color: #666666; font-size: 14px;'>
-                                                    Merci de votre confiance<br>
-                                                    <strong style='color: {$goldColor};'>L'équipe HYPEZA</strong>
-                                                </p>
-                                                <p style='margin: 15px 0 0; font-size: 12px; color: #999999;'>
-                                                    Cet email a été envoyé à {$data['email']}.<br>
-                                                    Si vous ne souhaitez plus recevoir nos emails, 
-                                                    <a href='{$unsubscribeLink}' style='color: #666666;'>cliquez ici pour vous désabonner</a>.
-                                                </p>
-                                                
-                                                <!-- Social Links -->
-                                                <p style='margin-top: 20px;'>
-                                                    <a href='https://facebook.com/hypeza' style='color: #666; margin: 0 10px;'>Facebook</a>
-                                                    <a href='https://instagram.com/hypeza' style='color: #666; margin: 0 10px;'>Instagram</a>
-                                                    <a href='https://hypza.tech' style='color: #666; margin: 0 10px;'>Website</a>
-                                                </p>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
+                                <td>Total</td>
+                                <td style='color: {$goldColor}; font-weight: bold;'>{$data['total']}</td>
                             </tr>
                         </table>
-                        
-                        <!-- Physical Address - Important for CAN-SPAM compliance -->
-                        <table width='600' cellpadding='0' cellspacing='0' border='0'>
-                            <tr>
-                                <td align='center' style='padding: 20px 0; font-size: 12px; color: #999;'>
-                                    HYPEZA, 123 Rue Example, 75000 Paris, France
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-            </table>
+                    </div>
+                    <div class='shipping-details'>
+                        <h3>Adresse de livraison</h3>
+                        <p>{$data['firstName']} {$data['lastName']}<br>{$data['address']}<br>{$data['city']}, {$data['postalCode']}<br>{$data['country']}</p>
+                    </div>
+                    <p>Nous vous informerons dès que votre commande sera expédiée. Pour toute question, n'hésitez pas à contacter notre service client à 
+                    <a href='mailto:service-client@hypza.tech' style='color: {$goldColor};'>service-client@hypza.tech</a>.</p>
+                </div>
+                <div class='email-footer'>
+                    <p>Merci de votre confiance<br><strong style='color: {$goldColor};'>L'équipe HYPEZA</strong></p>
+                    <p>HYPEZA, 123 Rue Example, 75000 Paris, France</p>
+                </div>
+            </div>
         </body>
         </html>
         ";
 
         $mail->Body = $emailBody;
         $mail->AltBody = strip_tags(str_replace(['<br>', '<br/>', '<br />'], "\n", $emailBody));
+
+        // Generate a PDF receipt
+        $pdf = new FPDF();
+        $pdf->AddPage();
+        $pdf->SetFont('Arial', 'B', 16);
+        $pdf->Cell(0, 10, 'Order Receipt', 0, 1, 'C');
+        $pdf->Ln(10);
+
+        // Add recipient details
+        $pdf->SetFont('Arial', '', 12);
+        $pdf->Cell(0, 10, 'Recipient: ' . $data['firstName'] . ' ' . $data['lastName'], 0, 1);
+        $pdf->Cell(0, 10, 'Email: ' . $data['email'], 0, 1);
+        $pdf->Cell(0, 10, 'Address: ' . $data['address'] . ', ' . $data['city'] . ', ' . $data['postalCode'] . ', ' . $data['country'], 0, 1);
+        $pdf->Ln(10);
+
+        // Add order details
+        $pdf->SetFont('Arial', 'B', 14);
+        $pdf->Cell(0, 10, 'Order Details', 0, 1);
+        $pdf->SetFont('Arial', '', 12);
+        $pdf->Cell(0, 10, 'Order Number: ' . $orderNumber, 0, 1);
+        $pdf->Cell(0, 10, 'Subtotal: ' . $data['subtotal'], 0, 1);
+        $pdf->Cell(0, 10, 'Shipping: ' . $data['shipping'], 0, 1);
+        $pdf->Cell(0, 10, 'Total: ' . $data['total'], 0, 1);
+
+        // Save the PDF to a temporary file
+        $pdfFilePath = sys_get_temp_dir() . '/order_receipt_' . $orderNumber . '.pdf';
+        $pdf->Output('F', $pdfFilePath);
+
+        // Attach the PDF to the email
+        $mail->addAttachment($pdfFilePath, 'Order_Receipt_' . $orderNumber . '.pdf');
 
         // Log email details to database
         $stmt = $mysqli->prepare("INSERT INTO email_logs (order_number, email, recipient_name, send_date, status) VALUES (?, ?, ?, NOW(), 'sending')");
@@ -251,7 +278,7 @@ try {
         }
 
         $recipientName = $data['firstName'] . ' ' . $data['lastName'];
-        $stmt->bind_param("sss", $data['orderNumber'], $data['email'], $recipientName);
+        $stmt->bind_param("sss", $orderNumber, $data['email'], $recipientName);
         $stmt->execute();
         $logId = $stmt->insert_id;
         $stmt->close();
@@ -268,7 +295,7 @@ try {
             echo json_encode([
                 'success' => true,
                 'message' => 'Email sent successfully',
-                'orderNumber' => $data['orderNumber']
+                'orderNumber' => $orderNumber
             ]);
         } else {
             // Update the log to indicate failure
