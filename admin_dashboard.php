@@ -269,6 +269,130 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
             font-size: 1rem;
             opacity: 0.9;
         }
+
+        <style>
+         .user-controls {
+             display: flex;
+             gap: 1rem;
+             margin-bottom: 1.5rem;
+             flex-wrap: wrap;
+         }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(200,155,60,0.2);
+            outline: none;
+        }
+
+        .select-filter {
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            min-width: 150px;
+            background-color: white;
+        }
+
+        .users-table-container {
+            overflow-x: auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .role-badge {
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .role-admin {
+            background-color: #ffd700;
+            color: #000;
+        }
+
+        .role-user {
+            background-color: #e1f5fe;
+            color: #0288d1;
+        }
+
+        .actions-cell {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-start;
+        }
+
+        .btn-icon {
+            padding: 0.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: none;
+            color: #666;
+        }
+
+        .btn-icon:hover {
+            background-color: #f5f5f5;
+            color: var(--primary-color);
+        }
+
+        .btn-icon.btn-edit:hover {
+            color: #2196f3;
+        }
+
+        .btn-icon.btn-delete:hover {
+            color: #f44336;
+        }
+
+        .load-more-container {
+            text-align: center;
+            padding: 1rem;
+            border-top: 1px solid #eee;
+        }
+
+        .btn-load-more {
+            background: none;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 0.75rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-load-more:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Animation pour le chargement des nouveaux utilisateurs */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .new-row {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
     </style>
 </head>
 <body>
@@ -313,26 +437,74 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
 
         <div class="card" id="users">
             <h2>Gestion des Utilisateurs</h2>
-            <table>
-                <tr>
-                    <th>Nom</th>
-                    <th>Email</th>
-                    <th>Rôle</th>
-                    <th>Actions</th>
-                </tr>
-                <?php while ($user = $users->fetch_assoc()): ?>
+
+            <div class="user-controls">
+                <div class="search-box">
+                    <input type="text" id="userSearch" placeholder="Rechercher un utilisateur..." class="search-input">
+                    <button class="btn btn-search"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="filter-box">
+                    <select id="roleFilter" class="select-filter">
+                        <option value="">Tous les rôles</option>
+                        <option value="admin">Admin</option>
+                        <option value="user">Utilisateur</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="users-table-container">
+                <table id="usersTable">
+                    <thead>
                     <tr>
-                        <td><?= htmlspecialchars($user['firstname'] . ' ' . $user['lastname']) ?></td>
-                        <td><?= htmlspecialchars($user['email']) ?></td>
-                        <td><?= htmlspecialchars($user['role']) ?></td>
-                        <td>
-                            <a href="edit_user.php?id=<?= $user['id'] ?>" class="btn btn-edit">Modifier</a>
-                            <a href="delete_user.php?id=<?= $user['id'] ?>" class="btn btn-delete" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')">Supprimer</a>
-                        </td>
+                        <th onclick="sortTable(0)">Nom <i class="fas fa-sort"></i></th>
+                        <th onclick="sortTable(1)">Email <i class="fas fa-sort"></i></th>
+                        <th onclick="sortTable(2)">Rôle <i class="fas fa-sort"></i></th>
+                        <th>Actions</th>
                     </tr>
-                <?php endwhile; ?>
-            </table>
+                    </thead>
+                    <tbody>
+                    <?php
+                    $users_per_page = 5; // Nombre d'utilisateurs par page
+                    $users_array = [];
+                    while ($user = $users->fetch_assoc()) {
+                        $users_array[] = $user;
+                    }
+                    $initial_users = array_slice($users_array, 0, $users_per_page);
+                    foreach ($initial_users as $user):
+                        ?>
+                        <tr>
+                            <td><?= htmlspecialchars($user['firstname'] . ' ' . $user['lastname']) ?></td>
+                            <td><?= htmlspecialchars($user['email']) ?></td>
+                            <td>
+                        <span class="role-badge role-<?= strtolower($user['role']) ?>">
+                            <?= htmlspecialchars($user['role']) ?>
+                        </span>
+                            </td>
+                            <td class="actions-cell">
+                                <button class="btn-icon" onclick="viewUser(<?= $user['id'] ?>)">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn-icon btn-edit" onclick="editUser(<?= $user['id'] ?>)">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn-icon btn-delete" onclick="deleteUser(<?= $user['id'] ?>)">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+                <?php if (count($users_array) > $users_per_page): ?>
+                    <div class="load-more-container">
+                        <button id="loadMoreUsers" class="btn btn-load-more" data-page="1">
+                            Voir plus <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                <?php endif; ?>
+            </div>
         </div>
+
 
         <div class="card" id="orders">
             <h2>Gestion des Commandes</h2>
@@ -428,6 +600,103 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
             }
         });
     });
+
+    // Fonction de tri du tableau
+    function sortTable(columnIndex) {
+        const table = document.getElementById('usersTable');
+        const tbody = table.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        const isAscending = table.querySelector('th').classList.contains('asc');
+
+        rows.sort((a, b) => {
+            const aValue = a.cells[columnIndex].textContent.trim();
+            const bValue = b.cells[columnIndex].textContent.trim();
+            return isAscending ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+        });
+
+        tbody.innerHTML = '';
+        rows.forEach(row => tbody.appendChild(row));
+        table.querySelector('th').classList.toggle('asc');
+    }
+
+    // Fonction de recherche
+    document.getElementById('userSearch').addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase();
+        const rows = document.querySelectorAll('#usersTable tbody tr');
+
+        rows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            row.style.display = text.includes(searchTerm) ? '' : 'none';
+        });
+    });
+
+    // Filtre par rôle
+    document.getElementById('roleFilter').addEventListener('change', function(e) {
+        const role = e.target.value.toLowerCase();
+        const rows = document.querySelectorAll('#usersTable tbody tr');
+
+        rows.forEach(row => {
+            const rowRole = row.querySelector('.role-badge').textContent.toLowerCase();
+            row.style.display = !role || rowRole === role ? '' : 'none';
+        });
+    });
+
+    // Chargement des utilisateurs supplémentaires
+    document.getElementById('loadMoreUsers')?.addEventListener('click', function() {
+        const page = parseInt(this.dataset.page);
+        const start = page * <?= $users_per_page ?>;
+        const users = <?= json_encode($users_array) ?>;
+
+        if (start < users.length) {
+            const tbody = document.querySelector('#usersTable tbody');
+            const nextUsers = users.slice(start, start + <?= $users_per_page ?>);
+
+            nextUsers.forEach(user => {
+                const tr = document.createElement('tr');
+                tr.className = 'new-row';
+                tr.innerHTML = `
+                    <td>${user.firstname} ${user.lastname}</td>
+                    <td>${user.email}</td>
+                    <td><span class="role-badge role-${user.role.toLowerCase()}">${user.role}</span></td>
+                    <td class="actions-cell">
+                        <button class="btn-icon" onclick="viewUser(${user.id})">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn-icon btn-edit" onclick="editUser(${user.id})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-icon btn-delete" onclick="deleteUser(${user.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            this.dataset.page = page + 1;
+
+            if (start + <?= $users_per_page ?> >= users.length) {
+                this.style.display = 'none';
+            }
+        }
+    });
+
+    // Fonctions pour les actions sur les utilisateurs
+    function viewUser(id) {
+        // Implémentez la logique pour voir les détails de l'utilisateur
+        console.log('Voir utilisateur:', id);
+    }
+
+    function editUser(id) {
+        window.location.href = `edit_user.php?id=${id}`;
+    }
+
+    function deleteUser(id) {
+        if (confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')) {
+            window.location.href = `delete_user.php?id=${id}`;
+        }
+    }
+
 </script>
 </body>
 </html>
