@@ -1,0 +1,14 @@
+[20-May-2025 22:52:11 Europe/Berlin] === REGISTRATION ATTEMPT STARTED AT 2025-05-20 22:52:11 ===
+[20-May-2025 22:52:11 Europe/Berlin] POST data received: {"first_name":"X","last_name":"Y","email":"x@gmaik.com","password":"[REDACTED]"}
+[20-May-2025 22:52:12 Europe/Berlin] SSL certificate path: C:\Users\amine\OneDrive\Documents\GitHub\PROJECT_HYPEZA/DigiCertGlobalRootCA.crt.pem
+[20-May-2025 22:52:12 Europe/Berlin] SSL certificate exists: No
+[20-May-2025 22:52:12 Europe/Berlin] SSL certificate readable: No
+[20-May-2025 22:52:12 Europe/Berlin] SSL certificate size: 0 bytes
+[20-May-2025 22:52:12 Europe/Berlin] mysqli_init successful
+[20-May-2025 22:52:12 Europe/Berlin] SSL settings applied
+[20-May-2025 22:52:12 Europe/Berlin] PHP Warning:  failed loading cafile stream: `C:\Users\amine\OneDrive\Documents\GitHub\PROJECT_HYPEZA/DigiCertGlobalRootCA.crt.pem' in C:\Users\amine\OneDrive\Documents\GitHub\PROJECT_HYPEZA\registre.php on line 44
+[20-May-2025 22:52:12 Europe/Berlin] REGISTRATION ERROR: Cannot connect to MySQL using SSL
+[20-May-2025 22:52:12 Europe/Berlin] Stack trace: #0 C:\Users\amine\OneDrive\Documents\GitHub\PROJECT_HYPEZA\registre.php(44): mysqli_real_connect(Object(mysqli), 'hypezaserversql...', 'user', Object(SensitiveParameterValue), 'users_db', 3306, '2048')
+#1 {main}
+[20-May-2025 22:52:12 Europe/Berlin] Connection closed after error
+[20-May-2025 22:52:12 Europe/Berlin] === REGISTRATION ATTEMPT COMPLETED AT 2025-05-20 22:52:12 ===

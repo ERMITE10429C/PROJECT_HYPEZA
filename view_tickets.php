@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ticket_id'])) 
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
-            background-color: #f8f9fa;
+            background-color: #f0f2f5;
             margin: 0;
             padding: 20px;
             color: #333;
@@ -85,153 +85,158 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ticket_id'])) 
             padding: 20px;
         }
 
+        /* En-tête amélioré */
         h1 {
-            color: rgb(200,155,60);
+            color: #2c3e50;
             text-align: center;
             margin-bottom: 30px;
             font-weight: 600;
+            position: relative;
+            padding-bottom: 15px;
         }
 
+        h1:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, rgb(200,155,60), #f1c40f);
+        }
+
+        /* Barre de recherche améliorée */
         .search-form {
             margin-bottom: 30px;
             display: flex;
             justify-content: center;
             gap: 10px;
+            position: relative;
         }
 
         .search-input {
-            padding: 12px;
-            width: 50%;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 14px;
+            padding: 15px 20px;
+            width: 60%;
+            border: 2px solid #e0e0e0;
+            border-radius: 30px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .search-input:focus {
+            border-color: rgb(200,155,60);
+            outline: none;
+            box-shadow: 0 2px 10px rgba(200,155,60,0.2);
         }
 
         .search-button {
-            padding: 12px 24px;
-            background-color: rgb(200,155,60);
+            padding: 15px 30px;
+            background: linear-gradient(45deg, rgb(200,155,60), #f1c40f);
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 30px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
+            font-weight: 600;
         }
 
         .search-button:hover {
-            background-color: rgb(180,135,40);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(200,155,60,0.3);
         }
 
-        .tickets-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
+        /* Cartes de tickets améliorées */
         .ticket-card {
             background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            padding: 25px;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.3s ease;
+            border: 1px solid #eee;
         }
 
         .ticket-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+            border-color: rgb(200,155,60);
         }
 
-        .ticket-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: rgb(200,155,60);
-            margin-bottom: 10px;
-        }
-
-        .ticket-preview {
-            color: #666;
-            margin-bottom: 15px;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .ticket-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 14px;
-            color: #888;
-        }
-
+        /* Statuts améliorés */
         .ticket-status {
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .status-en-attente { background-color: #fff3cd; color: #856404; }
-        .status-en-cours { background-color: #cce5ff; color: #004085; }
-        .status-resolu { background-color: #d4edda; color: #155724; }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            z-index: 1000;
+        .status-en-attente {
+            background-color: #ffeeba;
+            color: #856404;
+            border: 1px solid #ffeeba;
         }
 
+        .status-en-cours {
+            background-color: #b8e7ff;
+            color: #004085;
+            border: 1px solid #b8e7ff;
+        }
+
+        .status-resolu {
+            background-color: #c3e6cb;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        /* Modal amélioré */
         .modal-content {
-            position: relative;
             background-color: white;
-            margin: 50px auto;
-            padding: 25px;
-            width: 80%;
-            max-width: 800px;
-            border-radius: 8px;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .modal-close {
-            position: absolute;
-            right: 20px;
-            top: 20px;
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        .btn-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
         .btn {
-            padding: 8px 16px;
-            border-radius: 4px;
-            border: none;
-            cursor: pointer;
-            text-decoration: none;
-            font-weight: 500;
-            transition: background-color 0.2s;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
 
-        .btn-edit { background-color: #007bff; color: white; }
-        .btn-delete { background-color: #dc3545; color: white; }
-        .btn-back { background-color: #6c757d; color: white; }
+        .btn-edit {
+            background: linear-gradient(45deg, #2980b9, #3498db);
+            color: white;
+        }
+
+        .btn-delete {
+            background: linear-gradient(45deg, #c0392b, #e74c3c);
+            color: white;
+        }
+
+        .btn-back {
+            background: linear-gradient(45deg, #7f8c8d, #95a5a6);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>Mes Tickets</h1>
+    <h1>Bonjour <?= isset($_SESSION['username']) ? htmlspecialchars($_SESSION['username']) : 'cher utilisateur' ?> 👋</h1>
+
+    <div class="stats-container" style="text-align: center; margin-bottom: 30px;">
+        <p>Vous avez actuellement <?= count($tickets) ?> ticket(s)</p>
+    </div>
+
 
     <form method="GET" class="search-form">
         <input type="text" name="search" class="search-input"
@@ -275,7 +280,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_ticket_id'])) 
 </div>
 
 <script>
+    // Animation d'entrée pour les cartes
+    document.querySelectorAll('.ticket-card').forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+            card.style.transition = 'all 0.5s ease';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, index * 100);
+    });
+
+    // Amélioration de l'affichage modal
     function showTicketDetails(ticket) {
+        const modal = document.getElementById('ticketModal');
+        modal.style.display = 'block';
+
+        // Animation d'entrée du modal
+        const modalContent = modal.querySelector('.modal-content');
+        modalContent.style.transform = 'scale(0.7)';
+        modalContent.style.opacity = '0';
+
+        setTimeout(() => {
+            modalContent.style.transition = 'all 0.3s ease';
+            modalContent.style.transform = 'scale(1)';
+            modalContent.style.opacity = '1';
+        }, 50);
+
+        // Contenu du modal avec formatage amélioré
+        document.getElementById('modalTitle').innerHTML = `
+            <h2 style="color: #2c3e50; margin-bottom: 20px;">
+                ${ticket.title}
+            </h2>
+        `;
+
+
+        function showTicketDetails(ticket) {
         document.getElementById('modalTitle').textContent = ticket.title;
         document.getElementById('modalDescription').textContent = ticket.description;
         document.getElementById('modalMeta').innerHTML = `
