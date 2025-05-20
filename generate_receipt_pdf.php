@@ -1,184 +1,230 @@
 <?php
-// generate_receipt_pdf.php - Creates PDF receipts for HYPEZA orders
+// Import required TCPDF library
+require_once 'vendor/autoload.php';
 
-// Require TCPDF library
-require_once('vendor/autoload.php');
+use TCPDF;
 
-// Function to generate PDF receipt
-function generatePdfReceipt($orderData) {
-    // Create new TCPDF instance
-    $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8');
+class ReceiptGenerator {
+    private $pdf;
+    private $orderData;
+    private $goldColor = [200, 155, 60];
 
-    // Set document information
-    $pdf->SetCreator('HYPEZA');
-    $pdf->SetAuthor('HYPEZA');
-    $pdf->SetTitle('Order Receipt #' . $orderData['orderNumber']);
-    $pdf->SetSubject('HYPEZA Order Receipt');
+    public function __construct($orderData) {
+        $this->orderData = $orderData;
 
-    // Remove header and footer
-    $pdf->setPrintHeader(false);
-    $pdf->setPrintFooter(false);
+        // Initialize PDF
+        $this->pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
 
-    // Set margins
-    $pdf->SetMargins(15, 15, 15);
-    $pdf->SetAutoPageBreak(true, 15);
+        // Set document information
+        $this->pdf->SetCreator('HYPEZA');
+        $this->pdf->SetAuthor('HYPEZA Shop');
+        $this->pdf->SetTitle('Order Receipt #' . $orderData['orderNumber']);
+        $this->pdf->SetSubject('HYPEZA Order Receipt');
 
-    // Add a page
-    $pdf->AddPage();
+        // Remove header and footer
+        $this->pdf->setPrintHeader(false);
+        $this->pdf->setPrintFooter(false);
 
-    // Set font
-    $pdf->SetFont('helvetica', '', 12);
+        // Set margins
+        $this->pdf->SetMargins(15, 15, 15);
 
-    // Define colors
-    $goldColor = array(200, 155, 60); // RGB equivalent of #C89B3C
-    $blackColor = array(0, 0, 0);
-    $grayColor = array(120, 120, 120);
+        // Set auto page breaks
+        $this->pdf->SetAutoPageBreak(true, 15);
 
-    // Logo and header
-    $pdf->SetFillColor($blackColor[0], $blackColor[1], $blackColor[2]);
-    $pdf->Rect(15, 15, 180, 30, 'F');
+        // Set font
+        $this->pdf->SetFont('helvetica', '', 10);
 
-    $pdf->SetTextColor($goldColor[0], $goldColor[1], $goldColor[2]);
-    $pdf->SetFont('helvetica', 'B', 24);
-    $pdf->Cell(180, 30, 'HYPEZA', 0, 1, 'C');
+        // Add a page
+        $this->pdf->AddPage();
+    }
 
-    // Reset text color
-    $pdf->SetTextColor(0, 0, 0);
-    $pdf->SetFont('helvetica', '', 12);
+    public function generate() {
+        $this->addHeader();
+        $this->addBillingInfo();
+        $this->addOrderSummary();
+        $this->addFooter();
 
-    // Order information
-    $pdf->Ln(10);
-    $pdf->SetFont('helvetica', 'B', 16);
-    $pdf->Cell(180, 10, 'ORDER RECEIPT', 0, 1, 'C');
+        return $this->pdf;
+    }
 
-    $pdf->Ln(5);
-    $pdf->SetFont('helvetica', 'B', 12);
-    $pdf->Cell(90, 10, 'Order Number:', 0, 0);
-    $pdf->SetFont('helvetica', '', 12);
-    $pdf->SetTextColor($goldColor[0], $goldColor[1], $goldColor[2]);
-    $pdf->Cell(90, 10, $orderData['orderNumber'], 0, 1);
-    $pdf->SetTextColor(0, 0, 0);
+    private function addHeader() {
+        // Logo & Title
+        $this->pdf->SetFillColor(0, 0, 0);
+        $this->pdf->Rect(15, 15, 180, 30, 'F');
 
-    $pdf->SetFont('helvetica', 'B', 12);
-    $pdf->Cell(90, 10, 'Date:', 0, 0);
-    $pdf->SetFont('helvetica', '', 12);
-    $pdf->Cell(90, 10, date('F j, Y'), 0, 1);
+        $this->pdf->SetY(25);
+        $this->pdf->SetTextColor($this->goldColor[0], $this->goldColor[1], $this->goldColor[2]);
+        $this->pdf->SetFont('helvetica', 'B', 24);
+        $this->pdf->Cell(180, 10, 'HYPEZA', 0, 1, 'C');
 
-    $pdf->Ln(5);
+        $this->pdf->SetY(50);
+        $this->pdf->SetTextColor(0, 0, 0);
+        $this->pdf->SetFont('helvetica', 'B', 16);
+        $this->pdf->Cell(180, 10, 'ORDER RECEIPT', 0, 1, 'C');
 
-    // Customer information
-    $pdf->SetFillColor(245, 245, 245);
-    $pdf->SetFont('helvetica', 'B', 14);
-    $pdf->Cell(180, 10, 'Customer Information', 0, 1, '', true);
-    $pdf->SetFont('helvetica', 'B', 12);
-    $pdf->Cell(45, 10, 'Name:', 0, 0);
-    $pdf->SetFont('helvetica', '', 12);
-    $pdf->Cell(135, 10, $orderData['firstName'] . ' ' . $orderData['lastName'], 0, 1);
+        $this->pdf->SetFont('helvetica', '', 12);
+        $this->pdf->Cell(180, 10, 'Order #: ' . $this->orderData['orderNumber'], 0, 1, 'C');
+        $this->pdf->Cell(180, 10, 'Date: ' . date('F j, Y'), 0, 1, 'C');
 
-    $pdf->SetFont('helvetica', 'B', 12);
-    $pdf->Cell(45, 10, 'Email:', 0, 0);
-    $pdf->SetFont('helvetica', '', 12);
-    $pdf->Cell(135, 10, $orderData['email'], 0, 1);
+        $this->pdf->Ln(10);
+    }
 
-    // Shipping address
-    $pdf->Ln(5);
-    $pdf->SetFillColor(245, 245, 245);
-    $pdf->SetFont('helvetica', 'B', 14);
-    $pdf->Cell(180, 10, 'Shipping Address', 0, 1, '', true);
-    $pdf->SetFont('helvetica', '', 12);
-    $pdf->MultiCell(180, 10, $orderData['firstName'] . ' ' . $orderData['lastName'] . "\n" .
-                     $orderData['address'] . "\n" .
-                     $orderData['city'] . ', ' . $orderData['postalCode'] . "\n" .
-                     $orderData['country'], 0, 'L');
+    private function addBillingInfo() {
+        $this->pdf->SetFont('helvetica', 'B', 12);
+        $this->pdf->SetFillColor(240, 240, 240);
+        $this->pdf->Cell(180, 10, 'Customer & Shipping Information', 0, 1, 'L', true);
 
-    // Order summary
-    $pdf->Ln(5);
-    $pdf->SetFillColor(245, 245, 245);
-    $pdf->SetFont('helvetica', 'B', 14);
-    $pdf->Cell(180, 10, 'Order Summary', 0, 1, '', true);
+        $this->pdf->Ln(5);
 
-    // Table header
-    $pdf->SetFont('helvetica', 'B', 12);
-    $pdf->SetFillColor(230, 230, 230);
-    $pdf->Cell(130, 10, 'Description', 1, 0, 'C', true);
-    $pdf->Cell(50, 10, 'Amount', 1, 1, 'C', true);
+        $this->pdf->SetFont('helvetica', '', 10);
 
-    // Items
-    $pdf->SetFont('helvetica', '', 12);
-    $pdf->Cell(130, 10, 'Subtotal', 1, 0, 'L');
-    $pdf->Cell(50, 10, $orderData['subtotal'], 1, 1, 'R');
+        // Customer info - left column
+        $this->pdf->SetX(15);
+        $this->pdf->Cell(90, 6, 'Name: ' . $this->orderData['firstName'] . ' ' . $this->orderData['lastName'], 0, 1);
+        $this->pdf->Cell(90, 6, 'Email: ' . $this->orderData['email'], 0, 1);
 
-    $pdf->Cell(130, 10, 'Shipping', 1, 0, 'L');
-    $pdf->Cell(50, 10, $orderData['shipping'], 1, 1, 'R');
+        // Shipping info - right column
+        $this->pdf->SetXY(105, $this->pdf->GetY() - 12);
+        $this->pdf->Cell(90, 6, 'Shipping Address:', 0, 1);
+        $this->pdf->SetX(105);
+        $this->pdf->MultiCell(90, 6, $this->orderData['address'] . "\n" .
+                               $this->orderData['city'] . ', ' . $this->orderData['postalCode'] . "\n" .
+                               $this->orderData['country'], 0, 'L');
 
-    // Total
-    $pdf->SetFont('helvetica', 'B', 12);
-    $pdf->SetTextColor($goldColor[0], $goldColor[1], $goldColor[2]);
-    $pdf->Cell(130, 10, 'Total', 1, 0, 'L');
-    $pdf->Cell(50, 10, $orderData['total'], 1, 1, 'R');
+        $this->pdf->Ln(10);
+    }
 
-    // Footer
-    $pdf->SetTextColor(0, 0, 0);
-    $pdf->Ln(10);
-    $pdf->SetFont('helvetica', '', 10);
-    $pdf->MultiCell(180, 10, "Thank you for your purchase!\nIf you have any questions, please contact our customer service at service-client@hypza.tech", 0, 'C');
+    private function addOrderSummary() {
+        $this->pdf->SetFont('helvetica', 'B', 12);
+        $this->pdf->SetFillColor(240, 240, 240);
+        $this->pdf->Cell(180, 10, 'Order Summary', 0, 1, 'L', true);
 
-    // HYPEZA signature and address
-    $pdf->Ln(10);
-    $pdf->SetFont('helvetica', 'B', 12);
-    $pdf->SetTextColor($goldColor[0], $goldColor[1], $goldColor[2]);
-    $pdf->Cell(180, 10, 'HYPEZA', 0, 1, 'C');
-    $pdf->SetFont('helvetica', '', 10);
-    $pdf->SetTextColor($grayColor[0], $grayColor[1], $grayColor[2]);
-    $pdf->Cell(180, 10, '123 Rue Example, 75000 Paris, France', 0, 1, 'C');
-    $pdf->Cell(180, 10, 'www.hypza.tech', 0, 1, 'C');
+        $this->pdf->Ln(5);
 
-    // Try multiple paths to find a writable location
-    $attempts = [
-        'receipts/' . $orderData['orderNumber'] . '.pdf',  // First try the receipts folder
-        './' . $orderData['orderNumber'] . '.pdf',         // Then try the current directory
-        sys_get_temp_dir() . '/' . $orderData['orderNumber'] . '.pdf' // Finally try the system temp directory
-    ];
+        // Table header
+        $this->pdf->SetFont('helvetica', 'B', 10);
+        $this->pdf->Cell(90, 10, 'Description', 1, 0, 'L');
+        $this->pdf->Cell(30, 10, 'Quantity', 1, 0, 'C');
+        $this->pdf->Cell(30, 10, 'Unit Price', 1, 0, 'R');
+        $this->pdf->Cell(30, 10, 'Amount', 1, 1, 'R');
 
-    $pdfFilePath = null;
-    $error = null;
+        // If we had item details, we would loop through them here
+        // But since we only have totals, we'll add a placeholder row
+        $this->pdf->SetFont('helvetica', '', 10);
+        $this->pdf->Cell(90, 10, 'Order Items', 1, 0, 'L');
+        $this->pdf->Cell(30, 10, '1', 1, 0, 'C');
+        $this->pdf->Cell(30, 10, $this->orderData['subtotal'], 1, 0, 'R');
+        $this->pdf->Cell(30, 10, $this->orderData['subtotal'], 1, 1, 'R');
 
-    foreach ($attempts as $path) {
-        try {
-            // Try to create the directory if it's in a subdirectory and doesn't exist
-            $dir = dirname($path);
-            if (!is_dir($dir) && $dir !== '.') {
-                @mkdir($dir, 0777, true);
-            }
+        // Totals
+        $this->pdf->SetFont('helvetica', 'B', 10);
+        $this->pdf->Cell(150, 10, 'Subtotal:', 1, 0, 'R');
+        $this->pdf->Cell(30, 10, $this->orderData['subtotal'], 1, 1, 'R');
 
-            // Check if we can write to this location
-            if ((is_dir($dir) && is_writable($dir)) || $dir === '.') {
-                // Save PDF to file
-                $pdf->Output($path, 'F');
-                $pdfFilePath = $path;
-                break; // We succeeded, no need to try other paths
-            }
-        } catch (Exception $e) {
-            $error = $e->getMessage();
-            // Keep trying other paths
+        $this->pdf->Cell(150, 10, 'Shipping:', 1, 0, 'R');
+        $this->pdf->Cell(30, 10, $this->orderData['shipping'], 1, 1, 'R');
+
+        $this->pdf->SetTextColor($this->goldColor[0], $this->goldColor[1], $this->goldColor[2]);
+        $this->pdf->Cell(150, 10, 'Total:', 1, 0, 'R');
+        $this->pdf->Cell(30, 10, $this->orderData['total'], 1, 1, 'R');
+        $this->pdf->SetTextColor(0, 0, 0);
+
+        $this->pdf->Ln(10);
+    }
+
+    private function addFooter() {
+        $this->pdf->SetY(-50);
+        $this->pdf->SetFont('helvetica', 'I', 8);
+        $this->pdf->Cell(180, 10, 'Thank you for shopping with HYPEZA!', 0, 1, 'C');
+        $this->pdf->Cell(180, 10, 'For any questions regarding your order, please contact service-client@hypza.tech', 0, 1, 'C');
+        $this->pdf->Cell(180, 10, 'HYPEZA - 123 Rue Example, 75000 Paris, France', 0, 1, 'C');
+    }
+
+    // Save PDF to file and return the filename
+    public function saveToFile($directory = 'receipts/') {
+        // Make sure the directory exists
+        if (!is_dir($directory)) {
+            mkdir($directory, 0755, true);
         }
+
+        $filename = $directory . 'receipt_' . $this->orderData['orderNumber'] . '.pdf';
+        $this->pdf->Output($filename, 'F');
+
+        return $filename;
     }
 
-    // If we couldn't save anywhere, throw an exception
-    if ($pdfFilePath === null) {
-        // Return a special path to indicate an error
-        // The email function will need to handle this case
-        return [
-            'error' => true,
-            'message' => 'Could not generate PDF. Last error: ' . $error,
-            'path' => null
-        ];
+    // Return PDF as string for email attachment
+    public function getOutputString() {
+        return $this->pdf->Output('', 'S');
     }
-
-    // Return the file path
-    return [
-        'error' => false,
-        'message' => 'PDF generated successfully',
-        'path' => $pdfFilePath
-    ];
 }
+
+// If directly accessed, check if we have order data
+if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
+    isset($_SERVER['CONTENT_TYPE']) &&
+    strpos($_SERVER['CONTENT_TYPE'], 'application/json') !== false) {
+
+    // Get and decode JSON data
+    $input = file_get_contents('php://input');
+    $data = json_decode($input, true);
+
+    if (json_last_error() === JSON_ERROR_NONE) {
+        // Initialize receipt generator
+        $generator = new ReceiptGenerator($data);
+        $generator->generate();
+
+        // Decide whether to output PDF directly or save it
+        if (isset($_GET['output']) && $_GET['output'] === 'download') {
+            // Output PDF directly for download
+            header('Content-Type: application/pdf');
+            header('Content-Disposition: attachment; filename="receipt_' . $data['orderNumber'] . '.pdf"');
+            echo $generator->getOutputString();
+        } else {
+            // Save PDF and return the filename
+            $filename = $generator->saveToFile();
+
+            header('Content-Type: application/json');
+            echo json_encode([
+                'success' => true,
+                'filename' => $filename,
+                'url' => (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") .
+                        "://$_SERVER[HTTP_HOST]" . dirname($_SERVER['PHP_SELF']) . "/$filename"
+            ]);
+        }
+    } else {
+        // Invalid JSON
+        header('Content-Type: application/json');
+        http_response_code(400);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Invalid JSON data: ' . json_last_error_msg()
+        ]);
+    }
+} else if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['orderNumber'])) {
+    // For direct access with order number parameter (for download links)
+    // In a real application, you'd fetch order details from the database here
+    // For this example, we're just showing a demo
+
+    $demoData = [
+        'orderNumber' => $_GET['orderNumber'],
+        'firstName' => 'Demo',
+        'lastName' => 'User',
+        'email' => 'demo@example.com',
+        'address' => '123 Demo Street',
+        'city' => 'Paris',
+        'postalCode' => '75000',
+        'country' => 'France',
+        'subtotal' => '$99.99',
+        'shipping' => '$9.99',
+        'total' => '$109.98'
+    ];
+
+    $generator = new ReceiptGenerator($demoData);
+    $generator->generate();
+
+    // Output PDF for download
+    header('Content-Type: application/pdf');
+    header('Content-Disposition: attachment; filename="receipt_' . $_GET['orderNumber'] . '.pdf"');
+    echo $generator->getOutputString();
+}
+?>
