@@ -133,17 +133,52 @@ function generatePdfReceipt($orderData) {
     $pdf->Cell(180, 10, '123 Rue Example, 75000 Paris, France', 0, 1, 'C');
     $pdf->Cell(180, 10, 'www.hypza.tech', 0, 1, 'C');
 
-    // Generate the PDF
-    $pdfFilePath = 'receipts/' . $orderData['orderNumber'] . '.pdf';
+    // Try multiple paths to find a writable location
+    $attempts = [
+        'receipts/' . $orderData['orderNumber'] . '.pdf',  // First try the receipts folder
+        './' . $orderData['orderNumber'] . '.pdf',         // Then try the current directory
+        sys_get_temp_dir() . '/' . $orderData['orderNumber'] . '.pdf' // Finally try the system temp directory
+    ];
 
-    // Create receipts directory if it doesn't exist
-    if (!is_dir('receipts')) {
-        mkdir('receipts', 0755, true);
+    $pdfFilePath = null;
+    $error = null;
+
+    foreach ($attempts as $path) {
+        try {
+            // Try to create the directory if it's in a subdirectory and doesn't exist
+            $dir = dirname($path);
+            if (!is_dir($dir) && $dir !== '.') {
+                @mkdir($dir, 0777, true);
+            }
+
+            // Check if we can write to this location
+            if ((is_dir($dir) && is_writable($dir)) || $dir === '.') {
+                // Save PDF to file
+                $pdf->Output($path, 'F');
+                $pdfFilePath = $path;
+                break; // We succeeded, no need to try other paths
+            }
+        } catch (Exception $e) {
+            $error = $e->getMessage();
+            // Keep trying other paths
+        }
     }
 
-    // Save PDF to file
-    $pdf->Output($pdfFilePath, 'F');
+    // If we couldn't save anywhere, throw an exception
+    if ($pdfFilePath === null) {
+        // Return a special path to indicate an error
+        // The email function will need to handle this case
+        return [
+            'error' => true,
+            'message' => 'Could not generate PDF. Last error: ' . $error,
+            'path' => null
+        ];
+    }
 
     // Return the file path
-    return $pdfFilePath;
+    return [
+        'error' => false,
+        'message' => 'PDF generated successfully',
+        'path' => $pdfFilePath
+    ];
 }

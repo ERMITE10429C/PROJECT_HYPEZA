@@ -109,8 +109,15 @@ try {
         $mail->addCustomHeader('X-Entity-Ref-ID', $data['orderNumber']);
 
         // Generate and attach PDF receipt
-        $pdfPath = generatePdfReceipt($data);
-        $mail->addAttachment($pdfPath, 'HYPEZA_Receipt_' . $data['orderNumber'] . '.pdf');
+        $pdfResult = generatePdfReceipt($data);
+
+        if (!$pdfResult['error'] && !empty($pdfResult['path'])) {
+            // Successfully generated PDF, attach it
+            $mail->addAttachment($pdfResult['path'], 'HYPEZA_Receipt_' . $data['orderNumber'] . '.pdf');
+        } else {
+            // Log the PDF generation error but continue sending the email without attachment
+            error_log("PDF Generation Error: " . $pdfResult['message']);
+        }
 
         // Use a cleaner HTML structure with minimal inline styles
         $goldColor = '#C89B3C';

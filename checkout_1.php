@@ -63,8 +63,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
         $mail->addAddress($data['email'], $data['firstName'] . ' ' . $data['lastName']);
 
         // Generate and attach PDF receipt
-        $pdfPath = generatePdfReceipt($data);
-        $mail->addAttachment($pdfPath, 'HYPEZA_Receipt_' . $data['orderNumber'] . '.pdf');
+        $pdfResult = generatePdfReceipt($data);
+
+        if (!$pdfResult['error'] && !empty($pdfResult['path'])) {
+            // Successfully generated PDF, attach it
+            $mail->addAttachment($pdfResult['path'], 'HYPEZA_Receipt_' . $data['orderNumber'] . '.pdf');
+        } else {
+            // Log the PDF generation error but continue sending the email without attachment
+            error_log("PDF Generation Error: " . $pdfResult['message']);
+        }
 
         // Email content
 // Email content with the same structure as send_confirmation.php
