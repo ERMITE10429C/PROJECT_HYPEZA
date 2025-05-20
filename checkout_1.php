@@ -1403,10 +1403,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
         }, { once: true });
     }
 
-    // Ajoutez cette fonction dans votre script existant
-
+    // Improved email confirmation function with better error handling
     async function sendConfirmationEmail(orderData) {
         try {
+            console.log('Sending order data:', orderData);
+
             // Send request to the same page (checkout_1.php)
             const response = await fetch(window.location.href, {
                 method: 'POST',
@@ -1414,25 +1415,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(orderData),
-                signal: AbortSignal.timeout(10000)
+                // Increased timeout to 30 seconds to account for PDF generation
+                signal: AbortSignal.timeout(30000)
             });
 
-            if (!response.ok) {
-                throw new Error(`Server responded with status: ${response.status}`);
+            const responseText = await response.text();
+            console.log('Raw server response:', responseText);
+
+            let result;
+            try {
+                result = JSON.parse(responseText);
+            } catch (jsonError) {
+                console.error('Error parsing JSON response:', jsonError);
+                console.log('Non-JSON response received:', responseText);
+                return false;
             }
 
-            const result = await response.json();
             console.log('Email sending result:', result);
-            return result.success;
+            return result && result.success === true;
         } catch (error) {
             console.error('Error sending confirmation email:', error);
             return false;
         }
     }
-
-
-
-
 
     // Modifiez la partie du code qui gère la soumission de la commande
     document.getElementById('place-order-btn').addEventListener('click', async function(e) {
@@ -1480,4 +1485,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
 </script>
 
 </body>
-
+</html>
