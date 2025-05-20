@@ -488,47 +488,40 @@
     requestAnimationFrame(animateProgress);
   });
 
-  document.querySelector('.appointment-form').addEventListener('submit', function(e) {
+
+    document.querySelector('.appointment-form').addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    // Créer un objet avec les données du formulaire
     const formData = {
-      name: document.getElementById('name').value,
-      email: document.getElementById('email').value,
-      phone: document.getElementById('phone').value,
-      date: document.getElementById('date').value,
-      time: document.getElementById('time').value,
-      notes: document.getElementById('notes').value
-    };
+    name: document.getElementById('name').value,
+    email: document.getElementById('email').value,
+    phone: document.getElementById('phone').value,
+    date: document.getElementById('date').value,
+    time: document.getElementById('time').value,
+    notes: document.getElementById('notes').value
+  };
 
-    // Afficher les données dans la console pour déboguer
-    console.log('Données à envoyer:', formData);
+    try {
+    const response = await fetch('process_appointment.php', {
+    method: 'POST',
+    headers: {
+    'Content-Type': 'application/json'
+  },
+    body: JSON.stringify(formData)
+  });
 
-    // Envoyer les données en JSON
-    fetch('process_appointment.php', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData)
-    })
-            .then(response => {
-              console.log('Status:', response.status);
-              return response.json();
-            })
-            .then(data => {
-              console.log('Réponse:', data);
-              if (data.success) {
-                alert('Votre rendez-vous a été confirmé ! Vous recevrez un email de confirmation.');
-                this.reset();
-              } else {
-                throw new Error(data.message || 'Erreur lors de l\'envoi');
-              }
-            })
-            .catch(error => {
-              console.error('Erreur:', error);
-              alert('Une erreur est survenue. Veuillez vérifier vos informations et réessayer.');
-            });
+    const result = await response.json();
+
+    if (result.success) {
+    alert('Votre demande de rendez-vous a été envoyée avec succès !');
+    this.reset();
+  } else {
+    alert('Erreur : ' + result.message);
+  }
+  } catch (error) {
+    alert('Une erreur est survenue lors de l\'envoi de votre demande');
+    console.error('Erreur:', error);
+  }
   });
 
 </script>
