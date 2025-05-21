@@ -747,6 +747,7 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
 </div>
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <div id="userModal" class="user-modal">
     <div class="user-modal-content">
         <span class="user-modal-close">&times;</span>
@@ -789,6 +790,10 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
     </div>
 </div>
 
+=======
+    </div>
+</div>
+>>>>>>> Stashed changes
 =======
     </div>
 </div>

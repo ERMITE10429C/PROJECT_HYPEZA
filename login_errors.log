@@ -88,15 +88,21 @@
 [14-May-2025 12:54:44 Europe/Berlin] Connection closed after error
 [14-May-2025 12:54:44 Europe/Berlin] === LOGIN ATTEMPT COMPLETED AT 2025-05-14 12:54:44 ===
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 [20-May-2025 22:51:47 Europe/Berlin] === LOGIN ATTEMPT STARTED AT 2025-05-20 22:51:47 ===
 [20-May-2025 22:51:47 Europe/Berlin] SSL certificate path: C:\Users\amine\OneDrive\Documents\GitHub\PROJECT_HYPEZA/DigiCertGlobalRootCA.crt.pem
 [20-May-2025 22:51:47 Europe/Berlin] SSL certificate exists: No
 [20-May-2025 22:51:48 Europe/Berlin] PHP Warning:  failed loading cafile stream: `C:\Users\amine\OneDrive\Documents\GitHub\PROJECT_HYPEZA/DigiCertGlobalRootCA.crt.pem' in C:\Users\amine\OneDrive\Documents\GitHub\PROJECT_HYPEZA\login.php on line 44
 [20-May-2025 22:51:48 Europe/Berlin] LOGIN ERROR: Cannot connect to MySQL using SSL
 =======
+=======
+>>>>>>> Stashed changes
 [21-May-2025 12:11:28 Europe/Berlin] === LOGIN ATTEMPT STARTED AT 2025-05-21 12:11:28 ===
 [21-May-2025 12:11:28 Europe/Berlin] SSL certificate path: C:\xampp\htdocs\Project_V2.1\project_V2.1/DigiCertGlobalRootCA.crt.pem
 [21-May-2025 12:11:28 Europe/Berlin] SSL certificate exists: No
 [21-May-2025 12:11:29 Europe/Berlin] PHP Warning:  failed loading cafile stream: `C:\xampp\htdocs\Project_V2.1\project_V2.1/DigiCertGlobalRootCA.crt.pem' in C:\xampp\htdocs\Project_V2.1\project_V2.1\login.php on line 44
 [21-May-2025 12:11:29 Europe/Berlin] LOGIN ERROR: Cannot connect to MySQL using SSL
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
