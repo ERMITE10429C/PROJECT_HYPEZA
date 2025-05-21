@@ -572,6 +572,7 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
             <a href="#users" class="nav-link"><i class="fas fa-users"></i> Utilisateurs</a>
             <a href="#orders" class="nav-link"><i class="fas fa-shopping-cart"></i> Commandes</a>
             <a href="#tickets" class="nav-link"><i class="fas fa-ticket-alt"></i> Tickets</a>
+            <a href="#stock_manager" class="nav-link"><i class="fas fa-ticket-alt"></i> Stock Manager </a>
             <a href="logout.php" class="nav-link"><i class="fas fa-sign-out-alt"></i> Se déconnecter</a>
         </nav>
     </div>
@@ -699,16 +700,53 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
                     </tr>
                 <?php endwhile; ?>
             </table>
-        </div>
-        <div class="card" id="tickets">
-            <h2>Gestion des Tickets</h2>
-            <div>
-                <a href="admin_tickets.php" class="btn">Voir tous les tickets</a>
             </div>
+
+            <div class="card" id="tickets">
+                <h2>Gestion des Tickets</h2>
+                <div>
+                    <a href="admin_tickets.php" class="btn">Voir tous les tickets</a>
+                </div>
+            </div>
+
+    <div>
+        <?php
+        $result = $conn->query("SELECT id, title, stock, max_per_order FROM products");
+        ?>
+        <div class="card" id="stock_manager">
+            <h2>Gestion de Stock</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Availability</th>
+                        <th>Max Per Order</th>
+                        <th>Update Stock</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while ($product = $result->fetch_assoc()): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($product['title']) ?></td>
+                            <td><?= htmlspecialchars($product['stock']) ?></td>
+                            <td><?= htmlspecialchars($product['max_per_order']) ?></td>
+                            <td>
+                                <form method="post" action="update_stock.php" class="update-stock-form">
+                                    <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
+                                    <input type="number" name="new_stock" value="<?= $product['stock'] ?>" min="0" required>
+                                    <input type="number" name="max_per_order" value="<?= $product['max_per_order'] ?>" min="1" required>
+                                    <button type="submit" class="btn">Update</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
 
+<<<<<<< Updated upstream
 <div id="userModal" class="user-modal">
     <div class="user-modal-content">
         <span class="user-modal-close">&times;</span>
@@ -751,6 +789,10 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
     </div>
 </div>
 
+=======
+    </div>
+</div>
+>>>>>>> Stashed changes
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Graphique des ventes
@@ -980,5 +1022,43 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
 
 
 </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const forms = document.querySelectorAll(".update-stock-form");
+
+      forms.forEach((form) => {
+        form.addEventListener("submit", function (e) {
+          e.preventDefault(); // Prevent form submission
+
+          const formData = new FormData(form);
+          const productId = formData.get("product_id");
+          const newStock = formData.get("new_stock");
+
+          fetch("update_stock.php", {
+            method: "POST",
+            body: formData,
+          })
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error("Failed to update stock");
+              }
+              return response.text();
+            })
+            .then(() => {
+              // Update the stock value in the table
+              const stockCell = form.closest("tr").querySelector("td:nth-child(2)");
+              stockCell.textContent = newStock;
+              alert("Stock updated successfully!");
+            })
+            .catch((error) => {
+              console.error(error);
+              alert("Error updating stock.");
+            });
+        });
+      });
+    });
+</script>
+
 </body>
 </html>
