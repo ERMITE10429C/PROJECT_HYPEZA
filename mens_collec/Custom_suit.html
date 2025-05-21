@@ -498,11 +498,12 @@
     phone: document.getElementById('phone').value,
     date: document.getElementById('date').value,
     time: document.getElementById('time').value,
-    notes: document.getElementById('notes').value
+    notes: document.getElementById('notes').value || ''
   };
 
     try {
-    const response = await fetch('process_appointment.php', {
+    // Mise à jour du chemin pour pointer vers le fichier dans le même dossier
+    const response = await fetch('./process_appointment.php', {
     method: 'POST',
     headers: {
     'Content-Type': 'application/json'
@@ -510,17 +511,27 @@
     body: JSON.stringify(formData)
   });
 
-    const result = await response.json();
+    // Log de la réponse brute pour le débogage
+    const responseText = await response.text();
+    console.log('Réponse brute du serveur:', responseText);
+
+    let result;
+    try {
+    result = JSON.parse(responseText);
+  } catch (e) {
+    console.error('La réponse n\'est pas du JSON valide');
+    throw new Error('Réponse serveur invalide');
+  }
 
     if (result.success) {
     alert('Votre demande de rendez-vous a été envoyée avec succès !');
     this.reset();
   } else {
-    alert('Erreur : ' + result.message);
+    alert('Erreur : ' + (result.message || 'Une erreur inconnue est survenue'));
   }
   } catch (error) {
-    alert('Une erreur est survenue lors de l\'envoi de votre demande');
-    console.error('Erreur:', error);
+    console.error('Erreur détaillée:', error);
+    alert('Une erreur est survenue lors de l\'envoi de votre demande. Vérifiez la console pour plus de détails.');
   }
   });
 
