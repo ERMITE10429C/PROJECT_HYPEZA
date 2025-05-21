@@ -489,51 +489,64 @@
   });
 
 
-    document.querySelector('.appointment-form').addEventListener('submit', async function(e) {
+  document.querySelector('.appointment-form').addEventListener('submit', async function(e) {
     e.preventDefault();
 
     const formData = {
-    name: document.getElementById('name').value,
-    email: document.getElementById('email').value,
-    phone: document.getElementById('phone').value,
-    date: document.getElementById('date').value,
-    time: document.getElementById('time').value,
-    notes: document.getElementById('notes').value || ''
-  };
+      name: document.getElementById('name').value,
+      email: document.getElementById('email').value,
+      phone: document.getElementById('phone').value,
+      date: document.getElementById('date').value,
+      time: document.getElementById('time').value,
+      notes: document.getElementById('notes').value || ''
+    };
+
+    // Obtenir le chemin absolu
+    const currentPath = window.location.pathname;
+    const phpEndpoint = currentPath.substring(0, currentPath.lastIndexOf('/')) + '/process_appointment.php';
+
+    console.log('URL de la requête:', phpEndpoint); // Pour le débogage
 
     try {
-    // Mise à jour du chemin pour pointer vers le fichier dans le même dossier
-    const response = await fetch('./process_appointment.php', {
-    method: 'POST',
-    headers: {
-    'Content-Type': 'application/json'
-  },
-    body: JSON.stringify(formData)
+      const response = await fetch(phpEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (!response.ok) {
+        console.log('Status:', response.status);
+        console.log('Headers:', Object.fromEntries(response.headers));
+        const errorText = await response.text();
+        console.log('Réponse d\'erreur:', errorText);
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const responseText = await response.text();
+      console.log('Réponse brute du serveur:', responseText);
+
+      let result;
+      try {
+        result = JSON.parse(responseText);
+      } catch (e) {
+        console.error('La réponse n\'est pas du JSON valide');
+        throw new Error('Réponse serveur invalide');
+      }
+
+      if (result.success) {
+        alert('Votre demande de rendez-vous a été envoyée avec succès !');
+        this.reset();
+      } else {
+        alert('Erreur : ' + (result.message || 'Une erreur inconnue est survenue'));
+      }
+    } catch (error) {
+      console.error('Erreur détaillée:', error);
+      alert('Une erreur est survenue lors de l\'envoi de votre demande. Vérifiez la console pour plus de détails.');
+    }
   });
 
-    // Log de la réponse brute pour le débogage
-    const responseText = await response.text();
-    console.log('Réponse brute du serveur:', responseText);
-
-    let result;
-    try {
-    result = JSON.parse(responseText);
-  } catch (e) {
-    console.error('La réponse n\'est pas du JSON valide');
-    throw new Error('Réponse serveur invalide');
-  }
-
-    if (result.success) {
-    alert('Votre demande de rendez-vous a été envoyée avec succès !');
-    this.reset();
-  } else {
-    alert('Erreur : ' + (result.message || 'Une erreur inconnue est survenue'));
-  }
-  } catch (error) {
-    console.error('Erreur détaillée:', error);
-    alert('Une erreur est survenue lors de l\'envoi de votre demande. Vérifiez la console pour plus de détails.');
-  }
-  });
 
 </script>
 
