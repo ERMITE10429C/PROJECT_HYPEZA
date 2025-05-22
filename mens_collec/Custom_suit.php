@@ -1,3 +1,243 @@
+
+<?php
+// Import PHPMailer classes
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
+
+// Only process if this is a POST request with JSON content type
+if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
+    isset($_SERVER['CONTENT_TYPE']) &&
+    strpos($_SERVER['CONTENT_TYPE'], 'application/json') !== false) {
+
+    // Set content type to JSON for AJAX response
+    header('Content-Type: application/json');
+
+    try {
+        // Load Composer's autoloader
+        require '../vendor/autoload.php';
+
+        // Get and decode JSON data
+        $input = file_get_contents('php://input');
+        $data = json_decode($input, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new Exception("Invalid JSON: " . json_last_error_msg());
+        }
+
+        // Validate required fields for appointment form
+        $requiredFields = ['name', 'email', 'phone', 'date', 'time'];
+        foreach ($requiredFields as $field) {
+            if (empty($data[$field])) {
+                throw new Exception("Missing required field: $field");
+            }
+        }
+
+        // Create a new PHPMailer instance
+        $mail = new PHPMailer(true);
+
+        // Configure SMTP
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.titan.email';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'team@hypza.tech';
+        $mail->Password   = 'azerty@123';
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        $mail->Port       = 465;
+
+        // SSL Configuration
+        $mail->SMTPOptions = [
+            'ssl' => [
+                'verify_peer' => true,
+                'verify_peer_name' => true,
+                'allow_self_signed' => true
+            ]
+        ];
+
+        // Set sender and recipient
+        $mail->setFrom('team@hypza.tech', 'HYPEZA');
+        $mail->addReplyTo('bespoke@hypeza.com', 'HYPEZA Bespoke Service');
+        $mail->addAddress($data['email'], $data['name']);
+
+        // Email content formatting
+        $mail->CharSet = 'UTF-8';
+        $mail->Encoding = 'base64';
+        $mail->XMailer = 'HYPEZA Mailer';
+        $mail->isHTML(true);
+        $mail->Priority = 3;
+
+        // Subject
+        $mail->Subject = 'Your Bespoke Consultation Appointment - HYPEZA';
+
+        // Create a unique message ID
+        $mail->MessageID = '<' . time() . '.' . md5($data['email'] . $data['date']) . '@hypza.tech>';
+
+        // Add custom headers to improve deliverability
+        $unsubscribeLink = 'https://hypza.tech/unsubscribe?email=' . urlencode($data['email']) . '&token=' . md5($data['email'] . 'some-secret-key');
+        $mail->addCustomHeader('List-Unsubscribe', '<' . $unsubscribeLink . '>, <mailto:unsubscribe@hypza.tech?subject=unsubscribe>');
+        $mail->addCustomHeader('List-Unsubscribe-Post', 'List-Unsubscribe=One-Click');
+        $mail->addCustomHeader('Precedence', 'bulk');
+        $mail->addCustomHeader('X-Auto-Response-Suppress', 'OOF, DR, RN, NRN, AutoReply');
+        $mail->addCustomHeader('Feedback-ID', md5($data['email'] . $data['date']) . ':HYPEZA:appointment:gmail');
+
+        // Format date for display
+        $appointmentDate = date('l, F j, Y', strtotime($data['date']));
+
+        // Format time for display
+        $hour = intval(substr($data['time'], 0, 2));
+        $appointmentTime = ($hour < 12) ? $data['time'] . ' AM' : (($hour === 12) ? $data['time'] . ' PM' : ($hour - 12) . ':00 PM');
+
+        // Gold color for branding
+        $goldColor = '#C89B3C';
+
+        // Email body HTML
+        $emailBody = "
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Your Bespoke Consultation Appointment - HYPEZA</title>
+</head>
+<body style='font-family: Arial, sans-serif; margin: 0; padding: 0; color: #333333; background-color: #f9f9f9;'>
+    <table width='100%' cellpadding='0' cellspacing='0' border='0'>
+        <tr>
+            <td align='center' style='padding: 20px 0;'>
+                <table width='600' cellpadding='0' cellspacing='0' border='0' style='background-color: #ffffff; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);'>
+                    <!-- Header -->
+                    <tr>
+                        <td align='center' style='background-color: #000000; padding: 30px; border-radius: 6px 6px 0 0;'>
+                            <h1 style='color: {$goldColor}; padding: 15px; margin-top: 20px; font-size: 32px; letter-spacing: 2px;'>HYPEZA</h1>
+                        </td>
+                    </tr>
+                    
+                    <!-- Main Content -->
+                    <tr>
+                        <td style='padding: 30px;'>
+                            <p style='font-size: 16px; color: #666666;'>Dear {$data['name']},</p>
+                            
+                            <p style='font-size: 16px; line-height: 1.6; margin: 20px 0;'>
+                                Thank you for scheduling a bespoke consultation with HYPEZA. We are delighted to confirm your appointment details:
+                            </p>
+
+                            <!-- Appointment Details -->
+                            <table width='100%' cellpadding='0' cellspacing='0' border='0' style='background-color: #f8f8f8; border-radius: 5px; margin: 25px 0;'>
+                                <tr>
+                                    <td style='padding: 20px;'>
+                                        <h3 style='color: {$goldColor}; margin: 0 0 15px; font-size: 18px;'>Appointment Details</h3>
+                                        <p style='margin: 5px 0; font-size: 14px; line-height: 1.6;'>
+                                            <strong>Date:</strong> {$appointmentDate}<br>
+                                            <strong>Time:</strong> {$appointmentTime}<br>
+                                            <strong>Location:</strong> HYPEZA Atelier, 123 Fashion Avenue, New York<br>
+                                            <strong>Contact:</strong> {$data['phone']}
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Special Requests -->
+                            " . (!empty($data['notes']) ? "
+                            <table width='100%' cellpadding='0' cellspacing='0' border='0' style='background-color: #f8f8f8; border-radius: 5px; margin: 25px 0;'>
+                                <tr>
+                                    <td style='padding: 20px;'>
+                                        <h3 style='color: {$goldColor}; margin: 0 0 15px; font-size: 18px;'>Your Special Requests</h3>
+                                        <p style='margin: 5px 0; font-size: 14px; line-height: 1.6;'>{$data['notes']}</p>
+                                    </td>
+                                </tr>
+                            </table>
+                            " : "") . "
+
+                            <p style='font-size: 16px; line-height: 1.6; margin: 20px 0;'>
+                                During your appointment, our master tailors will:
+                            </p>
+
+                            <ul style='font-size: 14px; line-height: 1.6; color: #666666; margin: 20px 0; padding-left: 20px;'>
+                                <li>Discuss your style preferences and requirements</li>
+                                <li>Take precise measurements for your custom garment</li>
+                                <li>Guide you through fabric selections and design options</li>
+                                <li>Provide expert advice on cuts, details, and finishes</li>
+                            </ul>
+
+                            <p style='font-size: 14px; line-height: 1.6; color: #666666; margin: 25px 0;'>
+                                If you need to reschedule or cancel your appointment, please contact us at least 24 hours in advance at
+                                <a href='mailto:bespoke@hypeza.com' style='color: {$goldColor}; text-decoration: none;'>bespoke@hypeza.com</a>
+                                or call us at +1 (555) 123-4567.
+                            </p>
+
+                            <p style='font-size: 14px; line-height: 1.6; color: #666666; margin: 25px 0;'>
+                                We look forward to crafting a bespoke experience as unique as you are.
+                            </p>
+                        </td>
+                    </tr>
+                    
+                    <!-- Footer -->
+                    <tr>
+                        <td style='background-color: #f8f8f8; padding: 20px; border-radius: 0 0 6px 6px; border-top: 1px solid #eee;'>
+                            <table width='100%' cellpadding='0' cellspacing='0' border='0'>
+                                <tr>
+                                    <td align='center'>
+                                        <p style='margin: 0 0 15px; color: #666666; font-size: 14px;'>
+                                            Thank you for choosing HYPEZA<br>
+                                            <strong style='color: {$goldColor};'>The HYPEZA Tailoring Team</strong>
+                                        </p>
+                                        <p style='margin: 15px 0 0; font-size: 12px; color: #999999;'>
+                                            This email was sent to {$data['email']}.<br>
+                                            If you no longer wish to receive our emails, 
+                                            <a href='{$unsubscribeLink}' style='color: #666666;'>click here to unsubscribe</a>.
+                                        </p>
+                                        
+                                        <!-- Social Links -->
+                                        <p style='margin-top: 20px;'>
+                                            <a href='https://facebook.com/hypeza' style='color: #666; margin: 0 10px;'>Facebook</a>
+                                            <a href='https://instagram.com/hypeza' style='color: #666; margin: 0 10px;'>Instagram</a>
+                                            <a href='https://hypza.tech' style='color: #666; margin: 0 10px;'>Website</a>
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                
+                <!-- Physical Address -->
+                <table width='600' cellpadding='0' cellspacing='0' border='0'>
+                    <tr>
+                        <td align='center' style='padding: 20px 0; font-size: 12px; color: #999;'>
+                            HYPEZA, 123 Fashion Avenue, New York, NY 10001, USA
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
+";
+
+        $mail->Body = $emailBody;
+        $mail->AltBody = strip_tags(str_replace(['<br>', '<br/>', '<br />'], "\n", $emailBody));
+
+        // Send email
+        if ($mail->send()) {
+            echo json_encode([
+                'success' => true,
+                'message' => 'Your appointment request has been successfully submitted.'
+            ]);
+        } else {
+            throw new Exception("Email could not be sent. Mailer Error: " . $mail->ErrorInfo);
+        }
+    } catch (Exception $e) {
+        echo json_encode([
+            'success' => false,
+            'message' => $e->getMessage()
+        ]);
+    }
+
+    // Important: exit here to prevent HTML content from being sent in JSON response
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +248,8 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Prata&family=Cormorant+Garamond:wght@300;400;500&display=swap">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
 </head>
 <body>
 
@@ -489,8 +731,15 @@
   });
 
 
+
   document.querySelector('.appointment-form').addEventListener('submit', async function(e) {
     e.preventDefault();
+
+    // Show loading state
+    const submitBtn = this.querySelector('.submit-btn');
+    const originalBtnText = submitBtn.textContent;
+    submitBtn.textContent = 'Sending...';
+    submitBtn.disabled = true;
 
     const formData = {
       name: document.getElementById('name').value,
@@ -501,49 +750,72 @@
       notes: document.getElementById('notes').value || ''
     };
 
-    // Obtenir le chemin absolu
-    const currentPath = window.location.pathname;
-    const phpEndpoint = currentPath.substring(0, currentPath.lastIndexOf('/')) + '/process_appointment.php';
-
-    console.log('URL de la requête:', phpEndpoint); // Pour le débogage
+    // Log the data being sent
+    console.log('Sending appointment data:', formData);
 
     try {
-      const response = await fetch(phpEndpoint, {
+      // Send to current page instead of separate PHP file
+      const response = await fetch(window.location.href, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
+        signal: AbortSignal.timeout(15000) // 15 second timeout
       });
 
-      if (!response.ok) {
-        console.log('Status:', response.status);
-        console.log('Headers:', Object.fromEntries(response.headers));
-        const errorText = await response.text();
-        console.log('Réponse d\'erreur:', errorText);
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+      console.log('Response status:', response.status);
+      console.log('Response headers:', Object.fromEntries(response.headers));
 
       const responseText = await response.text();
-      console.log('Réponse brute du serveur:', responseText);
+      console.log('Raw server response:', responseText);
 
       let result;
       try {
         result = JSON.parse(responseText);
+        console.log('Parsed response:', result);
       } catch (e) {
-        console.error('La réponse n\'est pas du JSON valide');
-        throw new Error('Réponse serveur invalide');
+        console.error('Invalid JSON response:', e);
+        console.error('Raw response content:', responseText);
+        throw new Error('Server returned invalid JSON. See console for details.');
       }
 
       if (result.success) {
-        alert('Votre demande de rendez-vous a été envoyée avec succès !');
-        this.reset();
+        // Create success notification
+        const successMessage = document.createElement('div');
+        successMessage.className = 'success-notification';
+        successMessage.innerHTML = `
+          <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+          <h3>Appointment Scheduled!</h3>
+          <p>Your bespoke consultation request has been received. A confirmation email has been sent to ${formData.email}</p>
+        `;
+        document.querySelector('.appointment-container').appendChild(successMessage);
+
+        // Hide the form
+        this.style.display = 'none';
+
+        // Scroll to the success message
+        successMessage.scrollIntoView({ behavior: 'smooth' });
       } else {
-        alert('Erreur : ' + (result.message || 'Une erreur inconnue est survenue'));
+        throw new Error(result.message || 'Unknown error occurred');
       }
     } catch (error) {
-      console.error('Erreur détaillée:', error);
-      alert('Une erreur est survenue lors de l\'envoi de votre demande. Vérifiez la console pour plus de détails.');
+      console.error('Detailed error:', error);
+
+      // Create more descriptive error message for user
+      let errorMessage = 'An error occurred while processing your request.';
+
+      if (error.name === 'AbortError') {
+        errorMessage = 'Request timed out. Please try again or contact us directly.';
+      } else if (error.message) {
+        errorMessage = `Error: ${error.message}`;
+      }
+
+      alert(errorMessage);
+    } finally {
+      // Restore button state
+      submitBtn.textContent = originalBtnText;
+      submitBtn.disabled = false;
     }
   });
 

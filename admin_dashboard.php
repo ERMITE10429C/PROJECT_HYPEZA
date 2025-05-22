@@ -573,6 +573,7 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
             <a href="#orders" class="nav-link"><i class="fas fa-shopping-cart"></i> Commandes</a>
             <a href="#tickets" class="nav-link"><i class="fas fa-ticket-alt"></i> Tickets</a>
             <a href="#stock_manager" class="nav-link"><i class="fas fa-ticket-alt"></i> Stock Manager </a>
+            <a href="manage_products.php" class="nav-link"><i class="fas fa-box"></i> Gestion Produits</a>
             <a href="logout.php" class="nav-link"><i class="fas fa-sign-out-alt"></i> Se déconnecter</a>
         </nav>
     </div>
