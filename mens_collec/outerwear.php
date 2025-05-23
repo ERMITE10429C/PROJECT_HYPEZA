@@ -1,3 +1,13 @@
+<?php
+session_start();
+require_once 'db_connection.php';
+
+// Récupérer les produits de la collection outerwear
+$query = "SELECT * FROM products WHERE collection = 'outerwear'";
+$result = $conn->query($query);
+$products = $result->fetch_all(MYSQLI_ASSOC);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -142,38 +152,56 @@
 </div>
 
   <!-- Products Section -->
-  <section class="products-section" id="products">
+<section class="products-section" id="products">
     <div class="section-title">
-      <h2>Our Collection</h2>
+        <h2>Our Collection</h2>
     </div>
-    
+
     <div class="filters">
-      <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="coats">Coats</button>
-      <button class="filter-btn" data-filter="jackets">Jackets</button>
-      <button class="filter-btn" data-filter="blazers">Blazers</button>
-      <button class="filter-btn" data-filter="trench">Trench Coats</button>
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="coats">Coats</button>
+        <button class="filter-btn" data-filter="jackets">Jackets</button>
+        <button class="filter-btn" data-filter="blazers">Blazers</button>
+        <button class="filter-btn" data-filter="trench">Trench Coats</button>
     </div>
-    
+
+
     <div class="products-grid">
       <!-- Product 1 -->
-      <div class="product-card animate-on-scroll"
-           id="outerwear1"
-           data-animation="fade-in" data-category="coats" data-id="1" data-title="Cashmere Wool Coat" data-price="$1,295" data-image="https://images.unsplash.com/photo-1548624313-0396c75e4b1a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" data-description="Luxurious cashmere wool coat with a timeless silhouette. Features a double-breasted design and premium Italian fabric.">
-        <img src="https://images.unsplash.com/photo-1548624313-0396c75e4b1a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Cashmere Wool Coat" class="product-image">
-        <div class="product-overlay">
-          <div class="product-actions">
-            <button class="product-btn quick-view-btn">Quick View</button>
-            <button class="product-btn cart-btn">Add to Cart</button>
-          </div>
-        </div>
-        <div class="product-info">
-          <h3 class="product-title">Cashmere Wool Coat</h3>
-          <p class="product-price">$1,295</p>
-        </div>
-      </div>
-      
-      <!-- Product 2 -->
+        <?php foreach ($products as $product): ?>
+            <div class="product-card animate-on-scroll"
+                 id="outerwear<?= $product['id'] ?>"
+                 data-animation="fade-in"
+                 data-category="<?= htmlspecialchars($product['category']) ?>"
+                 data-id="<?= $product['id'] ?>"
+                 data-title="<?= htmlspecialchars($product['title']) ?>"
+                 data-price="$<?= number_format($product['price'], 2) ?>"
+                 data-image="<?= htmlspecialchars($product['image_url']) ?>"
+                 data-description="<?= htmlspecialchars($product['description']) ?>">
+
+                <img src="<?= htmlspecialchars($product['image_url']) ?>"
+                     alt="<?= htmlspecialchars($product['title']) ?>"
+                     class="product-image">
+
+                <div class="product-overlay">
+                    <div class="product-actions">
+                        <button class="product-btn quick-view-btn"
+                                onclick="quickView(<?= $product['id'] ?>)">Quick View</button>
+                        <button class="product-btn cart-btn"
+                                onclick="addToCart(<?= $product['id'] ?>)">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-info">
+                    <h3 class="product-title"><?= htmlspecialchars($product['title']) ?></h3>
+                    <p class="product-price">$<?= number_format($product['price'], 2) ?></p>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+
+
+    <!-- Product 2 -->
       <div class="product-card animate-on-scroll"
            id="outerwear2"
            data-animation="fade-in" data-category="jackets" data-id="2" data-title="Classic Leather Jacket" data-price="$895" data-image="https://images.unsplash.com/photo-1551028719-00167b16eac5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" data-description="A premium leather jacket crafted from buttery-soft lambskin leather. Features silver hardware and a tailored fit.">
@@ -689,6 +717,52 @@
 
     requestAnimationFrame(animateProgress);
   });
+
+  function quickView(productId) {
+      fetch('log_activity.php', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: `action=view&product_id=${productId}`
+      });
+
+      showQuickViewModal(productId);
+  }
+
+  function addToCart(productId) {
+      fetch('log_activity.php', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: `action=cart_add&product_id=${productId}`
+      });
+
+      // Ajouter votre logique d'ajout au panier ici
+      alert('Produit ajouté au panier!');
+  }
+
+  // Garder vos fonctions de filtrage existantes
+  document.querySelectorAll('.filter-btn').forEach(button => {
+      button.addEventListener('click', function() {
+          const filter = this.dataset.filter;
+
+          document.querySelectorAll('.filter-btn').forEach(btn => {
+              btn.classList.remove('active');
+          });
+          this.classList.add('active');
+
+          document.querySelectorAll('.product-card').forEach(card => {
+              if (filter === 'all' || card.dataset.category === filter) {
+                  card.style.display = 'block';
+              } else {
+                  card.style.display = 'none';
+              }
+          });
+      });
+  });
+
 </script>
 
   <!-- partial -->
