@@ -460,7 +460,7 @@ if (!isset($_SESSION['user_id'])) {
 
                         <div data-slider="slide" class="slider-slide">
                             <div class="slide-inner">
-                                <a href="mens_collec/outerwear.php" class="slide-link">
+                                <a href="mens_collec/outerwear.html" class="slide-link">
                                     <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80" loading="lazy" sizes="(max-width: 479px) 100vw, 560px" alt="Men's Outerwear Collection">
                                     <div class="slide-caption">
                                         <div class="caption-dot"></div>

@@ -28,6 +28,10 @@ if (!mysqli_real_connect($conn, $host, $user, $pass, $db, 3306, MYSQLI_CLIENT_SS
 
 $users = $conn->query("SELECT * FROM users");
 $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
+
+$statsQuery = $conn->query("SELECT * FROM statistiques WHERE id = 1");
+$stats = $statsQuery->fetch_assoc();
+
 ?>
 
 <!DOCTYPE html>
@@ -571,10 +575,9 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
             <a href="#stats" class="nav-link"><i class="fas fa-chart-line"></i> Statistiques</a>
             <a href="#users" class="nav-link"><i class="fas fa-users"></i> Utilisateurs</a>
             <a href="#orders" class="nav-link"><i class="fas fa-shopping-cart"></i> Commandes</a>
-            <a href="#client_activities" class="nav-link"><i class="fas fa-history"></i> Activités Clients</a>
+            <a href="#tickets" class="nav-link"><i class="fas fa-ticket-alt"></i> Tickets</a>
             <a href="#stock_manager" class="nav-link"><i class="fas fa-ticket-alt"></i> Stock Manager </a>
             <a href="manage_products.php" class="nav-link"><i class="fas fa-box"></i> Gestion Produits</a>
-            <a href="#tickets" class="nav-link"><i class="fas fa-ticket-alt"></i> Tickets</a>
             <a href="logout.php" class="nav-link"><i class="fas fa-sign-out-alt"></i> Se déconnecter</a>
         </nav>
     </div>
@@ -587,14 +590,11 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
         <div class="stats" id="stats">
             <div class="stat-card">
                 <h3>Total Commandes</h3>
-                <p><?php echo $purchases->num_rows; ?></p>
+                <p><?php echo ($stats['total_commandes'] ?? 0); ?></p>
             </div>
             <div class="stat-card" id="stats">
                 <h3>Chiffre d'affaires</h3>
-                <p><?php
-                    $total = $conn->query("SELECT SUM(total) as total FROM purchases")->fetch_assoc();
-                    echo number_format($total['total'], 2, ',', ' ') . ' €';
-                    ?></p>
+                <p><?php echo number_format(($stats['chiffre_affaires'] ?? 0), 2, ',', ' ') . ' €'; ?></p>
             </div>
 
             <div class="chart-container" style="height: 300px;">
@@ -746,89 +746,6 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
             </table>
         </div>
     </div>
-
-        <!-- Ajouter après la section des tickets -->
-        <div class="card" id="client_activities">
-            <h2>Activités des Clients</h2>
-            <div class="activity-controls">
-                <div class="search-box">
-                    <input type="text" id="activitySearch" placeholder="Rechercher une activité..." class="search-input">
-                    <select id="activityTypeFilter" class="select-filter">
-                        <option value="">Tous les types</option>
-                        <option value="purchase">Achats</option>
-                        <option value="view">Consultations</option>
-                        <option value="cart">Panier</option>
-                    </select>
-                    <select id="statusFilter" class="select-filter">
-                        <option value="">Tous les statuts</option>
-                        <option value="completed">Complété</option>
-                        <option value="pending">En attente</option>
-                        <option value="cancelled">Annulé</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="activities-table-container">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>Réf.</th>
-                        <th>Client</th>
-                        <th>Type</th>
-                        <th>Description</th>
-                        <th>Montant</th>
-                        <th>Statut</th>
-                        <th>Date</th>
-                        <th>Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                    $query = "SELECT ca.*, u.firstname, u.lastname 
-                         FROM client_activities ca 
-                         LEFT JOIN users u ON ca.user_id = u.id 
-                         ORDER BY ca.date_activities DESC 
-                         LIMIT 10";
-                    $activities = $conn->query($query);
-
-                    while ($activity = $activities->fetch_assoc()):
-                        $products_query = "SELECT cap.*, p.title 
-                                     FROM client_activity_products cap 
-                                     LEFT JOIN products p ON cap.product_id = p.id 
-                                     WHERE cap.activity_id = ?";
-                        $stmt = $conn->prepare($products_query);
-                        $stmt->bind_param("i", $activity['id']);
-                        $stmt->execute();
-                        $products = $stmt->get_result();
-                        ?>
-                        <tr>
-                            <td><?= htmlspecialchars($activity['reference_number']) ?></td>
-                            <td><?= htmlspecialchars($activity['firstname'] . ' ' . $activity['lastname']) ?></td>
-                            <td><?= htmlspecialchars($activity['activity_type']) ?></td>
-                            <td>
-                                <?= htmlspecialchars($activity['description']) ?>
-                                <button class="btn-icon" onclick="viewActivityDetails(<?= $activity['id'] ?>)">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                            </td>
-                            <td><?= number_format($activity['total_amount'], 2, ',', ' ') ?> €</td>
-                            <td>
-                        <span class="status-badge status-<?= strtolower($activity['statut']) ?>">
-                            <?= htmlspecialchars($activity['statut']) ?>
-                        </span>
-                            </td>
-                            <td><?= date('d/m/Y H:i', strtotime($activity['date_activities'])) ?></td>
-                            <td>
-                                <button class="btn-icon" onclick="viewActivityProducts(<?= $activity['id'] ?>)">
-                                    <i class="fas fa-shopping-basket"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    <?php endwhile; ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
 </div>
 
 <<<<<<< Updated upstream
@@ -1153,61 +1070,6 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
         });
       });
     });
-
-
-    // Ajouter à votre section <script> existante
-    function viewActivityDetails(activityId) {
-        // Créer une modal pour afficher les détails
-        fetch(`get_activity_details.php?id=${activityId}`)
-            .then(response => response.json())
-            .then(data => {
-                // Afficher les détails dans une modal
-                showActivityModal(data);
-            });
-    }
-
-    function viewActivityProducts(activityId) {
-        fetch(`get_activity_products.php?id=${activityId}`)
-            .then(response => response.json())
-            .then(data => {
-                // Afficher les produits dans une modal
-                showProductsModal(data);
-            });
-    }
-
-    // Filtrage des activités
-    document.getElementById('activitySearch').addEventListener('input', function(e) {
-        const searchTerm = e.target.value.toLowerCase();
-        filterActivities();
-    });
-
-    document.getElementById('activityTypeFilter').addEventListener('change', function() {
-        filterActivities();
-    });
-
-    document.getElementById('statusFilter').addEventListener('change', function() {
-        filterActivities();
-    });
-
-    function filterActivities() {
-        const searchTerm = document.getElementById('activitySearch').value.toLowerCase();
-        const typeFilter = document.getElementById('activityTypeFilter').value;
-        const statusFilter = document.getElementById('statusFilter').value;
-
-        const rows = document.querySelectorAll('#client_activities tbody tr');
-
-        rows.forEach(row => {
-            const type = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
-            const status = row.querySelector('td:nth-child(6)').textContent.toLowerCase();
-            const text = row.textContent.toLowerCase();
-
-            const matchesSearch = text.includes(searchTerm);
-            const matchesType = !typeFilter || type === typeFilter.toLowerCase();
-            const matchesStatus = !statusFilter || status === statusFilter.toLowerCase();
-
-            row.style.display = (matchesSearch && matchesType && matchesStatus) ? '' : 'none';
-        });
-    }
 </script>
 
 </body>
