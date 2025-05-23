@@ -6,28 +6,6 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
 
-// Après les lignes use PHPMailer\... ajoutez :
-$host = "hypezaserversql.mysql.database.azure.com";
-$user = "user";
-$pass = "HPL1710COMPAq";
-$db = "users_db";
-
-// Path to SSL certificate - try both locations
-$ssl_cert_1 = __DIR__ . '/ssl/DigiCertGlobalRootCA.crt.pem';
-$ssl_cert_2 = __DIR__ . '/DigiCertGlobalRootCA.crt.pem';
-
-// Choose the certificate that exists
-$ssl_cert = file_exists($ssl_cert_1) ? $ssl_cert_1 : $ssl_cert_2;
-
-// Create connection with SSL
-$conn = mysqli_init();
-mysqli_ssl_set($conn, NULL, NULL, $ssl_cert, NULL, NULL);
-
-if (!mysqli_real_connect($conn, $host, $user, $pass, $db, 3306, MYSQLI_CLIENT_SSL)) {
-    die("Erreur de connexion : " . mysqli_connect_error());
-}
-
-
 // Only process if this is a POST request with JSON content type
 if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
     isset($_SERVER['CONTENT_TYPE']) &&
@@ -57,29 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
                 throw new Exception("Missing required field: $field");
             }
         }
-        // Après la validation des champs requis
-        // Mise à jour des statistiques
-        $updateStats = $conn->prepare("
-            UPDATE statistiques 
-            SET total_commandes = total_commandes + 1,
-                chiffre_affaires = chiffre_affaires + ?
-            WHERE id = 1
-        ");
-
-        $total = floatval($data['total']);
-        $updateStats->bind_param("d", $total);
-        $updateStats->execute();
-
-        if ($updateStats->affected_rows === 0) {
-            // Si aucune ligne n'existe, on en crée une
-            $insertStats = $conn->prepare("
-                INSERT INTO statistiques (total_commandes, chiffre_affaires) 
-                VALUES (1, ?)
-            ");
-            $insertStats->bind_param("d", $total);
-            $insertStats->execute();
-        }
-
 
         // Create a new PHPMailer instance
         $mail = new PHPMailer(true);
@@ -306,7 +261,6 @@ $mail->AltBody = strip_tags(str_replace(['<br>', '<br/>', '<br />'], "\n", $emai
     // Important: exit here to prevent HTML content from being sent in JSON response
     exit;
 }
-$conn->close();
 ?>
 
 

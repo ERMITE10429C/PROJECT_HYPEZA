@@ -83,54 +83,179 @@ $products = $conn->query("SELECT * FROM products ORDER BY created_at DESC");
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des Produits</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Copiez le style de votre dashboard existant */
-        /* Ajoutez ces styles spécifiques */
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            padding: 20px;
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #f5f6fa;
+            --text-color: #2c3e50;
         }
 
-        .product-card {
-            background: white;
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
         }
 
         .product-form {
-            max-width: 500px;
-            margin: 20px auto;
-            padding: 20px;
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
             background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 1.5rem;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+            font-weight: 500;
         }
 
-        .form-group input, .form-group textarea {
+        .form-group input,
+        .form-group textarea {
             width: 100%;
-            padding: 8px;
+            padding: 0.8rem;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 6px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+
+        .btn {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: 500;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn-edit {
+            background-color: #f39c12;
+        }
+
+        .btn-delete {
+            background-color: var(--accent-color);
+        }
+
+        .btn-edit:hover {
+            background-color: #d68910;
+        }
+
+        .btn-delete:hover {
+            background-color: #c0392b;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-form {
+                margin: 1rem;
+                padding: 1rem;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
         }
     </style>
 </head>
 <body>
 <div class="dashboard">
     <!-- Copiez votre sidebar du dashboard ici -->
+    <div class="sidebar">
+        <h2 class="sidebar-title">Administrateur Dashboard</h2>
+        <nav>
+            <a href="#stats" class="nav-link"><i class="fas fa-chart-line"></i> Statistiques</a>
+            <a href="#users" class="nav-link"><i class="fas fa-users"></i> Utilisateurs</a>
+            <a href="#orders" class="nav-link"><i class="fas fa-shopping-cart"></i> Commandes</a>
+            <a href="#tickets" class="nav-link"><i class="fas fa-ticket-alt"></i> Tickets</a>
+            <a href="#stock_manager" class="nav-link"><i class="fas fa-ticket-alt"></i> Stock Manager </a>
+            <a href="manage_products.php" class="nav-link"><i class="fas fa-box"></i> Gestion Produits</a>
+            <a href="logout.php" class="nav-link"><i class="fas fa-sign-out-alt"></i> Se déconnecter</a>
+        </nav>
+    </div>
 
     <div class="main-content">
         <h1>Gestion des Produits</h1>

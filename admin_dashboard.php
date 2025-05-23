@@ -29,9 +29,6 @@ if (!mysqli_real_connect($conn, $host, $user, $pass, $db, 3306, MYSQLI_CLIENT_SS
 $users = $conn->query("SELECT * FROM users");
 $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
 
-$statsQuery = $conn->query("SELECT * FROM statistiques WHERE id = 1");
-$stats = $statsQuery->fetch_assoc();
-
 ?>
 
 <!DOCTYPE html>
