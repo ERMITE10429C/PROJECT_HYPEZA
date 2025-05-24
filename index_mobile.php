@@ -262,7 +262,7 @@
         </header>
         <!-- Main Content -->
 
-        <main>
+        <main class="pb-20">
 <!-- Replace your current hero section with this -->
 <div class="absolute top-0 left-0 w-full h-screen -z-10">
     <div class="h-full w-full bg-cover bg-center flex flex-col justify-end"
@@ -386,28 +386,27 @@
             </section>
         </main>
 
-        <!-- Footer -->
-        <footer class="sticky bottom-0 bg-dark border-t border-gold/30">
-            <nav class="flex justify-around items-center h-16 px-2">
-                <a class="flex flex-col items-center justify-center gap-0.5 text-gold flex-1 py-2 rounded-lg" href="#">
-                    <span class="material-icons-outlined text-[22px]">home</span>
-                    <span class="text-xs font-medium">Home</span>
-                </a>
-                <a class="flex flex-col items-center justify-center gap-0.5 text-gray-500 hover:text-gold flex-1 py-2 rounded-lg transition-colors" href="#">
-                    <span class="material-icons-outlined text-[22px]">favorite_border</span>
-                    <span class="text-xs font-medium">Wishlist</span>
-                </a>
-                <a class="flex flex-col items-center justify-center gap-0.5 text-gray-500 hover:text-gold flex-1 py-2 rounded-lg transition-colors" href="#">
-                    <span class="material-icons-outlined text-[22px]">shopping_bag</span>
-                    <span class="text-xs font-medium">Bag</span>
-                </a>
-                <a class="flex flex-col items-center justify-center gap-0.5 text-gray-500 hover:text-gold flex-1 py-2 rounded-lg transition-colors" href="connexion2.html">
-                    <span class="material-icons-outlined text-[22px]">person_outline</span>
-                    <span class="text-xs font-medium">Profile</span>
-                </a>
-            </nav>
-            <div class="h-[calc(env(safe-area-inset-bottom))] bg-dark"></div>
-        </footer>
+<footer class="fixed bottom-0 left-0 w-full bg-dark border-t border-gold/30 shadow-lg z-40">
+    <nav class="flex justify-around items-center h-16 px-2">
+        <a class="flex flex-col items-center justify-center gap-0.5 text-gold flex-1 py-2 rounded-lg" href="#">
+            <span class="material-icons-outlined text-[22px]">home</span>
+            <span class="text-xs font-medium">Home</span>
+        </a>
+        <a class="flex flex-col items-center justify-center gap-0.5 text-gray-500 hover:text-gold flex-1 py-2 rounded-lg transition-colors" href="#">
+            <span class="material-icons-outlined text-[22px]">favorite_border</span>
+            <span class="text-xs font-medium">Wishlist</span>
+        </a>
+        <a class="flex flex-col items-center justify-center gap-0.5 text-gray-500 hover:text-gold flex-1 py-2 rounded-lg transition-colors" href="#">
+            <span class="material-icons-outlined text-[22px]">shopping_bag</span>
+            <span class="text-xs font-medium">Bag</span>
+        </a>
+        <a class="flex flex-col items-center justify-center gap-0.5 text-gray-500 hover:text-gold flex-1 py-2 rounded-lg transition-colors" href="connexion2.html">
+            <span class="material-icons-outlined text-[22px]">person_outline</span>
+            <span class="text-xs font-medium">Profile</span>
+        </a>
+    </nav>
+    <div class="h-[env(safe-area-inset-bottom)] bg-dark"></div>
+</footer>
     </div>
 
     <script>

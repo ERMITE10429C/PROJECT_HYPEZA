@@ -97,18 +97,35 @@ a {
    ========================================================================== */
 
 .header {
-  position: fixed;
   width: 100%;
+  padding: 0 var(--space-lg);  /* Add horizontal padding */
+  position: fixed;
+  top: 0;  /* Ensure it stays at the top */
+  left: 0;  /* Ensure it's aligned to the left */
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 5px 20px;
-  color: #333;
   backdrop-filter: blur(10px);
   z-index: 100;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);  /* Slightly stronger shadow */
   transition: all 0.3s ease;
   height: 70px;
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 0 var(--space-md);  /* Reduce padding on tablet */
+    height: 70px;  /* Slightly smaller height */
+  }
+}
+
+/* For even smaller screens */
+@media (max-width: 480px) {
+  .header {
+    padding: 0 var(--space-sm);  /* Minimal padding on mobile */
+    height: 60px;  /* Even smaller height */
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);  /* Lighter shadow */
+  }
 }
 
 .middle-section {
