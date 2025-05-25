@@ -27,6 +27,32 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     exit();
 }
 
+// Créer le dossier uploads s'il n'existe pas
+$upload_dir = "uploads/";
+if (!file_exists($upload_dir)) {
+    mkdir($upload_dir, 0777, true);
+}
+
+// Fonction pour gérer l'upload d'image
+function handleImageUpload() {
+    global $upload_dir;
+    if (isset($_FILES['product_image']) && $_FILES['product_image']['error'] === UPLOAD_ERR_OK) {
+        $file_tmp = $_FILES['product_image']['tmp_name'];
+        $file_extension = strtolower(pathinfo($_FILES['product_image']['name'], PATHINFO_EXTENSION));
+        $allowed_extensions = array('jpg', 'jpeg', 'png', 'gif');
+
+        if (in_array($file_extension, $allowed_extensions)) {
+            $new_filename = uniqid() . '.' . $file_extension;
+            $target_file = $upload_dir . $new_filename;
+
+            if (move_uploaded_file($file_tmp, $target_file)) {
+                return $target_file;
+            }
+        }
+    }
+    return null;
+}
+
 // gérer les produits
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     switch ($_POST['action']) {
@@ -36,9 +62,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $price = $_POST['price'];
             $stock = $_POST['stock'];
             $category = $_POST['category'];
+            $image_url = handleImageUpload();
 
-            $stmt = $conn->prepare("INSERT INTO products (title, description, price, stock, category) VALUES (?, ?, ?, ?, ?)");
-            $stmt->bind_param("ssdis", $title, $description, $price, $stock, $category);
+            $stmt = $conn->prepare("INSERT INTO products (title, description, price, stock, category, image_url) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("ssdiss", $title, $description, $price, $stock, $category, $image_url);
             $stmt->execute();
             break;
 
@@ -49,14 +76,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $price = $_POST['price'];
             $stock = $_POST['stock'];
             $category = $_POST['category'];
+            $image_url = handleImageUpload();
 
-            $stmt = $conn->prepare("UPDATE products SET title = ?, description = ?, price = ?, stock = ?, category = ? WHERE id = ?");
-            $stmt->bind_param("ssdisi", $title, $description, $price, $stock, $category, $id);
+            if ($image_url) {
+                $stmt = $conn->prepare("UPDATE products SET title = ?, description = ?, price = ?, stock = ?, category = ?, image_url = ? WHERE id = ?");
+                $stmt->bind_param("ssdissi", $title, $description, $price, $stock, $category, $image_url, $id);
+            } else {
+                $stmt = $conn->prepare("UPDATE products SET title = ?, description = ?, price = ?, stock = ?, category = ? WHERE id = ?");
+                $stmt->bind_param("ssdisi", $title, $description, $price, $stock, $category, $id);
+            }
             $stmt->execute();
             break;
 
         case 'delete':
             $id = $_POST['id'];
+
+            // Supprimer l'ancienne image si elle existe
+            $stmt = $conn->prepare("SELECT image_url FROM products WHERE id = ?");
+            $stmt->bind_param("i", $id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            if ($row = $result->fetch_assoc()) {
+                if ($row['image_url'] && file_exists($row['image_url'])) {
+                    unlink($row['image_url']);
+                }
+            }
+
             $stmt = $conn->prepare("DELETE FROM products WHERE id = ?");
             $stmt->bind_param("i", $id);
             $stmt->execute();
@@ -74,7 +119,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     }
 }
 
-
 // Récupérer tous les produits
 $products = $conn->query("SELECT * FROM products ORDER BY created_at DESC");
 ?>
@@ -86,13 +130,17 @@ $products = $conn->query("SELECT * FROM products ORDER BY created_at DESC");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des Produits</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --accent-color: #e74c3c;
-            --background-color: #f5f6fa;
-            --text-color: #2c3e50;
+            --primary-color: #4361ee;
+            --secondary-color: #3949ab;
+            --accent-color: #f72585;
+            --background-color: #f8f9fa;
+            --card-background: #ffffff;
+            --text-color: #2d3436;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
 
         * {
@@ -102,37 +150,50 @@ $products = $conn->query("SELECT * FROM products ORDER BY created_at DESC");
         }
 
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
             line-height: 1.6;
             background-color: var(--background-color);
             color: var(--text-color);
         }
 
         .dashboard {
-            display: flex;
+            display: grid;
+            grid-template-columns: 250px 1fr;
             min-height: 100vh;
         }
 
         .main-content {
-            flex: 1;
             padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
         }
 
         h1 {
-            color: var(--primary-color);
+            font-size: 2.5rem;
+            font-weight: 700;
             margin-bottom: 2rem;
-            font-size: 2rem;
-            border-bottom: 2px solid var(--secondary-color);
-            padding-bottom: 0.5rem;
+            color: var(--text-color);
         }
 
         .product-form {
-            max-width: 600px;
-            margin: 2rem auto;
+            background: var(--card-background);
+            border-radius: var(--border-radius);
             padding: 2rem;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 3rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
         }
 
         .form-group {
@@ -142,169 +203,282 @@ $products = $conn->query("SELECT * FROM products ORDER BY created_at DESC");
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
-            color: var(--primary-color);
-            font-weight: 500;
+            font-weight: 600;
+            color: var(--text-color);
         }
 
-        .form-group input,
-        .form-group textarea {
+        .form-control {
             width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            transition: border-color 0.3s;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
         }
 
-        .form-group input:focus,
-        .form-group textarea:focus {
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
             outline: none;
-            border-color: var(--secondary-color);
-            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+
+        .file-upload {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-upload-input {
+            display: none;
+        }
+
+        .file-upload-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 1rem;
+            background: #edf2f7;
+            border: 2px dashed #cbd5e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload-label:hover {
+            background: #e2e8f0;
+            border-color: var(--primary-color);
         }
 
         .btn {
-            background-color: var(--secondary-color);
-            color: white;
-            padding: 0.8rem 1.5rem;
+            padding: 1rem 2rem;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
+            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s;
-            font-weight: 500;
+            transition: all 0.3s ease;
         }
 
-        .btn:hover {
-            background-color: #2980b9;
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
         }
 
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 2rem;
-            padding: 2rem 0;
         }
 
         .product-card {
-            background: white;
-            border-radius: 10px;
+            background: var(--card-background);
+            border-radius: var(--border-radius);
             padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
+            box-shadow: var(--box-shadow);
+            transition: all 0.3s ease;
+        }
+
+        .product-image-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .product-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
         }
 
-        .product-card h3 {
-            color: var(--primary-color);
-            margin-bottom: 1rem;
+        .product-info h3 {
             font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .product-meta {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .meta-item {
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .meta-item span {
+            font-weight: 600;
+            color: var(--text-color);
         }
 
         .actions {
             display: flex;
             gap: 1rem;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn-edit,
+        .btn-delete {
+            flex: 1;
+            padding: 0.75rem;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
         .btn-edit {
-            background-color: #f39c12;
+            background: #3b82f6;
+            color: white;
         }
 
         .btn-delete {
-            background-color: var(--accent-color);
+            background: #ef4444;
+            color: white;
         }
 
-        .btn-edit:hover {
-            background-color: #d68910;
-        }
-
+        .btn-edit:hover,
         .btn-delete:hover {
-            background-color: #c0392b;
+            transform: translateY(-2px);
+            opacity: 0.9;
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .product-grid {
+        @media (max-width: 1024px) {
+            .dashboard {
                 grid-template-columns: 1fr;
             }
 
-            .product-form {
-                margin: 1rem;
-                padding: 1rem;
+            .form-grid {
+                grid-template-columns: 1fr;
             }
+        }
 
+        @media (max-width: 768px) {
             .main-content {
                 padding: 1rem;
             }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .preview-image {
+            max-width: 200px;
+            max-height: 200px;
+            display: none;
+            margin-top: 1rem;
         }
     </style>
 </head>
 <body>
 <div class="dashboard">
-    <!-- Copiez votre sidebar du dashboard ici -->
-    <div class="sidebar">
-        <h2 class="sidebar-title">Administrateur Dashboard</h2>
-        <nav>
-            <a href="#stats" class="nav-link"><i class="fas fa-chart-line"></i> Statistiques</a>
-            <a href="#users" class="nav-link"><i class="fas fa-users"></i> Utilisateurs</a>
-            <a href="#orders" class="nav-link"><i class="fas fa-shopping-cart"></i> Commandes</a>
-            <a href="#tickets" class="nav-link"><i class="fas fa-ticket-alt"></i> Tickets</a>
-            <a href="#stock_manager" class="nav-link"><i class="fas fa-ticket-alt"></i> Stock Manager </a>
-            <a href="manage_products.php" class="nav-link"><i class="fas fa-box"></i> Gestion Produits</a>
-            <a href="logout.php" class="nav-link"><i class="fas fa-sign-out-alt"></i> Se déconnecter</a>
-        </nav>
-    </div>
-
     <div class="main-content">
         <h1>Gestion des Produits</h1>
 
-        <!-- Formulaire d'ajout de produit -->
         <div class="product-form">
             <h2>Ajouter un nouveau produit</h2>
-            <form method="POST">
+            <form method="POST" enctype="multipart/form-data" id="productForm">
                 <input type="hidden" name="action" value="add">
-                <div class="form-group">
-                    <label>Titre</label>
-                    <input type="text" name="title" required>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Titre du produit</label>
+                        <input type="text" name="title" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Catégorie</label>
+                        <select name="category" class="form-control" required>
+                            <option value="">Sélectionnez une catégorie</option>
+                            <option value="electronique">Électronique</option>
+                            <option value="vetements">Vêtements</option>
+                            <option value="alimentation">Alimentation</option>
+                            <option value="maison">Maison</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Prix (€)</label>
+                        <input type="number" step="0.01" name="price" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Stock disponible</label>
+                        <input type="number" name="stock" class="form-control" required>
+                    </div>
+
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label>Description</label>
+                        <textarea name="description" class="form-control" rows="4" required></textarea>
+                    </div>
+
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label>Photo du produit</label>
+                        <div class="file-upload">
+                            <input type="file" name="product_image" id="product_image" class="file-upload-input" accept="image/*" required>
+                            <label for="product_image" class="file-upload-label">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <span>Cliquez ou glissez une image ici</span>
+                            </label>
+                            <img id="image-preview" class="preview-image" src="#" alt="Aperçu de l'image">
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Description</label>
-                    <textarea name="description" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Prix</label>
-                    <input type="number" step="0.01" name="price" required>
-                </div>
-                <div class="form-group">
-                    <label>Stock</label>
-                    <input type="number" name="stock" required>
-                </div>
-                <div class="form-group">
-                    <label>Catégorie</label>
-                    <input type="text" name="category" required>
-                </div>
-                <button type="submit" class="btn">Ajouter le produit</button>
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Ajouter le produit
+                </button>
             </form>
         </div>
 
-        <!-- Liste des produits -->
         <div class="product-grid">
             <?php while ($product = $products->fetch_assoc()): ?>
-                <div class="product-card">
-                    <h3><?= htmlspecialchars($product['title']) ?></h3>
-                    <p><?= htmlspecialchars($product['description']) ?></p>
-                    <p>Prix : <?= number_format($product['price'], 2, ',', ' ') ?> €</p>
-                    <p>Stock : <?= $product['stock'] ?></p>
-                    <p>Catégorie : <?= htmlspecialchars($product['category']) ?></p>
-                    <div class="actions">
-                        <button class="btn btn-edit" onclick="editProduct(<?= $product['id'] ?>)">
-                            <i class="fas fa-edit"></i> Modifier
-                        </button>
-                        <button class="btn btn-delete" onclick="deleteProduct(<?= $product['id'] ?>)">
-                            <i class="fas fa-trash"></i> Supprimer
-                        </button>
+                <div class="product-card" data-product-id="<?= $product['id'] ?>">
+                    <div class="product-image-container">
+                        <?php if ($product['image_url']): ?>
+                            <img src="<?= htmlspecialchars($product['image_url']) ?>" alt="<?= htmlspecialchars($product['title']) ?>" class="product-image">
+                        <?php else: ?>
+                            <img src="placeholder.jpg" alt="Image par défaut" class="product-image">
+                        <?php endif; ?>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title"><?= htmlspecialchars($product['title']) ?></h3>
+                        <div class="product-meta">
+                            <div class="meta-item">
+                                Prix: <span class="product-price" data-price="<?= $product['price'] ?>"><?= number_format($product['price'], 2, ',', ' ') ?> €</span>
+                            </div>
+                            <div class="meta-item">
+                                Stock: <span class="product-stock" data-stock="<?= $product['stock'] ?>"><?= $product['stock'] ?></span>
+                            </div>
+                            <div class="meta-item">
+                                Catégorie: <span class="product-category" data-category="<?= $product['category'] ?>"><?= htmlspecialchars($product['category']) ?></span>
+                            </div>
+                        </div>
+                        <p class="product-description"><?= htmlspecialchars($product['description']) ?></p>
+                        <div class="actions">
+                            <button class="btn-edit" onclick="editProduct(<?= $product['id'] ?>)">
+                                <i class="fas fa-edit"></i> Modifier
+                            </button>
+                            <button class="btn-delete" onclick="deleteProduct(<?= $product['id'] ?>)">
+                                <i class="fas fa-trash"></i> Supprimer
+                            </button>
+                        </div>
                     </div>
                 </div>
             <?php endwhile; ?>
@@ -313,33 +487,70 @@ $products = $conn->query("SELECT * FROM products ORDER BY created_at DESC");
 </div>
 
 <script>
+    // Prévisualisation de l'image
+    document.getElementById('product_image').addEventListener('change', function(e) {
+        const preview = document.getElementById('image-preview');
+        const file = e.target.files[0];
+
+        if (file) {
+            preview.style.display = 'block';
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+            }
+
+            reader.readAsDataURL(file);
+        } else {
+            preview.style.display = 'none';
+        }
+    });
+
+    // Fonction d'édition
     function editProduct(id) {
         const productCard = document.querySelector(`[data-product-id="${id}"]`);
+        const form = document.getElementById('productForm');
         const title = productCard.querySelector('.product-title').textContent;
         const description = productCard.querySelector('.product-description').textContent;
         const price = productCard.querySelector('.product-price').dataset.price;
         const stock = productCard.querySelector('.product-stock').dataset.stock;
         const category = productCard.querySelector('.product-category').dataset.category;
 
-        document.querySelector('form input[name="title"]').value = title;
-        document.querySelector('form textarea[name="description"]').value = description;
-        document.querySelector('form input[name="price"]').value = price;
-        document.querySelector('form input[name="stock"]').value = stock;
-        document.querySelector('form input[name="category"]').value = category;
-        document.querySelector('form input[name="action"]').value = 'update';
-        document.querySelector('form').insertAdjacentHTML('beforeend',
-            `<input type="hidden" name="id" value="${id}">`);
-        document.querySelector('button[type="submit"]').textContent = 'Modifier le produit';
+        form.querySelector('[name="title"]').value = title;
+        form.querySelector('[name="description"]').value = description;
+        form.querySelector('[name="price"]').value = price;
+        form.querySelector('[name="stock"]').value = stock;
+        form.querySelector('[name="category"]').value = category;
+        form.querySelector('[name="action"]').value = 'update';
+
+        // Ajout de l'ID pour l'édition
+        if (!form.querySelector('[name="id"]')) {
+            const idInput = document.createElement('input');
+            idInput.type = 'hidden';
+            idInput.name = 'id';
+            idInput.value = id;
+            form.appendChild(idInput);
+        } else {
+            form.querySelector('[name="id"]').value = id;
+        }
+
+        // Modification du texte du bouton
+        form.querySelector('button[type="submit"]').innerHTML = '<i class="fas fa-save"></i> Modifier le produit';
+
+        // Scroll vers le formulaire
+        form.scrollIntoView({ behavior: 'smooth' });
     }
 
+    // Fonction de suppression
     function deleteProduct(id) {
         if (confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')) {
-            fetch('manage_products.php', {
+            const formData = new FormData();
+            formData.append('action', 'delete');
+            formData.append('id', id);
+
+            fetch(window.location.href, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: `action=delete&id=${id}`
+                body: formData
             })
                 .then(response => response.json())
                 .then(data => {
@@ -347,10 +558,13 @@ $products = $conn->query("SELECT * FROM products ORDER BY created_at DESC");
                         const productCard = document.querySelector(`[data-product-id="${id}"]`);
                         productCard.remove();
                     }
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    alert('Une erreur est survenue lors de la suppression');
                 });
         }
     }
 </script>
-
 </body>
 </html>

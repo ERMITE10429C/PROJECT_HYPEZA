@@ -217,8 +217,8 @@
                 <div class="space-y-3">
                     <h3 class="text-gold text-sm uppercase tracking-wider">Collections</h3>
                     <ul class="space-y-3 pl-2">
-                        <li><a href="womans_collections/Women's_Collections.html" class="text-white hover:text-gold transition-colors block py-1">Femme</a></li>
-                        <li><a href="mens_collec/mens_collec.html" class="text-white hover:text-gold transition-colors block py-1">Homme</a></li>
+                        <li><a href="connexion2.html" class="text-white hover:text-gold transition-colors block py-1">Femme</a></li>
+                        <li><a href="connexion2.html" class="text-white hover:text-gold transition-colors block py-1">Homme</a></li>
                     </ul>
                 </div>
 
