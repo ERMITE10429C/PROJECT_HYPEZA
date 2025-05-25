@@ -631,16 +631,7 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
             background-color: #c82333;
         }
 
-        .nav-link.nav-home {
-            background-color: rgba(60, 155, 200, 0.1);
-            border: 1px solid rgba(60, 155, 200, 0.2);
-            color: #3c9bc8;
-        }
 
-        .nav-link.nav-home:hover {
-            background-color: rgba(60, 155, 200, 0.2);
-            color: #fff;
-        }
 
     </style>
 </head>
@@ -654,7 +645,6 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
             <a href="#orders" class="nav-link"><i class="fas fa-shopping-cart"></i> Commandes</a>
             <a href="#tickets" class="nav-link"><i class="fas fa-ticket-alt"></i> Tickets</a>
             <a href="manage_products.php" class="nav-link"><i class="fas fa-box"></i> Gestion Produits</a>
-            <a href="home.php" class="nav-link nav-home"><i class="fas fa-home"></i> Accueil</a>
             <a href="logout.php" class="nav-link"><i class="fas fa-sign-out-alt"></i> Se déconnecter</a>
         </nav>
     </div>
@@ -941,8 +931,8 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
 >>>>>>> Stashed changes
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Graphique des ventes (données statiques)
-        new Chart(document.getElementById('salesChart'), {
+        const ctx = document.getElementById('salesChart').getContext('2d');
+        new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai'],
@@ -964,6 +954,7 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
                 }
             }
         });
+    });
         // Graphique des bénéfices (données statiques)
         new Chart(document.getElementById('profitChart'), {
             type: 'line',

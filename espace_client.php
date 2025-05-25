@@ -210,7 +210,7 @@ $notifications = $stmt->get_result();
         }
 
         .nav-link[href="logout.php"] {
-            margin-top:280px;
+            margin-top: auto;
             background-color: rgba(220, 53, 69, 0.1);
             border: 1px solid rgba(220, 53, 69, 0.2);
         }
@@ -328,6 +328,71 @@ $notifications = $stmt->get_result();
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1.5rem;
         }
+        .nav-link.nav-home {
+            background-color: rgba(60, 155, 200, 0.1);
+            border: 1px solid rgba(60, 155, 200, 0.2);
+            color: #3c9bc8;
+            margin-top:250px;
+        }
+
+        .nav-link.nav-home:hover {
+            background-color: rgba(60, 155, 200, 0.2);
+            color: #fff;
+        }
+
+        .notification-card {
+            background: #fff;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .notification-card:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .notification-card p {
+            margin: 0;
+            font-size: 1rem;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .notification-card i {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-small:hover {
+            opacity: 0.9;
+        }
+
+        .btn-mark-read {
+            background-color: #28a745;
+        }
+
+        .btn-mark-read:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 
@@ -342,7 +407,7 @@ $notifications = $stmt->get_result();
             <a href="#favorites" class="nav-link"><i class="fas fa-heart"></i> Mes Favoris</a>
             <a href="#addresses" class="nav-link"><i class="fas fa-map-marker-alt"></i> Mes Adresses</a>
             <a href="#tickets" class="nav-link"><i class="fas fa-ticket-alt"></i> Mes tickets</a>
-            <a href="home.php" class="nav-link"><i class="fas fa-ticket-alt"></i> HOME </a>
+            <a href="home.php" class="nav-link nav-home"><i class="fas fa-home"></i> Accueil</a>
             <a href="logout.php" class="nav-link"><i class="fas fa-sign-out-alt"></i> Se déconnecter </a>
         </nav>
     </div>
@@ -594,6 +659,38 @@ $notifications = $stmt->get_result();
                 });
         }
     }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const notificationCards = document.querySelectorAll('.notification-card');
+
+        notificationCards.forEach(card => {
+            const markReadButton = card.querySelector('.btn-mark-read');
+            const notificationId = card.dataset.id;
+
+            markReadButton.addEventListener('click', function () {
+                fetch('mark_notifications.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ notification_id: notificationId }),
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Erreur lors de la mise à jour de la notification');
+                        }
+                        return response.text();
+                    })
+                    .then(() => {
+                        card.style.display = 'none'; // Masquer la notification
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        alert('Erreur lors de la mise à jour de la notification.');
+                    });
+            });
+        });
+    });
 </script>
 
 
