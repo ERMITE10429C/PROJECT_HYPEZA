@@ -561,6 +561,86 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
             }
         }
 
+        /* Style général pour la table */
+        #orders table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* En-tête de la table */
+        #orders table th {
+            background-color: rgb(200, 155, 60);
+            color: #fff;
+            text-align: left;
+            padding: 1rem;
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+
+        /* Lignes de la table */
+        #orders table td {
+            padding: 1rem;
+            border-bottom: 1px solid #ddd;
+            font-size: 0.9rem;
+            color: #333;
+        }
+
+        /* Alternance des couleurs pour les lignes */
+        #orders table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* Effet au survol des lignes */
+        #orders table tr:hover {
+            background-color: rgba(200, 155, 60, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        /* Boutons dans la table */
+        #orders table .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: background-color 0.3s ease;
+        }
+
+        #orders table .btn-edit {
+            background-color: rgb(200, 155, 60);
+            color: #fff;
+        }
+
+        #orders table .btn-edit:hover {
+            background-color: rgb(180, 140, 50);
+        }
+
+        #orders table .btn-delete {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        #orders table .btn-delete:hover {
+            background-color: #c82333;
+        }
+
+        .nav-link.nav-home {
+            background-color: rgba(60, 155, 200, 0.1);
+            border: 1px solid rgba(60, 155, 200, 0.2);
+            color: #3c9bc8;
+        }
+
+        .nav-link.nav-home:hover {
+            background-color: rgba(60, 155, 200, 0.2);
+            color: #fff;
+        }
 
     </style>
 </head>
@@ -573,8 +653,8 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
             <a href="#users" class="nav-link"><i class="fas fa-users"></i> Utilisateurs</a>
             <a href="#orders" class="nav-link"><i class="fas fa-shopping-cart"></i> Commandes</a>
             <a href="#tickets" class="nav-link"><i class="fas fa-ticket-alt"></i> Tickets</a>
-            <a href="#stock_manager" class="nav-link"><i class="fas fa-ticket-alt"></i> Stock Manager </a>
             <a href="manage_products.php" class="nav-link"><i class="fas fa-box"></i> Gestion Produits</a>
+            <a href="home.php" class="nav-link nav-home"><i class="fas fa-home"></i> Accueil</a>
             <a href="logout.php" class="nav-link"><i class="fas fa-sign-out-alt"></i> Se déconnecter</a>
         </nav>
     </div>
@@ -587,7 +667,7 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
         <div class="stats" id="stats">
             <div class="stat-card">
                 <h3>Total Commandes</h3>
-                <p><?php echo ($stats['total_commandes'] ?? 1028); ?></p>
+                <p><?php echo ($stats['total_commandes'] ?? 162); ?></p>
             </div>
             <div class="stat-card" id="stats">
                 <h3>Chiffre d'affaires</h3>
@@ -677,6 +757,7 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
         <div class="card" id="orders">
             <h2>Gestion des Commandes</h2>
             <table>
+                <thead>
                 <tr>
                     <th>N° Commande</th>
                     <th>Client</th>
@@ -685,21 +766,77 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
                     <th>Statut</th>
                     <th>Actions</th>
                 </tr>
-                <?php while ($purchase = $purchases->fetch_assoc()): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($purchase['order_number']) ?></td>
-                        <td><?= htmlspecialchars($purchase['customer_name']) ?></td>
-                        <td><?= date('d/m/Y H:i', strtotime($purchase['creation_date'])) ?></td>
-                        <td><?= number_format($purchase['total'], 2, ',', ' ') ?> €</td>
-                        <td><?= htmlspecialchars($purchase['status']) ?></td>
-                        <td>
-                            <a href="view_purchase.php?id=<?= $purchase['id'] ?>" class="btn btn-edit">Voir</a>
-                            <a href="update_purchase.php?id=<?= $purchase['id'] ?>" class="btn btn-edit">Modifier</a>
-                        </td>
-                    </tr>
-                <?php endwhile; ?>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>CMD001</td>
+                    <td>Mohammed Amine Zakhir</td>
+                    <td>12/05/2025</td>
+                    <td>1780,00 €</td>
+                    <td>Livré</td>
+                    <td>
+                        <a href="#" class="btn btn-edit">Voir</a>
+                        <a href="#" class="btn btn-edit">Modifier</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>CMD002</td>
+                    <td>Adam Mokhliss</td>
+                    <td>20/05/205</td>
+                    <td>800,00 €</td>
+                    <td>En cours</td>
+                    <td>
+                        <a href="#" class="btn btn-edit">Voir</a>
+                        <a href="#" class="btn btn-edit">Modifier</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>CMD003</td>
+                    <td>saad</td>
+                    <td>20/05/2025</td>
+                    <td>2100,00 €</td>
+                    <td>Livré</td>
+                    <td>
+                        <a href="#" class="btn btn-edit">Voir</a>
+                        <a href="#" class="btn btn-edit">Modifier</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>CMD004</td>
+                    <td>Simo Simo</td>
+                    <td>21/05/2025</td>
+                    <td>750,00 €</td>
+                    <td>Annulé</td>
+                    <td>
+                        <a href="#" class="btn btn-edit">Voir</a>
+                        <a href="#" class="btn btn-edit">Modifier</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>CMD005</td>
+                    <td>Anass norssi</td>
+                    <td>22/05/205</td>
+                    <td>1650,00 €</td>
+                    <td>En cours</td>
+                    <td>
+                        <a href="#" class="btn btn-edit">Voir</a>
+                        <a href="#" class="btn btn-edit">Modifier</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>CMD006</td>
+                    <td>Amine</td>
+                    <td>23/05/2025</td>
+                    <td>2500,00 €</td>
+                    <td>En cours</td>
+                    <td>
+                        <a href="#" class="btn btn-edit">Voir</a>
+                        <a href="#" class="btn btn-edit">Modifier</a>
+                    </td>
+                </tr>
+                </tbody>
             </table>
-            </div>
+        </div>
 
             <div class="card" id="tickets">
                 <h2>Gestion des Tickets</h2>
@@ -804,60 +941,50 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
 >>>>>>> Stashed changes
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Graphique des ventes
+        // Graphique des ventes (données statiques)
         new Chart(document.getElementById('salesChart'), {
-            type: 'pie',
+            type: 'bar',
             data: {
-                labels: ['Produit A', 'Produit B', 'Produit C', 'Produit D'],
+                labels: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai'],
                 datasets: [{
-                    data: [30, 25, 25, 20],
-                    backgroundColor: [
-                        'rgba(200, 155, 60, 0.8)',
-                        'rgba(200, 155, 60, 0.6)',
-                        'rgba(200, 155, 60, 0.4)',
-                        'rgba(200, 155, 60, 0.2)'
-                    ]
+                    label: 'Ventes (en €)',
+                    data: [1200, 1500, 1800, 2000, 1700],
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
                 }]
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false,
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Répartition des Ventes',
-                        font: { size: 16, weight: 'bold' }
-                    },
-                    legend: { position: 'bottom' }
+                        text: 'Ventes Mensuelles'
+                    }
                 }
             }
         });
-
-        // Graphique des bénéfices
+        // Graphique des bénéfices (données statiques)
         new Chart(document.getElementById('profitChart'), {
-            type: 'pie',
+            type: 'line',
             data: {
-                labels: ['Bénéfice net', 'Coûts fixes', 'Coûts variables', 'Taxes'],
+                labels: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai'],
                 datasets: [{
-                    data: [40, 20, 25, 15],
-                    backgroundColor: [
-                        'rgba(46, 204, 113, 0.8)',
-                        'rgba(46, 204, 113, 0.6)',
-                        'rgba(46, 204, 113, 0.4)',
-                        'rgba(46, 204, 113, 0.2)'
-                    ]
+                    label: 'Bénéfices (en €)',
+                    data: [800, 1000, 1200, 1500, 1300],
+                    backgroundColor: 'rgba(153, 102, 255, 0.6)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 2,
+                    fill: true
                 }]
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false,
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Répartition des Bénéfices',
-                        font: { size: 16, weight: 'bold' }
-                    },
-                    legend: { position: 'bottom' }
+                        text: 'Bénéfices Mensuels'
+                    }
                 }
             }
         });
@@ -868,21 +995,26 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
         const table = document.getElementById('usersTable');
         const tbody = table.querySelector('tbody');
         const rows = Array.from(tbody.querySelectorAll('tr'));
-        const isAscending = table.querySelector('th').classList.contains('asc');
+        const header = table.querySelectorAll('th')[columnIndex];
+        const isAscending = header.classList.contains('asc');
 
         rows.sort((a, b) => {
-            const aValue = a.cells[columnIndex].textContent.trim();
-            const bValue = b.cells[columnIndex].textContent.trim();
+            const aValue = a.cells[columnIndex].textContent.trim().toLowerCase();
+            const bValue = b.cells[columnIndex].textContent.trim().toLowerCase();
             return isAscending ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
         });
 
         tbody.innerHTML = '';
         rows.forEach(row => tbody.appendChild(row));
-        table.querySelector('th').classList.toggle('asc');
+
+        // Mettre à jour les classes pour indiquer l'ordre
+        table.querySelectorAll('th').forEach(th => th.classList.remove('asc', 'desc'));
+        header.classList.toggle('asc', !isAscending);
+        header.classList.toggle('desc', isAscending);
     }
 
     // Fonction de recherche
-    document.getElementById('userSearch').addEventListener('input', function(e) {
+    document.getElementById('userSearch')?.addEventListener('input', function(e) {
         const searchTerm = e.target.value.toLowerCase();
         const rows = document.querySelectorAll('#usersTable tbody tr');
 
@@ -893,7 +1025,7 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
     });
 
     // Filtre par rôle
-    document.getElementById('roleFilter').addEventListener('change', function(e) {
+    document.getElementById('roleFilter')?.addEventListener('change', function(e) {
         const role = e.target.value.toLowerCase();
         const rows = document.querySelectorAll('#usersTable tbody tr');
 
@@ -915,23 +1047,22 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
 
             nextUsers.forEach(user => {
                 const tr = document.createElement('tr');
-                tr.className = 'new-row';
                 tr.innerHTML = `
-                    <td>${user.firstname} ${user.lastname}</td>
-                    <td>${user.email}</td>
-                    <td><span class="role-badge role-${user.role.toLowerCase()}">${user.role}</span></td>
-                    <td class="actions-cell">
-                        <button class="btn-icon" onclick="viewUser(${user.id})">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="btn-icon btn-edit" onclick="editUser(${user.id})">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="btn-icon btn-delete" onclick="deleteUser(${user.id})">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
-                `;
+                <td>${user.firstname} ${user.lastname}</td>
+                <td>${user.email}</td>
+                <td><span class="role-badge role-${user.role.toLowerCase()}">${user.role}</span></td>
+                <td class="actions-cell">
+                    <button class="btn-icon" onclick="viewUser(${user.id})">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="btn-icon btn-edit" onclick="editUser(${user.id})">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn-icon btn-delete" onclick="deleteUser(${user.id})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            `;
                 tbody.appendChild(tr);
             });
 
@@ -964,16 +1095,13 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
     let currentUserId = null;
 
     async function viewUser(id) {
-        currentUserId = id;
         const modal = document.getElementById('userModal');
 
         try {
-            // Simuler une requête API pour obtenir les données de l'utilisateur
-            // En production, remplacez ceci par une vraie requête AJAX
             const response = await fetch(`get_user_details.php?id=${id}`);
+            if (!response.ok) throw new Error('Erreur lors de la récupération des données');
             const userData = await response.json();
 
-            // Mise à jour des informations de l'utilisateur
             document.getElementById('userName').textContent = `${userData.firstname} ${userData.lastname}`;
             document.getElementById('userEmail').textContent = userData.email;
             document.getElementById('userRole').textContent = userData.role;
@@ -981,27 +1109,17 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
             document.getElementById('userOrders').textContent = userData.orders_count || 0;
             document.getElementById('userTickets').textContent = userData.tickets_count || 0;
 
-            // Affichage des activités récentes
             const activityContainer = document.getElementById('userActivity');
-            activityContainer.innerHTML = ''; // Nettoyer les activités précédentes
-
-            if (userData.activities && userData.activities.length > 0) {
-                userData.activities.forEach(activity => {
-                    const activityElement = document.createElement('div');
-                    activityElement.className = 'activity-item';
-                    activityElement.innerHTML = `
-                    <div class="activity-date">${new Date(activity.date).toLocaleDateString()}</div>
-                    <div class="activity-description">${activity.description}</div>
-                `;
-                    activityContainer.appendChild(activityElement);
-                });
-            } else {
-                activityContainer.innerHTML = '<p>Aucune activité récente</p>';
-            }
+            activityContainer.innerHTML = userData.activities?.map(activity => `
+            <div class="activity-item">
+                <div class="activity-date">${new Date(activity.date).toLocaleDateString()}</div>
+                <div class="activity-description">${activity.description}</div>
+            </div>
+        `).join('') || '<p>Aucune activité récente</p>';
 
             modal.style.display = 'block';
         } catch (error) {
-            console.error('Erreur lors du chargement des données:', error);
+            console.error(error);
             alert('Erreur lors du chargement des données de l\'utilisateur');
         }
     }
@@ -1068,6 +1186,6 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
       });
     });
 </script>
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>

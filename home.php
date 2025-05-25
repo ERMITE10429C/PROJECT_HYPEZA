@@ -40,6 +40,11 @@ if (!isset($_SESSION['user_id'])) {
 
     <link rel="stylesheet" href="paralax_1.css">
 
+    <script>
+        if (/Mobi|Android/i.test(navigator.userAgent)) {
+            window.location.href = "/home_mobile.php";
+        }
+    </script>
 
 </head>
 
