@@ -612,6 +612,12 @@
                     </head>
 
                     <body>
+                    <script>
+                        if (/Mobi|Android/i.test(navigator.userAgent)) {
+                            window.location.href = "/home_mobile.php";
+                        }
+                    </script>
+
                         <div class="backdrop">
                             <div class="grid"></div>
                             <div class="floating-shape shape-1"></div>

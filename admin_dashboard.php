@@ -587,16 +587,14 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
         <div class="stats" id="stats">
             <div class="stat-card">
                 <h3>Total Commandes</h3>
-                <p>1,234</p>
+                <p><?php echo ($stats['total_commandes'] ?? 1028); ?></p>
             </div>
-            <div class="stat-card">
+            <div class="stat-card" id="stats">
                 <h3>Chiffre d'affaires</h3>
-                <p>86,750.00 €</p>
+                <p><?php echo number_format(($stats['chiffre_affaires'] ?? 86750.00 ), 2, ',', ' ') . ' €'; ?></p>
             </div>
-        </div>
 
-
-        <div class="chart-container" style="height: 300px;">
+            <div class="chart-container" style="height: 300px;">
                 <canvas id="salesChart"></canvas>
             </div>
             <div class="chart-container" style="height: 300px;">
@@ -808,16 +806,17 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
     document.addEventListener('DOMContentLoaded', function() {
         // Graphique des ventes
         new Chart(document.getElementById('salesChart'), {
-            type: 'line',
+            type: 'pie',
             data: {
-                labels: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin'],
+                labels: ['Produit A', 'Produit B', 'Produit C', 'Produit D'],
                 datasets: [{
-                    label: 'Ventes mensuelles',
-                    data: [15000, 18500, 22400, 19800, 25600, 28900],
-                    borderColor: 'rgb(200, 155, 60)',
-                    backgroundColor: 'rgba(200, 155, 60, 0.1)',
-                    tension: 0.4,
-                    fill: true
+                    data: [30, 25, 25, 20],
+                    backgroundColor: [
+                        'rgba(200, 155, 60, 0.8)',
+                        'rgba(200, 155, 60, 0.6)',
+                        'rgba(200, 155, 60, 0.4)',
+                        'rgba(200, 155, 60, 0.2)'
+                    ]
                 }]
             },
             options: {
@@ -826,37 +825,27 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Évolution des Ventes 2024',
+                        text: 'Répartition des Ventes',
                         font: { size: 16, weight: 'bold' }
                     },
                     legend: { position: 'bottom' }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            callback: function(value) {
-                                return value.toLocaleString() + ' €';
-                            }
-                        }
-                    }
                 }
             }
         });
 
         // Graphique des bénéfices
         new Chart(document.getElementById('profitChart'), {
-            type: 'bar',
+            type: 'pie',
             data: {
-                labels: ['T1', 'T2', 'T3', 'T4'],
+                labels: ['Bénéfice net', 'Coûts fixes', 'Coûts variables', 'Taxes'],
                 datasets: [{
-                    label: 'Bénéfices',
-                    data: [32500, 38700, 42900, 45600],
-                    backgroundColor: 'rgba(46, 204, 113, 0.8)',
-                }, {
-                    label: 'Coûts',
-                    data: [18500, 21300, 24600, 26800],
-                    backgroundColor: 'rgba(231, 76, 60, 0.8)',
+                    data: [40, 20, 25, 15],
+                    backgroundColor: [
+                        'rgba(46, 204, 113, 0.8)',
+                        'rgba(46, 204, 113, 0.6)',
+                        'rgba(46, 204, 113, 0.4)',
+                        'rgba(46, 204, 113, 0.2)'
+                    ]
                 }]
             },
             options: {
@@ -865,20 +854,10 @@ $purchases = $conn->query("SELECT * FROM purchases ORDER BY id DESC");
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Bénéfices et Coûts par Trimestre',
+                        text: 'Répartition des Bénéfices',
                         font: { size: 16, weight: 'bold' }
                     },
                     legend: { position: 'bottom' }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            callback: function(value) {
-                                return value.toLocaleString() + ' €';
-                            }
-                        }
-                    }
                 }
             }
         });
