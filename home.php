@@ -55,7 +55,11 @@ if (!isset($_SESSION['user_id'])) {
     </div>
 </div>
 
-
+<script>
+    if (/Mobi|Android/i.test(navigator.userAgent)) {
+        window.location.href = "/index_mobile.php";
+    }
+</script>
 
 <!-- Header -->
 <div class="header">
