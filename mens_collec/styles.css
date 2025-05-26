@@ -519,9 +519,10 @@ a {
   width: 100%;
   padding: var(--space-md);
   background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
-  transform: translateY(100px);
+  transform: translateY(110px);
   transition: transform 0.3s ease;
 }
+
 
 .product-card:hover .product-overlay {
   z-index: 999;
@@ -536,6 +537,16 @@ a {
   opacity: 0;
 }
 
+@media (max-width: 768px) {
+  .product-card:hover .product-info {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s;
+  }
+  .product-info {
+    transition: opacity 0.3s;
+  }
+}
 
 .product-info {
   height: 125px;

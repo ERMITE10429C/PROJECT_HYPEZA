@@ -328,7 +328,6 @@ $notifications = $stmt->get_result();
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1.5rem;
         }
-<<<<<<< Updated upstream
         .nav-link.nav-home {
             background-color: rgba(60, 155, 200, 0.1);
             border: 1px solid rgba(60, 155, 200, 0.2);
@@ -394,7 +393,6 @@ $notifications = $stmt->get_result();
         .btn-mark-read:hover {
             background-color: #218838;
         }
-=======
 
 
 
@@ -530,11 +528,17 @@ $notifications = $stmt->get_result();
             }
         }
 
->>>>>>> Stashed changes
     </style>
 </head>
 
 <body>
+
+<script>
+    if (/Mobi|Android/i.test(navigator.userAgent)) {
+        window.location.href = "/espaceClient_mobile.php";
+    }
+</script>
+
 <div class="dashboard">
 
     <div class="sidebar">
