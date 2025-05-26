@@ -267,7 +267,7 @@
 <div class="absolute top-0 left-0 w-full h-screen -z-10">
     <div class="h-full w-full bg-cover bg-center flex flex-col justify-end"
          style='background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 70%)
-         , url("https://images.unsplash.com/photo-1549062572-544a64fb0c56?q=80&w=1000");'>
+         , url("mobile_hero.jpg");'>
 
         <div class="p-8 space-y-5">
             <h2 class="text-gold text-4xl font-bold leading-tight" style="font-family: 'Playfair Display', serif;">Redefine Luxury</h2>
@@ -290,7 +290,7 @@
                 <div class="flex overflow-x-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pl-6 pr-3">
                     <div class="flex items-stretch gap-5">
                         <div class="flex flex-col gap-3 rounded-none min-w-[280px] w-[280px] group">
-                            <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover overflow-hidden relative group-hover:shadow-[0_0_15px_rgba(212,175,55,0.3)] transition-shadow duration-300" style='background-image: url("https://images.unsplash.com/photo-1548126032-079a0fb0099d?q=80&w=1000");'>
+                            <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover overflow-hidden relative group-hover:shadow-[0_0_15px_rgba(212,175,55,0.3)] transition-shadow duration-300" style='background-image: url("mens_collec/images/signature_jacket.jpeg");'>
                                 <div class="absolute inset-0 bg-gradient-to-t from-dark/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
                                     <button class="bg-gold text-dark text-sm font-medium py-2 px-4">View Details</button>
                                 </div>
@@ -301,24 +301,24 @@
                             </div>
                         </div>
                         <div class="flex flex-col gap-3 rounded-none min-w-[280px] w-[280px] group">
-                            <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover overflow-hidden relative group-hover:shadow-[0_0_15px_rgba(212,175,55,0.3)] transition-shadow duration-300" style='background-image: url("https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?q=80&w=1000");'>
+                            <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover overflow-hidden relative group-hover:shadow-[0_0_15px_rgba(212,175,55,0.3)] transition-shadow duration-300" style='background-image: url("mens_collec/images/designer_suit.webp");'>
                                 <div class="absolute inset-0 bg-gradient-to-t from-dark/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
                                     <button class="bg-gold text-dark text-sm font-medium py-2 px-4">View Details</button>
                                 </div>
                             </div>
                             <div>
-                                <p class="text-white text-lg font-semibold leading-snug">Signature Black Suit</p>
+                                <p class="text-white text-lg font-semibold leading-snug">Signature Grey Suit</p>
                                 <p class="text-gold font-light">€1,290</p>
                             </div>
                         </div>
                         <div class="flex flex-col gap-3 rounded-none min-w-[280px] w-[280px] group">
-                            <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover overflow-hidden relative group-hover:shadow-[0_0_15px_rgba(212,175,55,0.3)] transition-shadow duration-300" style='background-image: url("https://images.unsplash.com/photo-1566206091558-7f218b696731?q=80&w=1000");'>
+                            <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover overflow-hidden relative group-hover:shadow-[0_0_15px_rgba(212,175,55,0.3)] transition-shadow duration-300" style='background-image: url("womans_collections/dress_mobile.jpeg");'>
                                 <div class="absolute inset-0 bg-gradient-to-t from-dark/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
                                     <button class="bg-gold text-dark text-sm font-medium py-2 px-4">View Details</button>
                                 </div>
                             </div>
                             <div>
-                                <p class="text-white text-lg font-semibold leading-snug">Elegance Evening Gown</p>
+                                <p class="text-white text-lg font-semibold leading-snug">Elegance Evening dress</p>
                                 <p class="text-gold font-light">€1,450</p>
                             </div>
                         </div>
@@ -341,7 +341,7 @@
                         </div>
                     </div>
                     <div class="flex flex-col gap-2 group">
-                        <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative" style='background-image: url("https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?q=80&w=1000");'>
+                        <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative" style='background-image: url("mens_collec/images/suit_hero.webp");'>
                             <div class="absolute inset-0 bg-dark/40 flex items-center justify-center">
                                 <p class="text-gold text-lg font-medium">Suits</p>
                             </div>
@@ -392,11 +392,11 @@
             <span class="material-icons-outlined text-[22px]">home</span>
             <span class="text-xs font-medium">Home</span>
         </a>
-        <a class="flex flex-col items-center justify-center gap-0.5 text-gray-500 hover:text-gold flex-1 py-2 rounded-lg transition-colors" href="#">
+        <a href="connexion2.html" class="flex flex-col items-center justify-center gap-0.5 text-gray-500 hover:text-gold flex-1 py-2 rounded-lg transition-colors" href="#">
             <span class="material-icons-outlined text-[22px]">favorite_border</span>
             <span class="text-xs font-medium">Wishlist</span>
         </a>
-        <a class="flex flex-col items-center justify-center gap-0.5 text-gray-500 hover:text-gold flex-1 py-2 rounded-lg transition-colors" href="#">
+        <a href="connexion2.html" class="flex flex-col items-center justify-center gap-0.5 text-gray-500 hover:text-gold flex-1 py-2 rounded-lg transition-colors" href="#">
             <span class="material-icons-outlined text-[22px]">shopping_bag</span>
             <span class="text-xs font-medium">Bag</span>
         </a>

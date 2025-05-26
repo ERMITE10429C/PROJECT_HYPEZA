@@ -38,7 +38,7 @@ $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 
 // Récupérer les tickets répondus non notifiés
-$stmt = $conn->prepare("SELECT t.*, COUNT(tr.id) as response_count 
+$stmt = $conn->prepare("SELECT t.*, COUNT(tr.id) as response_count
                        FROM tickets t
                        LEFT JOIN ticket_responses tr ON t.id = tr.ticket_id
                        WHERE t.user_id = ? AND t.has_new_response = 1
@@ -328,6 +328,7 @@ $notifications = $stmt->get_result();
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1.5rem;
         }
+<<<<<<< Updated upstream
         .nav-link.nav-home {
             background-color: rgba(60, 155, 200, 0.1);
             border: 1px solid rgba(60, 155, 200, 0.2);
@@ -393,6 +394,143 @@ $notifications = $stmt->get_result();
         .btn-mark-read:hover {
             background-color: #218838;
         }
+=======
+
+
+
+
+        /* Mobile Responsive CSS */
+        @media screen and (max-width: 768px) {
+            /* Hide scrollbars for WebKit browsers */
+            ::-webkit-scrollbar {
+              display: none;
+            }
+
+            /* Hide scrollbars for IE, Edge */
+            body {
+              -ms-overflow-style: none;
+            }
+
+            /* Hide scrollbars for Firefox */
+            body {
+              scrollbar-width: none;
+            }
+            /* Dashboard layout */
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            /* Transform sidebar to top navigation */
+            .sidebar {
+                position: fixed;
+                top: 79%;
+                height: auto;
+                width: 100%;
+                padding: 1rem;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            .sidebar-title {
+                margin-bottom: 1rem;
+                text-align: center;
+            }
+
+            .sidebar nav {
+                display: flex;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+            }
+
+            .nav-link {
+                flex: 0 0 auto;
+                padding: 0.5rem;
+                margin: 0 0.25rem;
+                font-size: 0.9rem;
+            }
+
+            .nav-link i {
+                margin-right: 6px;
+                font-size: 1rem;
+            }
+
+            .nav-link[href="logout.php"] {
+                margin-top: 0;
+            }
+
+            /* Main content */
+            .main-content {
+                padding: 1rem;
+            }
+
+            /* Welcome message */
+            .welcome-message {
+                padding: 1.5rem;
+            }
+
+            .welcome-message .user-name {
+                font-size: 1.5rem;
+            }
+
+            /* Cards */
+            .card {
+                padding: 1.5rem 1rem;
+                margin-bottom: 1.5rem;
+            }
+
+            /* Form elements */
+            .form-group {
+                margin-bottom: 1rem;
+            }
+
+            .form-control {
+                padding: 0.7rem;
+                font-size: 1rem;
+            }
+
+            .btn {
+                width: 100%;
+                padding: 0.7rem;
+                margin-bottom: 0.5rem;
+            }
+
+            /* Address grid */
+            .address-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .address-card {
+                padding: 1rem;
+            }
+
+            .address-actions {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .btn-small {
+                width: 100%;
+            }
+
+            /* Modals */
+            .modal-content {
+                width: 95%;
+                max-width: none;
+                padding: 1.5rem 1rem;
+            }
+
+            /* Notifications */
+            #notifications ul {
+                padding-left: 0;
+            }
+
+            #notifications li {
+                margin-bottom: 1rem;
+            }
+        }
+
+>>>>>>> Stashed changes
     </style>
 </head>
 
