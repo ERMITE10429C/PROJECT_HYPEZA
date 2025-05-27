@@ -343,25 +343,36 @@ if (!isset($_SESSION['user_id'])) {
             </div>
             <div class="grid grid-cols-2 gap-5 px-6">
                 <div class="flex flex-col gap-2 group">
+<<<<<<< Updated upstream
                     <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative"
                          style='background-image: url("womans_collections/images/Black Cocktail Dress.webp");'>
                         <div class="absolute inset-0 bg-dark/40 flex items-center justify-center">
                             <a href="womans_collections/dresses.html"><p class="text-gold text-lg font-medium">Women's Dresses</p>
                             </a>
+=======
+                    <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative" style='background-image: url("https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=1000");'>
+                        <div class="absolute inset-0 bg-dark/40 flex items-center justify-center"><a href="womans_collections/dresses.html"><p class="text-gold text-lg font-medium">Women's Dresses</p>
+>>>>>>> Stashed changes
                         </div>
                     </div>
                 </div>
                 <div class="flex flex-col gap-2 group">
+<<<<<<< Updated upstream
                     <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative"
 
                          style='background-image: url("mens_collec/images/suit_hero.webp");'>
 
                         <div class="absolute inset-0 bg-dark/40 flex items-center justify-center">
                             <a href="mens_collec/Suits.html"><p class="text-gold text-lg font-medium">Suits</p>
+=======
+                    <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative" style='background-image: url("https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?q=80&w=1000");'>
+                        <div class="absolute inset-0 bg-dark/40 flex items-center justify-center"><a href="mens_collec/Suits.html"><p class="text-gold text-lg font-medium">Suits</p>
+>>>>>>> Stashed changes
                         </div>
                     </div>
                 </div>
                 <div class="flex flex-col gap-2 group">
+<<<<<<< Updated upstream
                     <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative"
 
                          style='background-image: url("womans_collections/images2/Sequin Evening Top.webp");'>
@@ -369,16 +380,25 @@ if (!isset($_SESSION['user_id'])) {
                         <div class="absolute inset-0 bg-dark/40 flex items-center justify-center">
 
                             <a href="womans_collections/tops.html"><p class="text-gold text-lg font-medium">Tops</p>
+=======
+                    <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative" style='background-image: url("https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=1000");'>
+                        <div class="absolute inset-0 bg-dark/40 flex items-center justify-center"><a href="womans_collections/tops.html"><p class="text-gold text-lg font-medium">Tops</p>
+>>>>>>> Stashed changes
                         </div>
                     </div>
                 </div>
                 <div class="flex flex-col gap-2 group">
+<<<<<<< Updated upstream
                     <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative"
 
                          style='background-image: url("mens_collec/images/suits/slim.webp");'>
 
                         <div class="absolute inset-0 bg-dark/40 flex items-center justify-center">
                             <a href="mens_collec/Custom_suit.php"><p class="text-gold text-lg font-medium">Your Custom suit</p></a>
+=======
+                    <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative" style='background-image: url("https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1000");'>
+                        <div class="absolute inset-0 bg-dark/40 flex items-center justify-center"><a href="mens_collec/Custom_suit.php"><p class="text-gold text-lg font-medium">Your Custom suit</p></a>
+>>>>>>> Stashed changes
                         </div>
                     </div>
                 </div>
