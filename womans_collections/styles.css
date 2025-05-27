@@ -119,14 +119,7 @@ a {
   }
 }
 
-/* For even smaller screens */
-@media (max-width: 480px) {
-  .header {
-    padding: 0 var(--space-sm);  /* Minimal padding on mobile */
-    height: 60px;  /* Even smaller height */
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);  /* Lighter shadow */
-  }
-}
+
 
 .middle-section {
   position: absolute;
@@ -256,6 +249,57 @@ a {
   height: 28px;
 }
 
+/* Add this media query to the existing code */
+@media (max-width: 700px) {
+  .header {
+    padding: 0 var(--space-xs); /* Minimal padding for very small screens */
+    height: 60px; /* Smaller height */
+  }
+
+  .middle-section {
+    gap: 5px; /* Smaller gap between navigation items */
+  }
+
+  .middle-section a {
+    padding: 5px 15px; /* Reduce horizontal padding */
+    font-size: 14px; /* Smaller font size */
+  }
+
+  .right-section {
+    right: 10px; /* Position closer to edge */
+  }
+
+  .panier,
+  .user {
+    width: 18px;
+    height: 18px;
+    margin: 0 8px; /* Reduce margins */
+  }
+
+  .favorite {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+  }
+
+  /* Adjust hover states for small screens */
+  .panier:hover,
+  .user:hover {
+    width: 18px; /* Don't enlarge on hover for small screens */
+    height: 18px;
+  }
+
+  .favorite:hover {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Ensure dropdown menu is properly positioned */
+  .dropdown-menu {
+    width: 130px; /* Slightly smaller dropdown */
+  }
+}
+
 /* Login Button */
 .login {
   background-color: rgb(200, 155, 60);
@@ -372,6 +416,16 @@ a {
   left: 100%;
 }
 
+@media (max-width: 768px) {
+  .product-card:hover .product-info {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s;
+  }
+  .product-info {
+    transition: opacity 0.3s;
+  }
+}
 /* Product Section */
 .products-section {
   padding: var(--space-lg) var(--space-lg);
@@ -448,7 +502,7 @@ a {
   width: 100%;
   padding: var(--space-md);
   background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
-  transform: translateY(100px);
+  transform: translateY(110px);
   transition: transform 0.3s ease;
 }
 

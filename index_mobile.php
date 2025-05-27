@@ -268,7 +268,7 @@
 <div class="absolute top-0 left-0 w-full h-screen -z-10">
     <div class="h-full w-full bg-cover bg-center flex flex-col justify-end"
          style='background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 70%)
-         , url("mobile_hero.jpg");'>
+         , url("mobile_hero.webp");'>
 
         <div class="p-8 space-y-5">
             <h2 class="text-gold text-4xl font-bold leading-tight" style="font-family: 'Playfair Display', serif;">Redefine Luxury</h2>
