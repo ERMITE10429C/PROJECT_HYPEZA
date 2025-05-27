@@ -13,15 +13,6 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-// Add this at the top of espace_client.php, before any output
-include 'espaceClient_mobile.php';
-
-if (isMobile()) {
-    header('Location: espace_client_mobile.php');
-    exit;
-}
-
-
 // Connexion à la base de données Azure MySQL
 $host = "hypezaserversql.mysql.database.azure.com";
 $user = "user";
