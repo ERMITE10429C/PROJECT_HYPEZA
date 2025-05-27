@@ -235,7 +235,7 @@ if (!isset($_SESSION['user_id'])) {
                 <h3 class="text-gold text-sm uppercase tracking-wider">Information</h3>
                 <ul class="space-y-3 pl-2">
                     <li><a href="about.php" class="text-white hover:text-gold transition-colors block py-1">About HYPEZA</a></li>
-                    <li><a href="#" class="text-white hover:text-gold transition-colors block py-1">Contact Us</a></li>
+                    <li><a href="contact.html" class="text-white hover:text-gold transition-colors block py-1">Contact Us</a></li>
                 </ul>
             </div>
 
