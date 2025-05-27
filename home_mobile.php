@@ -7,6 +7,7 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 ?>
+
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
@@ -336,96 +337,81 @@ if (!isset($_SESSION['user_id'])) {
             </div>
         </section>
 
-        <section class="py-10 bg-dark-lighter">
-            <div class="px-6 pb-6">
-                <h3 class="text-gold text-2xl font-bold leading-tight" style="font-family: 'Playfair Display', serif;">Shop by Category</h3>
-                <div class="w-20 h-0.5 bg-gold mt-2"></div>
-            </div>
-            <div class="grid grid-cols-2 gap-5 px-6">
-                <div class="flex flex-col gap-2 group">
-<<<<<<< Updated upstream
-                    <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative"
-                         style='background-image: url("womans_collections/images/Black Cocktail Dress.webp");'>
-                        <div class="absolute inset-0 bg-dark/40 flex items-center justify-center">
-                            <a href="womans_collections/dresses.html"><p class="text-gold text-lg font-medium">Women's Dresses</p>
-                            </a>
-=======
-                    <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative" style='background-image: url("https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=1000");'>
-                        <div class="absolute inset-0 bg-dark/40 flex items-center justify-center"><a href="womans_collections/dresses.html"><p class="text-gold text-lg font-medium">Women's Dresses</p>
->>>>>>> Stashed changes
-                        </div>
-                    </div>
-                </div>
-                <div class="flex flex-col gap-2 group">
-<<<<<<< Updated upstream
-                    <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative"
-
-                         style='background-image: url("mens_collec/images/suit_hero.webp");'>
-
-                        <div class="absolute inset-0 bg-dark/40 flex items-center justify-center">
-                            <a href="mens_collec/Suits.html"><p class="text-gold text-lg font-medium">Suits</p>
-=======
-                    <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative" style='background-image: url("https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?q=80&w=1000");'>
-                        <div class="absolute inset-0 bg-dark/40 flex items-center justify-center"><a href="mens_collec/Suits.html"><p class="text-gold text-lg font-medium">Suits</p>
->>>>>>> Stashed changes
-                        </div>
-                    </div>
-                </div>
-                <div class="flex flex-col gap-2 group">
-<<<<<<< Updated upstream
-                    <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative"
-
-                         style='background-image: url("womans_collections/images2/Sequin Evening Top.webp");'>
-
-                        <div class="absolute inset-0 bg-dark/40 flex items-center justify-center">
-
-                            <a href="womans_collections/tops.html"><p class="text-gold text-lg font-medium">Tops</p>
-=======
-                    <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative" style='background-image: url("https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=1000");'>
-                        <div class="absolute inset-0 bg-dark/40 flex items-center justify-center"><a href="womans_collections/tops.html"><p class="text-gold text-lg font-medium">Tops</p>
->>>>>>> Stashed changes
-                        </div>
-                    </div>
-                </div>
-                <div class="flex flex-col gap-2 group">
-<<<<<<< Updated upstream
-                    <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative"
-
-                         style='background-image: url("mens_collec/images/suits/slim.webp");'>
-
-                        <div class="absolute inset-0 bg-dark/40 flex items-center justify-center">
-                            <a href="mens_collec/Custom_suit.php"><p class="text-gold text-lg font-medium">Your Custom suit</p></a>
-=======
-                    <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative" style='background-image: url("https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1000");'>
-                        <div class="absolute inset-0 bg-dark/40 flex items-center justify-center"><a href="mens_collec/Custom_suit.php"><p class="text-gold text-lg font-medium">Your Custom suit</p></a>
->>>>>>> Stashed changes
-                        </div>
-                    </div>
+<section class="py-10 bg-dark-lighter">
+    <div class="px-6 pb-6">
+        <h3 class="text-gold text-2xl font-bold leading-tight" style="font-family: 'Playfair Display', serif;">Shop by Category</h3>
+        <div class="w-20 h-0.5 bg-gold mt-2"></div>
+    </div>
+    <div class="grid grid-cols-2 gap-5 px-6">
+        <div class="flex flex-col gap-2 group">
+            <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative"
+                 style='background-image: url("womans_collections/images/Black Cocktail Dress.webp");'>
+                <div class="absolute inset-0 bg-dark/40 flex items-center justify-center">
+                    <a href="womans_collections/dresses.html">
+                        <p class="text-gold text-lg font-medium">Women's Dresses</p>
+                    </a>
                 </div>
             </div>
-        </section>
-
-        <section class="py-10 px-6">
-            <div class="border border-gold/30 p-6 text-center">
-                <h3 class="text-gold text-xl font-bold mb-3" style="font-family: 'Playfair Display', serif;">Our Heritage</h3>
-                <p class="text-gray-300 text-sm leading-relaxed mb-4">Depuis 2010, HYPEZA incarne l'élégance et le raffinement dans chaque création. Notre maison de couture allie savoir-faire traditionnel et vision contemporaine.</p>
-                <button onclick="openNav()" class="border border-gold text-gold text-sm font-medium py-2 px-6 hover:bg-gold hover:text-dark transition-colors duration-300">
-                    Discover More
-                </button>
+        </div>
+        <div class="flex flex-col gap-2 group">
+            <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative"
+                 style='background-image: url("mens_collec/images/suit_hero.webp");'>
+                <div class="absolute inset-0 bg-dark/40 flex items-center justify-center">
+                    <a href="mens_collec/Suits.html">
+                        <p class="text-gold text-lg font-medium">Suits</p>
+                    </a>
+                </div>
             </div>
-        </section>
+        </div>
+        <div class="flex flex-col gap-2 group">
+            <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative"
+                 style='background-image: url("womans_collections/images2/Sequin Evening Top.webp");'>
+                <div class="absolute inset-0 bg-dark/40 flex items-center justify-center">
+                    <a href="womans_collections/tops.html">
+                        <p class="text-gold text-lg font-medium">Tops</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col gap-2 group">
+            <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative"
+                 style='background-image: url("mens_collec/images/suits/slim.webp");'>
+                <div class="absolute inset-0 bg-dark/40 flex items-center justify-center">
+                    <a href="mens_collec/Custom_suit.php">
+                        <p class="text-gold text-lg font-medium">Your Custom suit</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-        <section class="py-8 bg-dark-lighter px-6">
-            <h3 class="text-gold text-xl font-medium mb-4 text-center" style="font-family: 'Playfair Display', serif;">Join the Elite</h3>
-            <p class="text-gray-300 text-sm text-center mb-5">Receive exclusive previews of our new collections and private invitations.</p>
-            <form class="flex border-b border-gold/50">
-                <input type="email" placeholder="Your email address" class="bg-transparent text-white flex-1 py-3 focus:outline-none text-sm">
-                <button type="submit" class="text-gold px-2">
-                    <i class="fas fa-arrow-right"></i>
-                </button>
-            </form>
-        </section>
+<section class="py-10 px-6">
+    <div class="border border-gold/30 p-6 text-center">
+        <h3 class="text-gold text-xl font-bold mb-3" style="font-family: 'Playfair Display', serif;">Our Heritage</h3>
+        <p class="text-gray-300 text-sm leading-relaxed mb-4">Depuis 2010, HYPEZA incarne l'élégance et le raffinement dans chaque création. Notre maison de couture allie savoir-faire traditionnel et vision contemporaine.</p>
+        <button onclick="openNav()" class="border border-gold text-gold text-sm font-medium py-2 px-6 hover:bg-gold hover:text-dark transition-colors duration-300">
+            Discover More
+        </button>
+    </div>
+</section>
+
+<section class="py-8 bg-dark-lighter px-6">
+    <h3 class="text-gold text-xl font-medium mb-4 text-center" style="font-family: 'Playfair Display', serif;">Join the Elite</h3>
+    <p class="text-gray-300 text-sm text-center mb-5">Receive exclusive previews of our new collections and private invitations.</p>
+    <form class="flex border-b border-gold/50">
+        <input type="email" placeholder="Your email address" class="bg-transparent text-white flex-1 py-3 focus:outline-none text-sm">
+        <button type="submit" class="text-gold px-2">
+            <i class="fas fa-arrow-right"></i>
+        </button>
+    </form>
+</section>
     </main>
+
+
+
+
+
 
 
     <footer class="fixed bottom-0 left-0 w-full bg-dark border-t border-gold/30 shadow-lg z-40">
