@@ -227,7 +227,7 @@
                     <ul class="space-y-3 pl-2">
                         <li><a href="about.php" class="text-white hover:text-gold transition-colors block py-1">About
                                 HYPEZA</a></li>
-                        <li><a href="#" class="text-white hover:text-gold transition-colors block py-1">Contact Us</a></li>
+                        <li><a href="contact.html" class="text-white hover:text-gold transition-colors block py-1">Contact Us</a></li>
                     </ul>
                 </div>
 
@@ -337,7 +337,7 @@
                 <div class="grid grid-cols-2 gap-5 px-6">
                     <div class="flex flex-col gap-2 group">
                         <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative"
-                             style='background-image: url("https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=1000");'>
+                             style='background-image: url("womans_collections/images/Black Cocktail Dress.webp");'>
                             <div class="absolute inset-0 bg-dark/40 flex items-center justify-center">
                                 <a href="connexion2.html"><p class="text-gold text-lg font-medium">Women's Dresses</p>
                                 </a>
@@ -345,21 +345,31 @@
                         </div>
                     </div>
                     <div class="flex flex-col gap-2 group">
-                        <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative" style='background-image: url("mens_collec/images/suit_hero.webp");'>
+                        <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative"
+
+                             style='background-image: url("mens_collec/images/suit_hero.webp");'>
+
                             <div class="absolute inset-0 bg-dark/40 flex items-center justify-center">
                                 <a href="connexion2.html"><p class="text-gold text-lg font-medium">Suits</p>
                             </div>
                         </div>
                     </div>
                     <div class="flex flex-col gap-2 group">
-                        <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative" style='background-image: url("https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=1000");'>
+                        <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative"
+
+                             style='background-image: url("womans_collections/images2/Sequin Evening Top.webp");'>
+
                             <div class="absolute inset-0 bg-dark/40 flex items-center justify-center">
+
                                 <a href="connexion2.html"><p class="text-gold text-lg font-medium">Tops</p>
                             </div>
                         </div>
                     </div>
                     <div class="flex flex-col gap-2 group">
-                        <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative" style='background-image: url("https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1000");'>
+                        <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative"
+
+                             style='background-image: url("mens_collec/images/suits/slim.webp");'>
+
                             <div class="absolute inset-0 bg-dark/40 flex items-center justify-center">
                                 <a href="connexion2.html"><p class="text-gold text-lg font-medium">Your Custom suit</p></a>
                             </div>
@@ -411,6 +421,7 @@
     </nav>
     <div class="h-[env(safe-area-inset-bottom)] bg-dark"></div>
 </footer>
+
     </div>
 
     <script>

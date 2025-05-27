@@ -7,7 +7,7 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 ?>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -299,7 +299,7 @@ if (!isset($_SESSION['user_id'])) {
             <div class="flex overflow-x-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pl-6 pr-3">
                 <div class="flex items-stretch gap-5">
                     <div class="flex flex-col gap-3 rounded-none min-w-[280px] w-[280px] group">
-                        <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover overflow-hidden relative group-hover:shadow-[0_0_15px_rgba(212,175,55,0.3)] transition-shadow duration-300" style='background-image: url("https://images.unsplash.com/photo-1548126032-079a0fb0099d?q=80&w=1000");'>
+                        <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover overflow-hidden relative group-hover:shadow-[0_0_15px_rgba(212,175,55,0.3)] transition-shadow duration-300" style='background-image: url("mens_collec/images/signature_jacket.jpeg");'>
                             <div class="absolute inset-0 bg-gradient-to-t from-dark/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
                                 <button onclick="openNav()" class="bg-gold text-dark text-sm font-medium py-2 px-4">View Details</button>
                             </div>
@@ -310,24 +310,24 @@ if (!isset($_SESSION['user_id'])) {
                         </div>
                     </div>
                     <div class="flex flex-col gap-3 rounded-none min-w-[280px] w-[280px] group">
-                        <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover overflow-hidden relative group-hover:shadow-[0_0_15px_rgba(212,175,55,0.3)] transition-shadow duration-300" style='background-image: url("https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?q=80&w=1000");'>
+                        <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover overflow-hidden relative group-hover:shadow-[0_0_15px_rgba(212,175,55,0.3)] transition-shadow duration-300" style='background-image: url("mens_collec/images/designer_suit.webp");'>
                             <div class="absolute inset-0 bg-gradient-to-t from-dark/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
                                 <button onclick="openNav()" class="bg-gold text-dark text-sm font-medium py-2 px-4">View Details</button>
                             </div>
                         </div>
                         <div>
-                            <p class="text-white text-lg font-semibold leading-snug">Signature Black Suit</p>
+                            <p class="text-white text-lg font-semibold leading-snug">Signature Grey Suit</p>
                             <p class="text-gold font-light">€1,290</p>
                         </div>
                     </div>
                     <div class="flex flex-col gap-3 rounded-none min-w-[280px] w-[280px] group">
-                        <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover overflow-hidden relative group-hover:shadow-[0_0_15px_rgba(212,175,55,0.3)] transition-shadow duration-300" style='background-image: url("https://images.unsplash.com/photo-1566206091558-7f218b696731?q=80&w=1000");'>
+                        <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover overflow-hidden relative group-hover:shadow-[0_0_15px_rgba(212,175,55,0.3)] transition-shadow duration-300" style='background-image: url("womans_collections/dress_mobile.jpeg");'>
                             <div class="absolute inset-0 bg-gradient-to-t from-dark/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
                                 <button onclick="openNav()" class="bg-gold text-dark text-sm font-medium py-2 px-4">View Details</button>
                             </div>
                         </div>
                         <div>
-                            <p class="text-white text-lg font-semibold leading-snug">Elegance Evening Gown</p>
+                            <p class="text-white text-lg font-semibold leading-snug">Elegance Evening dress</p>
                             <p class="text-gold font-light">€1,450</p>
                         </div>
                     </div>
@@ -343,30 +343,42 @@ if (!isset($_SESSION['user_id'])) {
             </div>
             <div class="grid grid-cols-2 gap-5 px-6">
                 <div class="flex flex-col gap-2 group">
-                    <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative" style='background-image: url("https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=1000");'>
+                    <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative"
+                         style='background-image: url("womans_collections/images/Black Cocktail Dress.webp");'>
                         <div class="absolute inset-0 bg-dark/40 flex items-center justify-center">
-                            <a href="womans_collections/dresses.html"><p class="text-gold text-lg font-medium">Women's Dresses</p>
+                            <a href="connexion2.html"><p class="text-gold text-lg font-medium">Women's Dresses</p>
+                            </a>
                         </div>
                     </div>
                 </div>
                 <div class="flex flex-col gap-2 group">
-                    <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative" style='background-image: url("https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?q=80&w=1000");'>
+                    <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative"
+
+                         style='background-image: url("mens_collec/images/suit_hero.webp");'>
+
                         <div class="absolute inset-0 bg-dark/40 flex items-center justify-center">
-                            <a href="mens_collec/Suits.html"><p class="text-gold text-lg font-medium">Suits</p>
+                            <a href="connexion2.html"><p class="text-gold text-lg font-medium">Suits</p>
                         </div>
                     </div>
                 </div>
                 <div class="flex flex-col gap-2 group">
-                    <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative" style='background-image: url("https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=1000");'>
+                    <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative"
+
+                         style='background-image: url("womans_collections/images2/Sequin Evening Top.webp");'>
+
                         <div class="absolute inset-0 bg-dark/40 flex items-center justify-center">
-                            <a href="womans_collections/tops.html"><p class="text-gold text-lg font-medium">Tops</p>
+
+                            <a href="connexion2.html"><p class="text-gold text-lg font-medium">Tops</p>
                         </div>
                     </div>
                 </div>
                 <div class="flex flex-col gap-2 group">
-                    <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative" style='background-image: url("https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1000");'>
+                    <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative"
+
+                         style='background-image: url("mens_collec/images/suits/slim.webp");'>
+
                         <div class="absolute inset-0 bg-dark/40 flex items-center justify-center">
-                            <a href="mens_collec/Custom_suit.php"><p class="text-gold text-lg font-medium">Your Custom suit</p></a>
+                            <a href="connexion2.html"><p class="text-gold text-lg font-medium">Your Custom suit</p></a>
                         </div>
                     </div>
                 </div>
@@ -394,6 +406,7 @@ if (!isset($_SESSION['user_id'])) {
             </form>
         </section>
     </main>
+
 
     <footer class="fixed bottom-0 left-0 w-full bg-dark border-t border-gold/30 shadow-lg z-40">
         <nav class="flex justify-around items-center h-16 px-2">
