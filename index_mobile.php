@@ -225,14 +225,15 @@
                 <div class="space-y-3">
                     <h3 class="text-gold text-sm uppercase tracking-wider">Information</h3>
                     <ul class="space-y-3 pl-2">
-                        <li><a href="#" class="text-white hover:text-gold transition-colors block py-1">About HYPEZA</a></li>
+                        <li><a href="about.php" class="text-white hover:text-gold transition-colors block py-1">About
+                                HYPEZA</a></li>
                         <li><a href="#" class="text-white hover:text-gold transition-colors block py-1">Contact Us</a></li>
                     </ul>
                 </div>
 
                 <div class="pt-6 border-t border-gold/20">
                     <div class="flex justify-around">
-                        <a href="#" class="text-gold"><i class="fab fa-instagram text-xl"></i></a>
+                        <a href="https://www.instagram.com/hypeza_official?igsh=MTY3eDcwM2FpbG12aA==" class="text-gold"><i class="fab fa-instagram text-xl"></i></a>
                         <a href="#" class="text-gold"><i class="fab fa-facebook text-xl"></i></a>
                         <a href="#" class="text-gold"><i class="fab fa-twitter text-xl"></i></a>
                         <a href="#" class="text-gold"><i class="fab fa-pinterest text-xl"></i></a>
@@ -272,7 +273,8 @@
         <div class="p-8 space-y-5">
             <h2 class="text-gold text-4xl font-bold leading-tight" style="font-family: 'Playfair Display', serif;">Redefine Luxury</h2>
             <p class="text-gray-200 text-base font-light leading-relaxed max-w-xs">Discover exquisite craftsmanship and timeless elegance with our collection of haute couture pieces.</p>
-            <button class="bg-gold text-dark text-base font-semibold leading-normal tracking-wide py-3 px-8 rounded-none hover:bg-gold-light transition-colors duration-300 flex items-center gap-2">
+            <button onclick="openNav()"
+                    class="bg-gold text-dark text-base font-semibold leading-normal tracking-wide py-3 px-8 rounded-none hover:bg-gold-light transition-colors duration-300 flex items-center gap-2">
                 Shop Collection <span class="material-icons-outlined text-sm">arrow_forward</span>
             </button>
         </div>
@@ -292,7 +294,7 @@
                         <div class="flex flex-col gap-3 rounded-none min-w-[280px] w-[280px] group">
                             <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover overflow-hidden relative group-hover:shadow-[0_0_15px_rgba(212,175,55,0.3)] transition-shadow duration-300" style='background-image: url("mens_collec/images/signature_jacket.jpeg");'>
                                 <div class="absolute inset-0 bg-gradient-to-t from-dark/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                                    <button class="bg-gold text-dark text-sm font-medium py-2 px-4">View Details</button>
+                                    <button onclick="openNav()" class="bg-gold text-dark text-sm font-medium py-2 px-4">View Details</button>
                                 </div>
                             </div>
                             <div>
@@ -303,7 +305,7 @@
                         <div class="flex flex-col gap-3 rounded-none min-w-[280px] w-[280px] group">
                             <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover overflow-hidden relative group-hover:shadow-[0_0_15px_rgba(212,175,55,0.3)] transition-shadow duration-300" style='background-image: url("mens_collec/images/designer_suit.webp");'>
                                 <div class="absolute inset-0 bg-gradient-to-t from-dark/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                                    <button class="bg-gold text-dark text-sm font-medium py-2 px-4">View Details</button>
+                                    <button onclick="openNav()" class="bg-gold text-dark text-sm font-medium py-2 px-4">View Details</button>
                                 </div>
                             </div>
                             <div>
@@ -314,7 +316,7 @@
                         <div class="flex flex-col gap-3 rounded-none min-w-[280px] w-[280px] group">
                             <div class="w-full bg-center bg-no-repeat aspect-[3/4] bg-cover overflow-hidden relative group-hover:shadow-[0_0_15px_rgba(212,175,55,0.3)] transition-shadow duration-300" style='background-image: url("womans_collections/dress_mobile.jpeg");'>
                                 <div class="absolute inset-0 bg-gradient-to-t from-dark/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                                    <button class="bg-gold text-dark text-sm font-medium py-2 px-4">View Details</button>
+                                    <button onclick="openNav()" class="bg-gold text-dark text-sm font-medium py-2 px-4">View Details</button>
                                 </div>
                             </div>
                             <div>
@@ -334,23 +336,25 @@
                 </div>
                 <div class="grid grid-cols-2 gap-5 px-6">
                     <div class="flex flex-col gap-2 group">
-                        <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative" style='background-image: url("https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=1000");'>
+                        <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative"
+                             style='background-image: url("https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=1000");'>
                             <div class="absolute inset-0 bg-dark/40 flex items-center justify-center">
-                                <p class="text-gold text-lg font-medium">Women's Dresses</p>
+                                <a href="connexion2.html"><p class="text-gold text-lg font-medium">Women's Dresses</p>
+                                </a>
                             </div>
                         </div>
                     </div>
                     <div class="flex flex-col gap-2 group">
                         <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative" style='background-image: url("mens_collec/images/suit_hero.webp");'>
                             <div class="absolute inset-0 bg-dark/40 flex items-center justify-center">
-                                <p class="text-gold text-lg font-medium">Suits</p>
+                                <a href="connexion2.html"><p class="text-gold text-lg font-medium">Suits</p>
                             </div>
                         </div>
                     </div>
                     <div class="flex flex-col gap-2 group">
                         <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative" style='background-image: url("https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=1000");'>
                             <div class="absolute inset-0 bg-dark/40 flex items-center justify-center">
-                                <p class="text-gold text-lg font-medium">Tops</p>
+                                <a href="connexion2.html"><p class="text-gold text-lg font-medium">Tops</p>
                             </div>
                         </div>
                     </div>
@@ -368,7 +372,7 @@
                 <div class="border border-gold/30 p-6 text-center">
                     <h3 class="text-gold text-xl font-bold mb-3" style="font-family: 'Playfair Display', serif;">Our Heritage</h3>
                     <p class="text-gray-300 text-sm leading-relaxed mb-4">Depuis 2010, HYPEZA incarne l'élégance et le raffinement dans chaque création. Notre maison de couture allie savoir-faire traditionnel et vision contemporaine.</p>
-                    <button class="border border-gold text-gold text-sm font-medium py-2 px-6 hover:bg-gold hover:text-dark transition-colors duration-300">
+                    <button onclick="openNav()" class="border border-gold text-gold text-sm font-medium py-2 px-6 hover:bg-gold hover:text-dark transition-colors duration-300">
                         Discover More
                     </button>
                 </div>
@@ -392,11 +396,11 @@
             <span class="material-icons-outlined text-[22px]">home</span>
             <span class="text-xs font-medium">Home</span>
         </a>
-        <a href="connexion2.html" class="flex flex-col items-center justify-center gap-0.5 text-gray-500 hover:text-gold flex-1 py-2 rounded-lg transition-colors" href="#">
+        <a href="connexion2.html" class="flex flex-col items-center justify-center gap-0.5 text-gray-500 hover:text-gold flex-1 py-2 rounded-lg transition-colors" href="connexion2.html">
             <span class="material-icons-outlined text-[22px]">favorite_border</span>
             <span class="text-xs font-medium">Wishlist</span>
         </a>
-        <a href="connexion2.html" class="flex flex-col items-center justify-center gap-0.5 text-gray-500 hover:text-gold flex-1 py-2 rounded-lg transition-colors" href="#">
+        <a href="connexion2.html" class="flex flex-col items-center justify-center gap-0.5 text-gray-500 hover:text-gold flex-1 py-2 rounded-lg transition-colors" href="connexion2.html">
             <span class="material-icons-outlined text-[22px]">shopping_bag</span>
             <span class="text-xs font-medium">Bag</span>
         </a>
