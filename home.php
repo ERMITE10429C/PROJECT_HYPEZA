@@ -116,7 +116,7 @@ if (!isset($_SESSION['user_id'])) {
         <p style="color: RGB(200, 155, 60);">|</p>
 
         <p class="contact">
-            <a href="contact.html" class="contact-link">Contact</a>
+            <a href="contact.php" class="contact-link">Contact</a>
         </p>
 
     </div>

@@ -238,7 +238,23 @@
 <div class="header">
   <div class="middle-section">
     <div class="product">
-      <a href="connexion2.html" class="product-link">Products</a>
+
+      <?php
+      session_start();
+      if (isset($_SESSION['user_id'])) {
+        // User is logged in, link to men's collection
+        echo '<a href="mens_collec/mens_collec.html" class="product-link">Products</a>';
+      } else {
+        // User is not logged in, link to login page
+        echo '<a href="connexion2.html" class="product-link">Products</a>';
+      }
+      ?>
+
+      <div class="dropdown-menu">
+        <a href="<?php echo isset($_SESSION['user_id']) ? 'mens_collec/mens_collec.html' : 'connexion2.html'; ?>">Man's Selection</a>
+        <a href="<?php echo isset($_SESSION['user_id']) ? 'womans_collections/Women\'s_Collections.html' : 'connexion2.html'; ?>">Woman's Selection</a>
+      </div>
+    </div>
       <div class="dropdown-menu">
         <a href="connexion2.html">Man's Selection</a>
         <a href="connexion2.html">Woman's Selection</a>
@@ -246,7 +262,7 @@
     </div>
 
     <p class="contact">
-      <a href="contact.html" class="contact-link">Contact</a>
+      <a href="contact.php" class="contact-link">Contact</a>
     </p>
   </div>
 
@@ -262,7 +278,7 @@
 
     <p style="color: RGB(200, 155, 60);">|</p>
 
-    <a href="connexion2.html">
+    <a href="espace_client.php">
       <img src="svgs/profil_user.svg" class="user" alt="Profil">
     </a>
   </div>

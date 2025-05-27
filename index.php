@@ -117,7 +117,7 @@
         </script>
 
         <p class="contact">
-            <a href="contact.html" class="contact-link">Contact</a>
+            <a href="contact.php" class="contact-link">Contact</a>
         </p>
 
     </div>

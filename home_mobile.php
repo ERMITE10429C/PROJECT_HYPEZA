@@ -235,7 +235,7 @@ if (!isset($_SESSION['user_id'])) {
                 <h3 class="text-gold text-sm uppercase tracking-wider">Information</h3>
                 <ul class="space-y-3 pl-2">
                     <li><a href="about.php" class="text-white hover:text-gold transition-colors block py-1">About HYPEZA</a></li>
-                    <li><a href="contact.html" class="text-white hover:text-gold transition-colors block py-1">Contact Us</a></li>
+                    <li><a href="contact.php" class="text-white hover:text-gold transition-colors block py-1">Contact Us</a></li>
                 </ul>
             </div>
 
@@ -346,7 +346,7 @@ if (!isset($_SESSION['user_id'])) {
                     <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative"
                          style='background-image: url("womans_collections/images/Black Cocktail Dress.webp");'>
                         <div class="absolute inset-0 bg-dark/40 flex items-center justify-center">
-                            <a href="connexion2.html"><p class="text-gold text-lg font-medium">Women's Dresses</p>
+                            <a href="womans_collections/dresses.html"><p class="text-gold text-lg font-medium">Women's Dresses</p>
                             </a>
                         </div>
                     </div>
@@ -357,7 +357,7 @@ if (!isset($_SESSION['user_id'])) {
                          style='background-image: url("mens_collec/images/suit_hero.webp");'>
 
                         <div class="absolute inset-0 bg-dark/40 flex items-center justify-center">
-                            <a href="connexion2.html"><p class="text-gold text-lg font-medium">Suits</p>
+                            <a href="mens_collec/Suits.html"><p class="text-gold text-lg font-medium">Suits</p>
                         </div>
                     </div>
                 </div>
@@ -368,7 +368,7 @@ if (!isset($_SESSION['user_id'])) {
 
                         <div class="absolute inset-0 bg-dark/40 flex items-center justify-center">
 
-                            <a href="connexion2.html"><p class="text-gold text-lg font-medium">Tops</p>
+                            <a href="womans_collections/tops.html"><p class="text-gold text-lg font-medium">Tops</p>
                         </div>
                     </div>
                 </div>
@@ -378,7 +378,7 @@ if (!isset($_SESSION['user_id'])) {
                          style='background-image: url("mens_collec/images/suits/slim.webp");'>
 
                         <div class="absolute inset-0 bg-dark/40 flex items-center justify-center">
-                            <a href="connexion2.html"><p class="text-gold text-lg font-medium">Your Custom suit</p></a>
+                            <a href="mens_collec/Custom_suit.php"><p class="text-gold text-lg font-medium">Your Custom suit</p></a>
                         </div>
                     </div>
                 </div>
@@ -422,7 +422,7 @@ if (!isset($_SESSION['user_id'])) {
                 <span class="material-icons-outlined text-[22px]">shopping_bag</span>
                 <span class="text-xs font-medium">Bag</span>
             </a>
-            <a class="flex flex-col items-center justify-center gap-0.5 text-gray-500 hover:text-gold flex-1 py-2 rounded-lg transition-colors" href="espace_client.php">
+            <a class="flex flex-col items-center justify-center gap-0.5 text-gray-500 hover:text-gold flex-1 py-2 rounded-lg transition-colors" href="espaceClient_mobile.php">
                 <span class="material-icons-outlined text-[22px]">person_outline</span>
                 <span class="text-xs font-medium">Profile</span>
             </a>
