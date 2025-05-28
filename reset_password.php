@@ -1,31 +1,47 @@
 <?php
-require_once 'config.php';
-require_once 'mail_config.php'; // Ajout de la configuration mail
+// Load Composer's autoloader if PHPMailer is installed via Composer
+require 'vendor/autoload.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+// Database connection parameters (directly in this file)
+$host = "hypezaserversql.mysql.database.azure.com";
+$user = "user";
+$pass = "HPL1710COMPAq";
+$db = "users_db";
+$ssl_cert = __DIR__ . '/DigiCertGlobalRootCA.crt.pem';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
 
     try {
-        $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        // Create PDO connection with SSL
+        $dsn = "mysql:host=$host;dbname=$db";
+        $options = [
+            PDO::MYSQL_ATTR_SSL_CA => $ssl_cert,
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+        ];
+        $pdo = new PDO($dsn, $user, $pass, $options);
 
-        // Vérifier si l'email existe
+        // Verify if email exists
         $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
         $stmt->execute([$email]);
 
         if ($stmt->rowCount() > 0) {
+            // Generate token and set expiration
             $token = bin2hex(random_bytes(32));
             $expiration = date('Y-m-d H:i:s', strtotime('+24 hours'));
 
-            // Supprimer les anciens tokens
+            // Delete old tokens
             $stmt = $pdo->prepare("DELETE FROM password_resets WHERE email = ?");
             $stmt->execute([$email]);
 
-            // Insérer le nouveau token
+            // Insert new token
             $stmt = $pdo->prepare("INSERT INTO password_resets (email, token, expiration_date) VALUES (?, ?, ?)");
             $stmt->execute([$email, $token, $expiration]);
 
-            // Préparation de l'email
+            // Prepare email
             $resetLink = "http://localhost/new_password.php?token=" . $token;
             $subject = "Réinitialisation de votre mot de passe HYPEZA";
             $message = "
@@ -55,16 +71,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
             </div>";
 
-            // Envoi de l'email avec la fonction du mail_config.php
-            if (sendMail($email, $subject, $message)) {
+            // Send email using PHPMailer
+            $mail = new PHPMailer(true);
+            try {
+                // Server settings
+                $mail->isSMTP();
+                $mail->Host       = 'smtp.titan.email';
+                $mail->SMTPAuth   = true;
+                $mail->Username   = 'team@hypza.tech';
+                $mail->Password   = 'azerty@123';
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+                $mail->Port       = 465;
+                $mail->SMTPOptions = [
+                    'ssl' => [
+                        'verify_peer' => true,
+                        'verify_peer_name' => true,
+                        'allow_self_signed' => true
+                    ]
+                ];
+
+                // Recipients
+                $mail->setFrom('team@hypza.tech', 'HYPEZA');
+                $mail->addReplyTo('service-client@hypza.tech', 'Service Client HYPEZA');
+                $mail->addAddress($email);
+
+                // Content
+                $mail->isHTML(true);
+                $mail->Subject = $subject;
+                $mail->Body    = $message;
+
+                $mail->send();
                 header("Location: forgot_password.html?status=success");
-            } else {
+            } catch (Exception $e) {
+                error_log("Failed to send password reset email: " . $mail->ErrorInfo);
                 header("Location: forgot_password.html?error=mail_error");
             }
         } else {
             header("Location: forgot_password.html?error=email_not_found");
         }
     } catch(PDOException $e) {
+        error_log("Database error in reset_password.php: " . $e->getMessage());
         header("Location: forgot_password.html?error=db_error");
     }
     exit();

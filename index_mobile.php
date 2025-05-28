@@ -268,7 +268,7 @@
 <div class="absolute top-0 left-0 w-full h-screen -z-10">
     <div class="h-full w-full bg-cover bg-center flex flex-col justify-end"
          style='background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 70%)
-         , url("mobile_hero.jpg");'>
+         , url("mobile_hero.webp");'>
 
         <div class="p-8 space-y-5">
             <h2 class="text-gold text-4xl font-bold leading-tight" style="font-family: 'Playfair Display', serif;">Redefine Luxury</h2>
@@ -336,61 +336,41 @@
                 <div class="grid grid-cols-2 gap-5 px-6">
                     <div class="flex flex-col gap-2 group">
                         <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative"
-<<<<<<< Updated upstream
                              style='background-image: url("womans_collections/images/Black Cocktail Dress.webp");'>
                             <div class="absolute inset-0 bg-dark/40 flex items-center justify-center">
-                                <a href="connexion2.html"><p class="text-gold text-lg font-medium">Women's Dresses</p>
-=======
-                             style='background-image: url("https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=1000");'>
-                            <div class="absolute inset-0 bg-dark/40 flex items-center justify-center"><a href="connexion2.html"><p class="text-gold text-lg font-medium">Women's Dresses</p>
->>>>>>> Stashed changes
+                                <a href="connexion2.html">
+                                    <p class="text-gold text-lg font-medium">Women's Dresses</p>
                                 </a>
                             </div>
                         </div>
                     </div>
                     <div class="flex flex-col gap-2 group">
-<<<<<<< Updated upstream
                         <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative"
-
                              style='background-image: url("mens_collec/images/suit_hero.webp");'>
-
                             <div class="absolute inset-0 bg-dark/40 flex items-center justify-center">
-                                <a href="connexion2.html"><p class="text-gold text-lg font-medium">Suits</p>
-=======
-                        <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative" style='background-image: url("mens_collec/images/suit_hero.webp");'>
-                            <div class="absolute inset-0 bg-dark/40 flex items-center justify-center"><a href="connexion2.html"><p class="text-gold text-lg font-medium">Suits</p>
->>>>>>> Stashed changes
+                                <a href="connexion2.html">
+                                    <p class="text-gold text-lg font-medium">Suits</p>
+                                </a>
                             </div>
                         </div>
                     </div>
                     <div class="flex flex-col gap-2 group">
-<<<<<<< Updated upstream
                         <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative"
-
                              style='background-image: url("womans_collections/images2/Sequin Evening Top.webp");'>
-
                             <div class="absolute inset-0 bg-dark/40 flex items-center justify-center">
-
-                                <a href="connexion2.html"><p class="text-gold text-lg font-medium">Tops</p>
-=======
-                        <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative" style='background-image: url("https://images.unsplash.com/photo-1511556820780-d912e42b4980?q=80&w=1000");'>
-                            <div class="absolute inset-0 bg-dark/40 flex items-center justify-center"><a href="connexion2.html"><p class="text-gold text-lg font-medium">Tops</p>
->>>>>>> Stashed changes
+                                <a href="connexion2.html">
+                                    <p class="text-gold text-lg font-medium">Tops</p>
+                                </a>
                             </div>
                         </div>
                     </div>
                     <div class="flex flex-col gap-2 group">
-<<<<<<< Updated upstream
                         <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative"
-
                              style='background-image: url("mens_collec/images/suits/slim.webp");'>
-
                             <div class="absolute inset-0 bg-dark/40 flex items-center justify-center">
-                                <a href="connexion2.html"><p class="text-gold text-lg font-medium">Your Custom suit</p></a>
-=======
-                        <div class="w-full bg-center bg-no-repeat aspect-square bg-cover overflow-hidden relative" style='background-image: url("https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1000");'>
-                            <div class="absolute inset-0 bg-dark/40 flex items-center justify-center"><a href="connexion2.html"><p class="text-gold text-lg font-medium">Your Custom suit</p></a>
->>>>>>> Stashed changes
+                                <a href="connexion2.html">
+                                    <p class="text-gold text-lg font-medium">Your Custom suit</p>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -417,6 +397,8 @@
                     </button>
                 </form>
             </section>
+
+
         </main>
 
 <footer class="fixed bottom-0 left-0 w-full bg-dark border-t border-gold/30 shadow-lg z-40">

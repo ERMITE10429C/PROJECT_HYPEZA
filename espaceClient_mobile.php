@@ -1,10 +1,7 @@
-
-
-
-
-
 <?php
 session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 
 // Redirection si non connecté
@@ -54,9 +51,6 @@ $stmt->execute();
 $notifications = $stmt->get_result();
 
 ?>
-
-
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -492,7 +486,7 @@ $notifications = $stmt->get_result();
                 <i class="fas fa-ticket-alt"></i>
                 <span>Mes tickets</span>
             </a>
-            <a href="home.php" class="more-menu-item">
+            <a href="home_mobile.php" class="more-menu-item">
                 <i class="fas fa-home"></i>
                 <span>Accueil</span>
             </a>
