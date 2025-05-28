@@ -63,8 +63,8 @@ try {
     }
 
     // Ajouter une vérification de l'existence des clés avant le trim
-    $firstname = isset($_POST['firstname']) ? trim($_POST['firstname']) : '';
-    $lastname = isset($_POST['lastname']) ? trim($_POST['lastname']) : '';
+    $firstname = isset($_POST['first_name']) ? trim($_POST['first_name']) : '';
+    $lastname = isset($_POST['last_name']) ? trim($_POST['last_name']) : '';
     $email = isset($_POST['email']) ? trim($_POST['email']) : '';
     $phone = isset($_POST['phone']) ? trim($_POST['phone']) : '';
     $password = isset($_POST['password']) ? $_POST['password'] : '';
