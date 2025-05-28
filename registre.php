@@ -47,8 +47,8 @@ try {
 
     error_log('Database connection successful');
 
-    // Validate input data (comprehensive validation)
-    $required_fields = ['first_name', 'last_name', 'email', 'password'];
+    // Modifier la liste des champs requis pour correspondre aux noms des champs du formulaire
+    $required_fields = ['firstname', 'lastname', 'email', 'password'];
     $missing_fields = [];
 
     foreach ($required_fields as $field) {
@@ -62,11 +62,13 @@ try {
         die("Les champs suivants sont requis : " . implode(', ', $missing_fields));
     }
 
-    $firstname = trim($_POST['firstname']);
-    $lastname = trim($_POST['lastname']);
-    $email = trim($_POST['email']);
-    $phone = trim($_POST['phone']);
-    $password = $_POST['password'];
+    // Ajouter une vérification de l'existence des clés avant le trim
+    $firstname = isset($_POST['firstname']) ? trim($_POST['firstname']) : '';
+    $lastname = isset($_POST['lastname']) ? trim($_POST['lastname']) : '';
+    $email = isset($_POST['email']) ? trim($_POST['email']) : '';
+    $phone = isset($_POST['phone']) ? trim($_POST['phone']) : '';
+    $password = isset($_POST['password']) ? $_POST['password'] : '';
+
 
     // Validate email format
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
